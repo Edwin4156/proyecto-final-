@@ -3,6 +3,7 @@ package com.example.Sistema.de.Farmacia.controller;
 import com.example.Sistema.de.Farmacia.dto.ProductoDTO;
 import com.example.Sistema.de.Farmacia.model.Producto;
 import com.example.Sistema.de.Farmacia.service.ProductoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,14 +41,14 @@ public class ProductoController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductoDTO> crear(@RequestBody ProductoDTO productoDTO) {
+    public ResponseEntity<ProductoDTO> crear(@Valid @RequestBody ProductoDTO productoDTO) {
         Producto producto = mapToEntity(productoDTO);
         Producto creado = productoService.crear(producto);
         return ResponseEntity.ok(mapToDTO(creado));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductoDTO> actualizar(@PathVariable Integer id, @RequestBody ProductoDTO productoDTO) {
+    public ResponseEntity<ProductoDTO> actualizar(@PathVariable Integer id, @Valid @RequestBody ProductoDTO productoDTO) {
         Producto producto = mapToEntity(productoDTO);
         Producto actualizado = productoService.actualizar(id, producto);
         if (actualizado != null) {

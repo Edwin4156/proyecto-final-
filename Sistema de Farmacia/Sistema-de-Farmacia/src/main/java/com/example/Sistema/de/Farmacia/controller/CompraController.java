@@ -3,6 +3,7 @@ package com.example.Sistema.de.Farmacia.controller;
 import com.example.Sistema.de.Farmacia.dto.CompraDTO;
 import com.example.Sistema.de.Farmacia.model.Compra;
 import com.example.Sistema.de.Farmacia.service.CompraService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,7 +55,7 @@ public class CompraController {
     }
 
     @PostMapping
-    public ResponseEntity<CompraDTO> crear(@RequestBody CompraDTO compraDTO) {
+    public ResponseEntity<CompraDTO> crear(@Valid @RequestBody CompraDTO compraDTO) {
         Compra compra = mapToEntity(compraDTO);
         Compra creada = compraService.crear(compra);
         return ResponseEntity.ok(mapToDTO(creada));

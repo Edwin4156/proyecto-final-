@@ -1,6 +1,7 @@
 package com.example.Sistema.de.Farmacia.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -10,11 +11,14 @@ public class VentaDTO {
     private Integer productoId;
     @JsonProperty("producto")
     private String producto;
+    @Min(value = 0, message = "Cantidad no puede ser negativa")
     private Integer cantidad;
+    @Min(value = 0, message = "Precio no puede ser negativo")
     private BigDecimal precio;
     private BigDecimal total;
     private String cliente;
     private String nit;
+    @Min(value = 0, message = "Descuento no puede ser negativo")
     private BigDecimal descuento;
     private String metodoPago;
     @JsonProperty("usuario")

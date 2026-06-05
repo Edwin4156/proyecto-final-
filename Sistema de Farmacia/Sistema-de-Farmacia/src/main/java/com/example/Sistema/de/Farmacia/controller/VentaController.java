@@ -3,6 +3,7 @@ package com.example.Sistema.de.Farmacia.controller;
 import com.example.Sistema.de.Farmacia.dto.VentaDTO;
 import com.example.Sistema.de.Farmacia.model.Venta;
 import com.example.Sistema.de.Farmacia.service.VentaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,7 +57,7 @@ public class VentaController {
     }
 
     @PostMapping
-    public ResponseEntity<VentaDTO> crear(@RequestBody VentaDTO ventaDTO) {
+    public ResponseEntity<VentaDTO> crear(@Valid @RequestBody VentaDTO ventaDTO) {
         Venta venta = mapToEntity(ventaDTO);
         Venta creada = ventaService.crear(venta);
         return ResponseEntity.ok(mapToDTO(creada));
