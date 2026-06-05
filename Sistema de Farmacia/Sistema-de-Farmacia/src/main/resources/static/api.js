@@ -18,6 +18,7 @@ async function handleResponse(res) {
   const data = await res.json();
   if (!res.ok && res.status === 400) {
     showValidationError(data);
+    throw new Error('Validation error');
   }
   return data;
 }
