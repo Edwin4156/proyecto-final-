@@ -1,5 +1,6 @@
 // API Service - Centraliza todas las llamadas a backend
-const API_URL = 'https://edwing.habitak.vip';
+const API_URL = 'http://localhost:8085';
+//const API_URL = 'https://edwing.habitak.vip';
 
 // Error validation interceptor
 function showValidationError(data) {
