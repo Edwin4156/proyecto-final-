@@ -1,7 +1,7 @@
 package com.example.Sistema.de.Farmacia.dto;
 
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -9,9 +9,9 @@ public class ProductoDTO {
     private Integer id;
     private String nombre;
     private String categoria;
-    @Min(value = 0, message = "Precio no puede ser negativo")
+    @DecimalMin(value = "0", message = "Precio no puede ser negativo")
     private BigDecimal precio;
-    @Min(value = 0, message = "Costo no puede ser negativo")
+    @DecimalMin(value = "0", message = "Costo no puede ser negativo")
     private BigDecimal costo;
     @Min(value = 0, message = "Stock no puede ser negativo")
     private Integer stock;
