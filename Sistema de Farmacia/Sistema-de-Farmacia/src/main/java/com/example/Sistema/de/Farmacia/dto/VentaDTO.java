@@ -1,5 +1,6 @@
 package com.example.Sistema.de.Farmacia.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -7,7 +8,8 @@ public class VentaDTO {
     private Integer id;
     private LocalDate fecha;
     private Integer productoId;
-    private String productoNombre;
+    @JsonProperty("producto")
+    private String producto;
     private Integer cantidad;
     private BigDecimal precio;
     private BigDecimal total;
@@ -15,6 +17,8 @@ public class VentaDTO {
     private String nit;
     private BigDecimal descuento;
     private String metodoPago;
+    @JsonProperty("usuario")
+    private String usuario;
     private Integer usuarioId;
 
     public VentaDTO() {}
@@ -28,8 +32,8 @@ public class VentaDTO {
     public Integer getProductoId() { return productoId; }
     public void setProductoId(Integer productoId) { this.productoId = productoId; }
 
-    public String getProductoNombre() { return productoNombre; }
-    public void setProductoNombre(String productoNombre) { this.productoNombre = productoNombre; }
+    public String getProducto() { return producto; }
+    public void setProducto(String producto) { this.producto = producto; }
 
     public Integer getCantidad() { return cantidad; }
     public void setCantidad(Integer cantidad) { this.cantidad = cantidad; }
@@ -51,6 +55,9 @@ public class VentaDTO {
 
     public String getMetodoPago() { return metodoPago; }
     public void setMetodoPago(String metodoPago) { this.metodoPago = metodoPago; }
+
+    public String getUsuario() { return usuario; }
+    public void setUsuario(String usuario) { this.usuario = usuario; }
 
     public Integer getUsuarioId() { return usuarioId; }
     public void setUsuarioId(Integer usuarioId) { this.usuarioId = usuarioId; }

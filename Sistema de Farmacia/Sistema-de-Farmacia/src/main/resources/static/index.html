@@ -1,395 +1,1425 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="es">
+
 <head>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
---bg:#f8f9fa;--bg2:#ffffff;--bg3:#f1f3f5;--bg4:#e9ecef;
---text:#1a1a2e;--text2:#6c757d;--text3:#adb5bd;
---bdr:#dee2e6;--bdr2:#ced4da;
---green:#1D9E75;--greenl:#d4edda;--greend:#085041;
---blue:#378ADD;--bluel:#cfe2ff;--blued:#042C53;
---amber:#BA7517;--amberl:#fff3cd;--amberd:#412402;
---red:#E24B4A;--redl:#f8d7da;--redd:#501313;
---purple:#534AB7;--purplel:#e8e6ff;--purpled:#26215C;
---nx1:#1a8db8;--nx2:#1a3a6e;
---radius:10px;--radius-sm:6px;--radius-lg:14px;
---font:'Inter',sans-serif;--sidebar:220px;
-}
-.dark{
---bg:#0f1117;--bg2:#1a1d27;--bg3:#252836;--bg4:#2d3142;
---text:#e8eaf6;--text2:#9ca3af;--text3:#6b7280;
---bdr:#2d3142;--bdr2:#374151;
---greenl:#064e3b;--bluel:#1e3a5f;--amberl:#451a03;--redl:#450a0a;--purplel:#2e1065;
-}
-body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:13px;transition:background .2s,color .2s;min-height:100vh}
-.app{display:flex;height:100vh;overflow:hidden}
-.sidebar{width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--bdr);display:flex;flex-direction:column;flex-shrink:0;z-index:50}
-.logo-area{padding:12px 14px 10px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:10px}
-.nexus-logo-wrap{display:flex;align-items:center;gap:9px}
-.nexus-text-block{display:flex;flex-direction:column;line-height:1}
-.nexus-name{font-size:16px;font-weight:700;letter-spacing:.5px;background:linear-gradient(90deg,var(--nx1),var(--nx2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.nexus-sub{font-size:9px;color:var(--text2);margin-top:1px;letter-spacing:.3px}
-.ver-badge{font-size:9px;background:var(--purple);color:#fff;padding:1px 5px;border-radius:3px;margin-left:5px;vertical-align:middle;font-weight:600}
-.user-section{padding:10px 12px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:8px}
-.av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0}
-.av-admin{background:var(--purplel);color:var(--purpled)}.av-vendor{background:var(--greenl);color:var(--greend)}
-.uinfo{flex:1;min-width:0}.uname{font-size:11px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.urole{font-size:10px;color:var(--text2)}
-.btn-logout{background:none;border:none;cursor:pointer;color:var(--text2);padding:4px;border-radius:5px;transition:all .15s}.btn-logout:hover{color:var(--red);background:var(--redl)}
-.nav-area{flex:1;overflow-y:auto;padding:8px}
-.nav-section-title{font-size:9px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;padding:8px 8px 4px}
-.nav-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--radius-sm);cursor:pointer;font-size:12px;color:var(--text2);transition:all .12s;margin-bottom:1px;white-space:nowrap}
-.nav-item:hover{background:var(--bg3);color:var(--text)}
-.nav-item.active{background:linear-gradient(90deg,rgba(26,141,184,.15),rgba(26,58,110,.1));color:var(--nx1);font-weight:500;border-left:2px solid var(--nx1)}
-.nav-item.disabled{opacity:.3;cursor:not-allowed;pointer-events:none}
-.nav-item svg{width:14px;height:14px;flex-shrink:0}.lock-icon{width:10px;height:10px;margin-left:auto;opacity:.4}
-.nav-badge{background:var(--red);color:#fff;font-size:9px;font-weight:600;padding:1px 5px;border-radius:10px;margin-left:auto}
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
-.topbar{padding:0 20px;height:52px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;background:var(--bg2);flex-shrink:0}
-.topbar h2{font-size:15px;font-weight:600}
-.topbar-right{display:flex;gap:8px;align-items:center}
-.content{flex:1;overflow-y:auto;padding:16px 20px;background:var(--bg)}
-/* BUTTONS */
-.btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:var(--radius-sm);font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--bdr2);background:var(--bg2);color:var(--text);font-family:var(--font);transition:all .12s}
-.btn:hover{background:var(--bg3)}.btn:active{transform:scale(.98)}
-.btn-green{background:var(--green);color:#fff;border-color:var(--green)}.btn-green:hover{background:var(--greend)}
-.btn-nx{background:linear-gradient(90deg,var(--nx1),var(--nx2));color:#fff;border:none}.btn-nx:hover{opacity:.9}
-.btn-blue{background:var(--blue);color:#fff;border-color:var(--blue)}.btn-red{background:var(--redl);color:var(--redd);border-color:var(--red)}.btn-red:hover{background:var(--red);color:#fff}
-.btn-amber{background:var(--amberl);color:var(--amberd);border-color:var(--amber)}.btn-purple{background:var(--purplel);color:var(--purpled);border-color:var(--purple)}
-/* EXPORT BUTTONS */
-.btn-pdf{background:#e74c3c;color:#fff;border-color:#c0392b}.btn-pdf:hover{background:#c0392b}
-.btn-excel{background:#1a7a3a;color:#fff;border-color:#155e2e}.btn-excel:hover{background:#155e2e}
-.btn-csv{background:#f39c12;color:#fff;border-color:#e67e22}.btn-csv:hover{background:#e67e22}
-.btn-sm{padding:4px 8px;font-size:11px}
-.btn-icon{padding:6px;border-radius:var(--radius-sm);background:none;border:1px solid transparent;cursor:pointer;color:var(--text2);transition:all .12s;display:flex;align-items:center}
-.btn-icon:hover{background:var(--bg3);border-color:var(--bdr);color:var(--text)}
-.btn-icon svg{width:15px;height:15px}
-/* EXPORT TOOLBAR */
-.export-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:linear-gradient(90deg,rgba(26,141,184,.06),rgba(26,58,110,.04));border:1px solid rgba(26,141,184,.2);border-radius:var(--radius-sm);margin-bottom:14px;flex-wrap:wrap}
-.export-bar-label{font-size:11px;font-weight:600;color:var(--nx1);margin-right:4px;white-space:nowrap}
-.export-bar-sep{width:1px;height:20px;background:var(--bdr);margin:0 4px}
-/* CARDS */
-.stat-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--radius);padding:14px;transition:all .2s}
-.stat-card:hover{border-color:var(--nx1);transform:translateY(-1px)}
-.stat-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
-.stat-icon svg{width:18px;height:18px}
-.stat-label{font-size:11px;color:var(--text2);margin-bottom:3px}
-.stat-value{font-size:22px;font-weight:600;line-height:1}
-.stat-sub{font-size:11px;color:var(--text2);margin-top:4px}
-.card{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--radius);padding:14px;margin-bottom:12px}
-.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.card-title{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.4px}
-table{width:100%;border-collapse:collapse;font-size:12px}
-th{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--text2);padding:8px 12px;border-bottom:1px solid var(--bdr);text-align:left;background:var(--bg3);white-space:nowrap}
-td{padding:9px 12px;border-bottom:1px solid var(--bdr);vertical-align:middle}
-tr:last-child td{border-bottom:none}
-tbody tr:hover td{background:var(--bg3)}
-.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:500}
-.bg{background:var(--greenl);color:var(--greend)}.ba{background:var(--amberl);color:var(--amberd)}.br{background:var(--redl);color:var(--redd)}.bb{background:var(--bluel);color:var(--blued)}.bp{background:var(--purplel);color:var(--purpled)}
-.fg{margin-bottom:10px}.fg label{display:block;font-size:11px;font-weight:500;color:var(--text2);margin-bottom:4px}
-.fg input,.fg select,.fg textarea{width:100%;padding:8px 10px;border:1px solid var(--bdr2);border-radius:var(--radius-sm);font-size:12px;background:var(--bg2);color:var(--text);font-family:var(--font);outline:none}
-.fg input:focus,.fg select:focus{border-color:var(--nx1)}
-.fr{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:200}
-.modal{background:var(--bg2);border-radius:var(--radius-lg);padding:22px;width:480px;max-height:85vh;overflow-y:auto;border:1px solid var(--bdr);animation:modalIn .18s ease}
-@keyframes modalIn{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
-.modal h3{font-size:15px;font-weight:600;margin-bottom:16px}
-.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;padding-top:14px;border-top:1px solid var(--bdr)}
-.search-box{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--radius-sm);padding:7px 11px;flex:1;max-width:260px}
-.search-box input{border:none;background:transparent;font-size:12px;color:var(--text);flex:1;font-family:var(--font);outline:none}
-.search-box svg{width:13px;height:13px;color:var(--text3);flex-shrink:0}
-.toast-container{position:fixed;top:16px;right:16px;z-index:500;display:flex;flex-direction:column;gap:6px}
-.toast{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--radius-sm);padding:10px 14px;font-size:12px;display:flex;align-items:center;gap:8px;animation:toastIn .2s ease;max-width:280px}
-@keyframes toastIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
-.toast-success{border-left:3px solid var(--green)}.toast-error{border-left:3px solid var(--red)}.toast-warn{border-left:3px solid var(--amber)}.toast-info{border-left:3px solid var(--blue)}
-.alert-banner{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:var(--radius-sm);font-size:12px;margin-bottom:8px}
-.alert-r{background:var(--redl);color:var(--redd);border:1px solid var(--red)}.alert-a{background:var(--amberl);color:var(--amberd);border:1px solid var(--amber)}.alert-g{background:var(--greenl);color:var(--greend);border:1px solid var(--green)}
-.sg{display:grid;gap:10px;margin-bottom:14px}
-.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
-.chart-container{position:relative;width:100%}
-.filter-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
-.pill{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--bdr2);background:var(--bg2);color:var(--text2);transition:all .12s}
-.pill:hover{background:var(--bg3)}.pill.active{background:linear-gradient(90deg,var(--nx1),var(--nx2));color:#fff;border-color:var(--nx1)}
-.kardex-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bdr);font-size:12px}
-.kardex-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ki-in{background:var(--greenl);color:var(--greend)}.ki-out{background:var(--redl);color:var(--redd)}
-.pos-item{display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg3);border-radius:var(--radius-sm);margin-bottom:6px}
-.pos-item-name{flex:1;font-weight:500;font-size:12px}
-.pos-qty{display:flex;align-items:center;gap:4px}
-.pos-qty button{width:22px;height:22px;border-radius:4px;border:1px solid var(--bdr2);background:var(--bg2);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--text)}
-.toggle{position:relative;width:36px;height:20px;cursor:pointer}
-.toggle input{opacity:0;width:0;height:0}
-.toggle-slider{position:absolute;inset:0;background:var(--bdr2);border-radius:20px;transition:.2s}
-.toggle-slider:before{content:'';position:absolute;width:14px;height:14px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
-.toggle input:checked+.toggle-slider{background:var(--nx1)}
-.toggle input:checked+.toggle-slider:before{transform:translateX(16px)}
-.perm-table{width:100%;border-collapse:collapse;font-size:12px}
-.perm-table th{background:var(--bg3);padding:8px 12px;font-size:10px;text-transform:uppercase;letter-spacing:.4px;color:var(--text2)}
-.perm-table td{padding:8px 12px;border-top:1px solid var(--bdr);text-align:center}
-.login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg)}
-.login-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--radius-lg);padding:36px;width:340px}
-.login-logo{text-align:center;margin-bottom:28px}
-.login-err{background:var(--redl);color:var(--redd);border-radius:var(--radius-sm);padding:8px 12px;font-size:12px;margin-bottom:12px;display:none}
-.login-hint{margin-top:16px;padding-top:14px;border-top:1px solid var(--bdr);font-size:11px;color:var(--text2);line-height:2}
-.ia-msg{padding:10px 14px;border-radius:var(--radius);font-size:12px;line-height:1.6;margin-bottom:8px}
-.ia-msg.user{background:linear-gradient(90deg,rgba(26,141,184,.15),rgba(26,58,110,.1));color:var(--nx2);margin-left:20px;text-align:right;border:1px solid rgba(26,141,184,.2)}
-.ia-msg.bot{background:var(--bg3);border:1px solid var(--bdr);color:var(--text)}
-.ia-typing{display:flex;gap:4px;padding:10px 14px}
-.ia-dot{width:7px;height:7px;background:var(--text2);border-radius:50%;animation:bounce .8s infinite}
-.ia-dot:nth-child(2){animation-delay:.15s}.ia-dot:nth-child(3){animation-delay:.3s}
-@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
-.ticket-paper{font-family:'Courier New',monospace;font-size:11px;line-height:1.9;background:var(--bg3);border:1px dashed var(--bdr2);border-radius:var(--radius);padding:16px}
-.ticket-paper .tr{display:flex;justify-content:space-between}
-.ticket-paper .sep{border-top:1px dashed var(--bdr2);margin:6px 0}
-.progress-bar{height:6px;border-radius:3px;background:var(--bg4);overflow:hidden;margin-top:4px}
-.progress-fill{height:100%;border-radius:3px;transition:width .4s ease}
-.empty-state{text-align:center;padding:40px 20px;color:var(--text2);font-size:12px}
-.table-wrap{overflow-x:auto}
-/* EXPORT PREVIEW MODAL */
-.preview-table{width:100%;border-collapse:collapse;font-size:11px}
-.preview-table th{background:#1a8db8;color:#fff;padding:6px 10px;text-align:left;font-size:10px}
-.preview-table td{padding:5px 10px;border-bottom:1px solid #e0e0e0}
-.preview-table tr:nth-child(even) td{background:#f5f5f5}
-.preview-badge{display:inline-block;padding:1px 6px;border-radius:10px;font-size:10px;font-weight:500}
-@media(max-width:768px){:root{--sidebar:56px}.nexus-text-block,.nav-section-title,.uinfo{display:none}.nav-item{justify-content:center;padding:10px}.content{padding:10px}.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.modal{width:95vw}}
-</style>
-</head>
-<body>
-<div id="root"></div>
-<div class="toast-container" id="toasts"></div>
-<div id="modal-c"></div>
-
-<!-- Libraries -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
-
-<script>
-const USERS_KEY='nxs_u2',DB_KEY='nxs_db2',LOGS_KEY='nxs_l2';
-let darkMode=false,session=null,pg='dashboard',sq='',filterPer='todo',posCart=[];
-let charts={},logs=[];
-
-const DEFAULT_USERS=[
-  {id:1,nombre:'Carlos Méndez',usuario:'admin1',pass:'admin123',rol:'administrador',activo:true,email:'admin1@nexus.gt'},
-  {id:2,nombre:'Luisa Fuentes',usuario:'admin2',pass:'admin456',rol:'administrador',activo:true,email:'admin2@nexus.gt'},
-  {id:3,nombre:'Pedro Ríos',usuario:'vendedor1',pass:'vend123',rol:'vendedor',activo:true,email:'vendedor1@nexus.gt'}
-];
-const PERMS={
-  administrador:{dashboard:{r:1,w:1,d:1},productos:{r:1,w:1,d:1},inventario:{r:1,w:1,d:1},ventas:{r:1,w:1,d:1},compras:{r:1,w:1,d:1},alertas:{r:1,w:0,d:0},usuarios:{r:1,w:1,d:1},reportes:{r:1,w:0,d:0},facturacion:{r:1,w:1,d:0},pos:{r:1,w:1,d:0},kardex:{r:1,w:0,d:0},ia:{r:1,w:1,d:0}},
-  vendedor:{dashboard:{r:1,w:0,d:0},productos:{r:1,w:0,d:0},inventario:{r:1,w:0,d:0},ventas:{r:1,w:1,d:0},compras:{r:0,w:0,d:0},alertas:{r:1,w:0,d:0},usuarios:{r:0,w:0,d:0},reportes:{r:0,w:0,d:0},facturacion:{r:1,w:1,d:0},pos:{r:1,w:1,d:0},kardex:{r:0,w:0,d:0},ia:{r:1,w:1,d:0}}
-};
-let users=JSON.parse(JSON.stringify(DEFAULT_USERS)),db={productos:[],ventas:[],compras:[]};
-
-async function saveAll(){try{await window.storage.set(DB_KEY,JSON.stringify(db));await window.storage.set(USERS_KEY,JSON.stringify(users));await window.storage.set(LOGS_KEY,JSON.stringify(logs.slice(-300)));}catch(e){}}
-async function loadAll(){try{const d=await window.storage.get(DB_KEY);if(d&&d.value)db=JSON.parse(d.value);else seedDB();const u=await window.storage.get(USERS_KEY);if(u&&u.value)users=JSON.parse(u.value);const l=await window.storage.get(LOGS_KEY);if(l&&l.value)logs=JSON.parse(l.value);}catch(e){seedDB();}renderApp();}
-function addLog(a,d){logs.push({ts:new Date().toISOString(),user:session?.usuario||'—',action:a,detail:d});}
-
-function seedDB(){
-  const h=new Date(),fmt=d=>d.toISOString().split('T')[0],add=n=>{let d=new Date(h);d.setDate(d.getDate()+n);return fmt(d);};
-  db.productos=[
-    {id:1,nombre:'Paracetamol 500mg',categoria:'Analgésico',precio:25,costo:12,stock:150,stockMin:30,lote:'L-2024-001',ingreso:add(-60),caducidad:add(365),proveedor:'DistribuFarma S.A.',codigo:'7501050351002'},
-    {id:2,nombre:'Amoxicilina 500mg',categoria:'Antibiótico',precio:85,costo:45,stock:60,stockMin:20,lote:'L-2024-012',ingreso:add(-45),caducidad:add(180),proveedor:'MedGroup GT',codigo:'7501050351003'},
-    {id:3,nombre:'Metformina 850mg',categoria:'Antidiabético',precio:45,costo:20,stock:8,stockMin:25,lote:'L-2023-098',ingreso:add(-90),caducidad:add(28),proveedor:'FarmaPlus',codigo:'7501050351004'},
-    {id:4,nombre:'Loratadina 10mg',categoria:'Antihistamínico',precio:35,costo:15,stock:90,stockMin:20,lote:'L-2024-034',ingreso:add(-5),caducidad:add(500),proveedor:'DistribuFarma S.A.',codigo:'7501050351005'},
-    {id:5,nombre:'Omeprazol 20mg',categoria:'Gastro',precio:55,costo:25,stock:40,stockMin:15,lote:'L-2024-021',ingreso:add(-30),caducidad:add(14),proveedor:'MedGroup GT',codigo:'7501050351006'},
-    {id:6,nombre:'Ibuprofeno 400mg',categoria:'Analgésico',precio:30,costo:14,stock:120,stockMin:30,lote:'L-2024-045',ingreso:add(-3),caducidad:add(730),proveedor:'FarmaPlus',codigo:'7501050351007'},
-    {id:7,nombre:'Vitamina C 1000mg',categoria:'Vitaminas',precio:40,costo:18,stock:200,stockMin:50,lote:'L-2024-060',ingreso:add(-10),caducidad:add(400),proveedor:'NutriMed GT',codigo:'7501050351008'},
-    {id:8,nombre:'Atorvastatina 20mg',categoria:'Cardiovascular',precio:95,costo:55,stock:35,stockMin:15,lote:'L-2024-071',ingreso:add(-20),caducidad:add(300),proveedor:'FarmaPlus',codigo:'7501050351009'},
-  ];
-  db.ventas=[];
-  const names=['María García','Juan López','Ana Martínez','Carlos Ruiz','Rosa Pérez'];
-  for(let i=0;i<30;i++){const p=db.productos[i%8],q=Math.ceil(Math.random()*4)+1,desc=i%5===0?10:0;const sub=q*p.precio,dto=sub*desc/100,tot=sub-dto;db.ventas.push({id:i+1,fecha:add(-Math.floor(i*1.5)),productoId:p.id,producto:p.nombre,cantidad:q,precio:p.precio,total:tot,cliente:names[i%5],usuario:i%3===0?'admin1':'vendedor1',descuento:desc,nit:i%4===0?'1234567-8':'CF',metodoPago:i%3===0?'efectivo':i%3===1?'transferencia':'tarjeta'});}
-  db.compras=[{id:1,fecha:add(-60),productoId:1,producto:'Paracetamol 500mg',cantidad:300,costo:12,total:3600,proveedor:'DistribuFarma S.A.',usuario:'admin1'},{id:2,fecha:add(-45),productoId:2,producto:'Amoxicilina 500mg',cantidad:100,costo:45,total:4500,proveedor:'MedGroup GT',usuario:'admin2'},{id:3,fecha:add(-30),productoId:6,producto:'Ibuprofeno 400mg',cantidad:200,costo:14,total:2800,proveedor:'FarmaPlus',usuario:'admin1'},{id:4,fecha:add(-15),productoId:4,producto:'Loratadina 10mg',cantidad:150,costo:15,total:2250,proveedor:'DistribuFarma S.A.',usuario:'admin2'},{id:5,fecha:add(-5),productoId:7,producto:'Vitamina C 1000mg',cantidad:250,costo:18,total:4500,proveedor:'NutriMed GT',usuario:'admin1'},];
-  saveAll();
-}
-
-const can=(p,t='r')=>session&&PERMS[session.rol]&&PERMS[session.rol][p]&&PERMS[session.rol][p][t];
-const dias=f=>{const h=new Date();h.setHours(0,0,0,0);return Math.round((new Date(f+'T00:00:00')-h)/86400000);};
-const estCad=f=>{const d=dias(f);if(d<0)return'Caducado';if(d<=14)return`${d} días`;if(d<=60)return`${d} días`;return'Vigente';};
-const estCadBadge=f=>{const d=dias(f);if(d<0)return'<span class="badge br">Caducado</span>';if(d<=14)return`<span class="badge br">${d}d</span>`;if(d<=60)return`<span class="badge ba">${d}d</span>`;return'<span class="badge bg">OK</span>';};
-const alertCount=()=>db.productos.filter(p=>p.stock<=p.stockMin||dias(p.caducidad)<=30).length;
-const hoy=()=>new Date().toISOString().split('T')[0];
-const fmt=n=>n.toFixed(2);
-
-function nexusLogo(w=40,h=25){return`<svg width="${w}" height="${h}" viewBox="0 0 120 74" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M37 37C37 26.5 45 18 55 18C65 18 71 24 74 30C71 36 65 42 55 42C45 42 37 47.5 37 58C37 68.5 45 74 55 74C65 74 73 66 74 56" stroke="url(#ng1)" stroke-width="10" stroke-linecap="round" fill="none"/><path d="M83 37C83 26.5 91 18 101 18C111 18 119 26.5 119 37C119 47.5 111 56 101 56C91 56 83 47.5 83 37Z" stroke="url(#ng2)" stroke-width="10" fill="none"/><path d="M1 37C1 26.5 9 18 19 18C29 18 37 26.5 37 37" stroke="url(#ng3)" stroke-width="10" stroke-linecap="round" fill="none"/><defs><linearGradient id="ng1" x1="37" y1="18" x2="74" y2="74" gradientUnits="userSpaceOnUse"><stop stop-color="#1a8db8"/><stop offset="1" stop-color="#1a3a6e"/></linearGradient><linearGradient id="ng2" x1="83" y1="18" x2="119" y2="56" gradientUnits="userSpaceOnUse"><stop stop-color="#1a8db8"/><stop offset="1" stop-color="#1a3a6e"/></linearGradient><linearGradient id="ng3" x1="1" y1="18" x2="37" y2="56" gradientUnits="userSpaceOnUse"><stop stop-color="#1a8db8"/><stop offset="1" stop-color="#1a3a6e"/></linearGradient></defs></svg>`;}
-
-function showToast(msg,type='success'){const c=document.getElementById('toasts');const el=document.createElement('div');el.className=`toast toast-${type}`;el.innerHTML=msg;c.appendChild(el);setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(()=>el.remove(),300);},3500);}
-function destCharts(){Object.values(charts).forEach(c=>{try{c.destroy();}catch(e){}});charts={};}
-function nav(p){if(!can(p))return;pg=p;sq='';filterPer='todo';posCart=[];renderApp();}
-function toggleDark(){darkMode=!darkMode;document.documentElement.classList.toggle('dark',darkMode);}
-
-// ==================== EXPORT ENGINE ====================
-function getTimestamp(){return new Date().toLocaleString('es-GT').replace(/[/:]/g,'-').replace(',','');}
-
-// --- EXCEL export ---
-function exportExcel(data, headers, sheetName, fileName){
-  if(!window.XLSX){showToast('Cargando librería Excel...','info');return;}
-  const wsData=[headers,...data];
-  const ws=XLSX.utils.aoa_to_sheet(wsData);
-  // Style header row width
-  ws['!cols']=headers.map(()=>({wch:20}));
-  const wb=XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb,ws,sheetName);
-  XLSX.writeFile(wb,`NEXUS_${fileName}_${getTimestamp()}.xlsx`);
-  showToast(`✅ Excel exportado: ${fileName}.xlsx`,'success');
-  addLog('EXPORT_EXCEL',fileName);
-}
-
-// --- CSV export ---
-function exportCSV(data, headers, fileName){
-  const rows=[headers,...data];
-  const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
-  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download=`NEXUS_${fileName}_${getTimestamp()}.csv`;a.click();
-  URL.revokeObjectURL(url);
-  showToast(`✅ CSV exportado: ${fileName}.csv`,'success');
-  addLog('EXPORT_CSV',fileName);
-}
-
-// --- PDF export ---
-function exportPDF(data, headers, title, fileName, subtitle=''){
-  if(!window.jspdf){showToast('Cargando librería PDF...','info');return;}
-  const {jsPDF}=window.jspdf;
-  const doc=new jsPDF({orientation:data[0]?.length>7?'landscape':'portrait',unit:'mm',format:'a4'});
-  const pageW=doc.internal.pageSize.getWidth();
-
-  // Header brand
-  doc.setFillColor(26,141,184);
-  doc.rect(0,0,pageW,18,'F');
-  doc.setFillColor(26,58,110);
-  doc.rect(0,14,pageW,4,'F');
-  doc.setTextColor(255,255,255);
-  doc.setFontSize(14);doc.setFont('helvetica','bold');
-  doc.text('NEXUS FARMACIA',14,11);
-  doc.setFontSize(8);doc.setFont('helvetica','normal');
-  doc.text('Sistema de Gestión · Guatemala',14,22);
-  doc.text(`Generado: ${new Date().toLocaleString('es-GT')}`,pageW-14,22,{align:'right'});
-
-  // Title
-  doc.setTextColor(26,58,110);
-  doc.setFontSize(13);doc.setFont('helvetica','bold');
-  doc.text(title,14,32);
-  if(subtitle){doc.setFontSize(9);doc.setFont('helvetica','normal');doc.setTextColor(100,100,100);doc.text(subtitle,14,38);}
-
-  // Table
-  doc.autoTable({
-    head:[headers],
-    body:data,
-    startY:subtitle?42:36,
-    styles:{fontSize:8,cellPadding:3,overflow:'linebreak'},
-    headStyles:{fillColor:[26,141,184],textColor:255,fontStyle:'bold',fontSize:8},
-    alternateRowStyles:{fillColor:[245,250,255]},
-    columnStyles:{},
-    margin:{left:14,right:14},
-    didDrawPage:(d)=>{
-      // Footer
-      const pageCount=doc.internal.getNumberOfPages();
-      doc.setFontSize(7);doc.setTextColor(150);
-      doc.text(`Página ${d.pageNumber} de ${pageCount} · NEXUS Farmacia · Confidencial`,pageW/2,doc.internal.pageSize.getHeight()-5,{align:'center'});
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
     }
-  });
 
-  doc.save(`NEXUS_${fileName}_${getTimestamp()}.pdf`);
-  showToast(`✅ PDF exportado: ${fileName}.pdf`,'success');
-  addLog('EXPORT_PDF',fileName);
-}
+    :root {
+      --bg: #f8f9fa;
+      --bg2: #ffffff;
+      --bg3: #f1f3f5;
+      --bg4: #e9ecef;
+      --text: #1a1a2e;
+      --text2: #6c757d;
+      --text3: #adb5bd;
+      --bdr: #dee2e6;
+      --bdr2: #ced4da;
+      --green: #1D9E75;
+      --greenl: #d4edda;
+      --greend: #085041;
+      --blue: #378ADD;
+      --bluel: #cfe2ff;
+      --blued: #042C53;
+      --amber: #BA7517;
+      --amberl: #fff3cd;
+      --amberd: #412402;
+      --red: #E24B4A;
+      --redl: #f8d7da;
+      --redd: #501313;
+      --purple: #534AB7;
+      --purplel: #e8e6ff;
+      --purpled: #26215C;
+      --nx1: #1a8db8;
+      --nx2: #1a3a6e;
+      --radius: 10px;
+      --radius-sm: 6px;
+      --radius-lg: 14px;
+      --font: 'Inter', sans-serif;
+      --sidebar: 220px;
+    }
 
-// --- Specific exporters ---
-function exportVentasPDF(){
-  const src=session.rol==='vendedor'?db.ventas.filter(v=>v.usuario===session.usuario):db.ventas;
-  const lista=[...filterByPer(src,'fecha')].sort((a,b)=>b.id-a.id);
-  const tv=lista.reduce((s,v)=>s+v.total,0);
-  const headers=['#','Fecha','Producto','Cliente','NIT','Cant.','Precio','Dto%','Total','Pago','Usuario'];
-  const data=lista.map(v=>[`#${String(v.id).padStart(4,'0')}`,v.fecha,v.producto,v.cliente,v.nit||'CF',v.cantidad,`Q${fmt(v.precio)}`,v.descuento||0,`Q${fmt(v.total)}`,v.metodoPago||'efectivo',v.usuario]);
-  exportPDF(data,headers,'Reporte de Ventas','Ventas',`Total registros: ${lista.length} · Total vendido: Q${fmt(tv)}`);
-}
-function exportVentasExcel(){
-  const src=session.rol==='vendedor'?db.ventas.filter(v=>v.usuario===session.usuario):db.ventas;
-  const lista=[...filterByPer(src,'fecha')].sort((a,b)=>b.id-a.id);
-  const headers=['No.','Fecha','Producto','Cliente','NIT','Cantidad','Precio Unit.','Descuento%','Total','Método Pago','Usuario'];
-  const data=lista.map(v=>[`#${String(v.id).padStart(4,'0')}`,v.fecha,v.producto,v.cliente,v.nit||'CF',v.cantidad,v.precio,v.descuento||0,v.total,v.metodoPago||'efectivo',v.usuario]);
-  exportExcel(data,headers,'Ventas','Ventas');
-}
-function exportVentasCSV(){
-  const src=session.rol==='vendedor'?db.ventas.filter(v=>v.usuario===session.usuario):db.ventas;
-  const lista=[...filterByPer(src,'fecha')].sort((a,b)=>b.id-a.id);
-  const headers=['No.','Fecha','Producto','Cliente','NIT','Cantidad','Precio Unit.','Descuento%','Total','Método Pago','Usuario'];
-  const data=lista.map(v=>[`#${String(v.id).padStart(4,'0')}`,v.fecha,v.producto,v.cliente,v.nit||'CF',v.cantidad,v.precio,v.descuento||0,v.total,v.metodoPago||'efectivo',v.usuario]);
-  exportCSV(data,headers,'Ventas');
-}
+    .dark {
+      --bg: #0f1117;
+      --bg2: #1a1d27;
+      --bg3: #252836;
+      --bg4: #2d3142;
+      --text: #e8eaf6;
+      --text2: #9ca3af;
+      --text3: #6b7280;
+      --bdr: #2d3142;
+      --bdr2: #374151;
+      --greenl: #064e3b;
+      --bluel: #1e3a5f;
+      --amberl: #451a03;
+      --redl: #450a0a;
+      --purplel: #2e1065;
+    }
 
-function exportInventarioPDF(){
-  const vc=db.productos.reduce((s,p)=>s+p.stock*p.costo,0);
-  const headers=['Producto','Categoría','Stock','Mínimo','Precio','Costo','Valor Total','Lote','Proveedor','Ingreso','Caducidad','Estado'];
-  const data=db.productos.map(p=>[p.nombre,p.categoria,p.stock,p.stockMin,`Q${fmt(p.precio)}`,`Q${fmt(p.costo)}`,`Q${fmt(p.stock*p.costo)}`,p.lote,p.proveedor||'—',p.ingreso,p.caducidad,estCad(p.caducidad)]);
-  exportPDF(data,headers,'Reporte de Inventario','Inventario',`Total productos: ${db.productos.length} · Valor en inventario: Q${fmt(vc)}`);
-}
-function exportInventarioExcel(){
-  const headers=['Producto','Categoría','Stock Actual','Stock Mínimo','Precio Venta','Costo','Valor Total','Lote','Proveedor','Fecha Ingreso','Fecha Caducidad','Estado Caducidad','Código Barras'];
-  const data=db.productos.map(p=>[p.nombre,p.categoria,p.stock,p.stockMin,p.precio,p.costo,p.stock*p.costo,p.lote,p.proveedor||'',p.ingreso,p.caducidad,estCad(p.caducidad),p.codigo||'']);
-  exportExcel(data,headers,'Inventario','Inventario');
-}
-function exportInventarioCSV(){
-  const headers=['Producto','Categoría','Stock','Mínimo','Precio','Costo','Valor Total','Lote','Proveedor','Ingreso','Caducidad','Estado'];
-  const data=db.productos.map(p=>[p.nombre,p.categoria,p.stock,p.stockMin,p.precio,p.costo,p.stock*p.costo,p.lote,p.proveedor||'',p.ingreso,p.caducidad,estCad(p.caducidad)]);
-  exportCSV(data,headers,'Inventario');
-}
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 13px;
+      transition: background .2s, color .2s;
+      min-height: 100vh
+    }
 
-function getKardexData(){
-  const movs=[];
-  db.ventas.forEach(v=>movs.push({fecha:v.fecha,tipo:'SALIDA',producto:v.producto,cantidad:v.cantidad,referencia:'Venta #'+String(v.id).padStart(4,'0'),usuario:v.usuario}));
-  db.compras.forEach(c=>movs.push({fecha:c.fecha,tipo:'ENTRADA',producto:c.producto,cantidad:c.cantidad,referencia:'Compra - '+c.proveedor,usuario:c.usuario}));
-  return movs.sort((a,b)=>b.fecha.localeCompare(a.fecha));
-}
-function exportKardexPDF(){
-  const movs=getKardexData();
-  const headers=['Fecha','Tipo','Producto','Cantidad','Referencia','Usuario'];
-  const data=movs.map(m=>[m.fecha,m.tipo,m.producto,m.tipo==='ENTRADA'?'+'+m.cantidad:'-'+m.cantidad,m.referencia,m.usuario]);
-  exportPDF(data,headers,'Kardex — Historial de Movimientos','Kardex',`Total movimientos: ${movs.length}`);
-}
-function exportKardexExcel(){
-  const movs=getKardexData();
-  const headers=['Fecha','Tipo Movimiento','Producto','Cantidad','Referencia','Usuario'];
-  const data=movs.map(m=>[m.fecha,m.tipo,m.producto,m.tipo==='ENTRADA'?m.cantidad:-m.cantidad,m.referencia,m.usuario]);
-  exportExcel(data,headers,'Kardex','Kardex');
-}
-function exportKardexCSV(){
-  const movs=getKardexData();
-  const headers=['Fecha','Tipo','Producto','Cantidad','Referencia','Usuario'];
-  const data=movs.map(m=>[m.fecha,m.tipo,m.producto,m.tipo==='ENTRADA'?m.cantidad:-m.cantidad,m.referencia,m.usuario]);
-  exportCSV(data,headers,'Kardex');
-}
+    .app {
+      display: flex;
+      height: 100vh;
+      overflow: hidden
+    }
 
-function exportComprasPDF(){
-  const lista=[...db.compras].sort((a,b)=>b.id-a.id);
-  const tc=lista.reduce((s,c)=>s+c.total,0);
-  const headers=['Fecha','Producto','Proveedor','Cantidad','Costo Unit.','Total','Registrado por'];
-  const data=lista.map(c=>[c.fecha,c.producto,c.proveedor,c.cantidad,`Q${fmt(c.costo)}`,`Q${fmt(c.total)}`,c.usuario]);
-  exportPDF(data,headers,'Reporte de Compras','Compras',`Total órdenes: ${lista.length} · Total comprado: Q${fmt(tc)}`);
-}
-function exportComprasExcel(){
-  const lista=[...db.compras].sort((a,b)=>b.id-a.id);
-  const headers=['Fecha','Producto','Proveedor','Cantidad','Costo Unitario','Total','Registrado por'];
-  const data=lista.map(c=>[c.fecha,c.producto,c.proveedor,c.cantidad,c.costo,c.total,c.usuario]);
-  exportExcel(data,headers,'Compras','Compras');
-}
+    .sidebar {
+      width: var(--sidebar);
+      background: var(--bg2);
+      border-right: 1px solid var(--bdr);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      z-index: 50
+    }
 
-// ==================== EXPORT BAR COMPONENT ====================
-function exportBar(type){
-  const configs={
-    ventas:{pdf:'exportVentasPDF()',excel:'exportVentasExcel()',csv:'exportVentasCSV()',label:'Ventas'},
-    inventario:{pdf:'exportInventarioPDF()',excel:'exportInventarioExcel()',csv:'exportInventarioCSV()',label:'Inventario'},
-    kardex:{pdf:'exportKardexPDF()',excel:'exportKardexExcel()',csv:'exportKardexCSV()',label:'Kardex'},
-    compras:{pdf:'exportComprasPDF()',excel:'exportComprasExcel()',csv:'',label:'Compras'},
-  };
-  const c=configs[type];if(!c)return'';
-  return`<div class="export-bar">
+    .logo-area {
+      padding: 12px 14px 10px;
+      border-bottom: 1px solid var(--bdr);
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .nexus-logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 9px
+    }
+
+    .nexus-text-block {
+      display: flex;
+      flex-direction: column;
+      line-height: 1
+    }
+
+    .nexus-name {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      background: linear-gradient(90deg, var(--nx1), var(--nx2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .nexus-sub {
+      font-size: 9px;
+      color: var(--text2);
+      margin-top: 1px;
+      letter-spacing: .3px
+    }
+
+    .ver-badge {
+      font-size: 9px;
+      background: var(--purple);
+      color: #fff;
+      padding: 1px 5px;
+      border-radius: 3px;
+      margin-left: 5px;
+      vertical-align: middle;
+      font-weight: 600
+    }
+
+    .user-section {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--bdr);
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .av {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      flex-shrink: 0
+    }
+
+    .av-admin {
+      background: var(--purplel);
+      color: var(--purpled)
+    }
+
+    .av-vendor {
+      background: var(--greenl);
+      color: var(--greend)
+    }
+
+    .uinfo {
+      flex: 1;
+      min-width: 0
+    }
+
+    .uname {
+      font-size: 11px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
+    }
+
+    .urole {
+      font-size: 10px;
+      color: var(--text2)
+    }
+
+    .btn-logout {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text2);
+      padding: 4px;
+      border-radius: 5px;
+      transition: all .15s
+    }
+
+    .btn-logout:hover {
+      color: var(--red);
+      background: var(--redl)
+    }
+
+    .nav-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px
+    }
+
+    .nav-section-title {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      padding: 8px 8px 4px
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 12px;
+      color: var(--text2);
+      transition: all .12s;
+      margin-bottom: 1px;
+      white-space: nowrap
+    }
+
+    .nav-item:hover {
+      background: var(--bg3);
+      color: var(--text)
+    }
+
+    .nav-item.active {
+      background: linear-gradient(90deg, rgba(26, 141, 184, .15), rgba(26, 58, 110, .1));
+      color: var(--nx1);
+      font-weight: 500;
+      border-left: 2px solid var(--nx1)
+    }
+
+    .nav-item.disabled {
+      opacity: .3;
+      cursor: not-allowed;
+      pointer-events: none
+    }
+
+    .nav-item svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0
+    }
+
+    .lock-icon {
+      width: 10px;
+      height: 10px;
+      margin-left: auto;
+      opacity: .4
+    }
+
+    .nav-badge {
+      background: var(--red);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 600;
+      padding: 1px 5px;
+      border-radius: 10px;
+      margin-left: auto
+    }
+
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-width: 0
+    }
+
+    .topbar {
+      padding: 0 20px;
+      height: 52px;
+      border-bottom: 1px solid var(--bdr);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg2);
+      flex-shrink: 0
+    }
+
+    .topbar h2 {
+      font-size: 15px;
+      font-weight: 600
+    }
+
+    .topbar-right {
+      display: flex;
+      gap: 8px;
+      align-items: center
+    }
+
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px;
+      background: var(--bg)
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid var(--bdr2);
+      background: var(--bg2);
+      color: var(--text);
+      font-family: var(--font);
+      transition: all .12s
+    }
+
+    .btn:hover {
+      background: var(--bg3)
+    }
+
+    .btn:active {
+      transform: scale(.98)
+    }
+
+    .btn-green {
+      background: var(--green);
+      color: #fff;
+      border-color: var(--green)
+    }
+
+    .btn-green:hover {
+      background: var(--greend)
+    }
+
+    .btn-nx {
+      background: linear-gradient(90deg, var(--nx1), var(--nx2));
+      color: #fff;
+      border: none
+    }
+
+    .btn-nx:hover {
+      opacity: .9
+    }
+
+    .btn-blue {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue)
+    }
+
+    .btn-red {
+      background: var(--redl);
+      color: var(--redd);
+      border-color: var(--red)
+    }
+
+    .btn-red:hover {
+      background: var(--red);
+      color: #fff
+    }
+
+    .btn-amber {
+      background: var(--amberl);
+      color: var(--amberd);
+      border-color: var(--amber)
+    }
+
+    .btn-purple {
+      background: var(--purplel);
+      color: var(--purpled);
+      border-color: var(--purple)
+    }
+
+    /* EXPORT BUTTONS */
+    .btn-pdf {
+      background: #e74c3c;
+      color: #fff;
+      border-color: #c0392b
+    }
+
+    .btn-pdf:hover {
+      background: #c0392b
+    }
+
+    .btn-excel {
+      background: #1a7a3a;
+      color: #fff;
+      border-color: #155e2e
+    }
+
+    .btn-excel:hover {
+      background: #155e2e
+    }
+
+    .btn-csv {
+      background: #f39c12;
+      color: #fff;
+      border-color: #e67e22
+    }
+
+    .btn-csv:hover {
+      background: #e67e22
+    }
+
+    .btn-sm {
+      padding: 4px 8px;
+      font-size: 11px
+    }
+
+    .btn-icon {
+      padding: 6px;
+      border-radius: var(--radius-sm);
+      background: none;
+      border: 1px solid transparent;
+      cursor: pointer;
+      color: var(--text2);
+      transition: all .12s;
+      display: flex;
+      align-items: center
+    }
+
+    .btn-icon:hover {
+      background: var(--bg3);
+      border-color: var(--bdr);
+      color: var(--text)
+    }
+
+    .btn-icon svg {
+      width: 15px;
+      height: 15px
+    }
+
+    /* EXPORT TOOLBAR */
+    .export-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      background: linear-gradient(90deg, rgba(26, 141, 184, .06), rgba(26, 58, 110, .04));
+      border: 1px solid rgba(26, 141, 184, .2);
+      border-radius: var(--radius-sm);
+      margin-bottom: 14px;
+      flex-wrap: wrap
+    }
+
+    .export-bar-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--nx1);
+      margin-right: 4px;
+      white-space: nowrap
+    }
+
+    .export-bar-sep {
+      width: 1px;
+      height: 20px;
+      background: var(--bdr);
+      margin: 0 4px
+    }
+
+    /* CARDS */
+    .stat-card {
+      background: var(--bg2);
+      border: 1px solid var(--bdr);
+      border-radius: var(--radius);
+      padding: 14px;
+      transition: all .2s
+    }
+
+    .stat-card:hover {
+      border-color: var(--nx1);
+      transform: translateY(-1px)
+    }
+
+    .stat-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px
+    }
+
+    .stat-icon svg {
+      width: 18px;
+      height: 18px
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text2);
+      margin-bottom: 3px
+    }
+
+    .stat-value {
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 1
+    }
+
+    .stat-sub {
+      font-size: 11px;
+      color: var(--text2);
+      margin-top: 4px
+    }
+
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--bdr);
+      border-radius: var(--radius);
+      padding: 14px;
+      margin-bottom: 12px
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px
+    }
+
+    .card-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text2);
+      text-transform: uppercase;
+      letter-spacing: .4px
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px
+    }
+
+    th {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      color: var(--text2);
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--bdr);
+      text-align: left;
+      background: var(--bg3);
+      white-space: nowrap
+    }
+
+    td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--bdr);
+      vertical-align: middle
+    }
+
+    tr:last-child td {
+      border-bottom: none
+    }
+
+    tbody tr:hover td {
+      background: var(--bg3)
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 2px 7px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 500
+    }
+
+    .bg {
+      background: var(--greenl);
+      color: var(--greend)
+    }
+
+    .ba {
+      background: var(--amberl);
+      color: var(--amberd)
+    }
+
+    .br {
+      background: var(--redl);
+      color: var(--redd)
+    }
+
+    .bb {
+      background: var(--bluel);
+      color: var(--blued)
+    }
+
+    .bp {
+      background: var(--purplel);
+      color: var(--purpled)
+    }
+
+    .fg {
+      margin-bottom: 10px
+    }
+
+    .fg label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text2);
+      margin-bottom: 4px
+    }
+
+    .fg input,
+    .fg select,
+    .fg textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--bdr2);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      background: var(--bg2);
+      color: var(--text);
+      font-family: var(--font);
+      outline: none
+    }
+
+    .fg input:focus,
+    .fg select:focus {
+      border-color: var(--nx1)
+    }
+
+    .fr {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px
+    }
+
+    .fr3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px
+    }
+
+    .modal-ov {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200
+    }
+
+    .modal {
+      background: var(--bg2);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      width: 480px;
+      max-height: 85vh;
+      overflow-y: auto;
+      border: 1px solid var(--bdr);
+      animation: modalIn .18s ease
+    }
+
+    @keyframes modalIn {
+      from {
+        transform: scale(.95);
+        opacity: 0
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1
+      }
+    }
+
+    .modal h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 16px
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--bdr)
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg3);
+      border: 1px solid var(--bdr);
+      border-radius: var(--radius-sm);
+      padding: 7px 11px;
+      flex: 1;
+      max-width: 260px
+    }
+
+    .search-box input {
+      border: none;
+      background: transparent;
+      font-size: 12px;
+      color: var(--text);
+      flex: 1;
+      font-family: var(--font);
+      outline: none
+    }
+
+    .search-box svg {
+      width: 13px;
+      height: 13px;
+      color: var(--text3);
+      flex-shrink: 0
+    }
+
+    .toast-container {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 500;
+      display: flex;
+      flex-direction: column;
+      gap: 6px
+    }
+
+    .toast {
+      background: var(--bg2);
+      border: 1px solid var(--bdr);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: toastIn .2s ease;
+      max-width: 280px
+    }
+
+    @keyframes toastIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0
+      }
+
+      to {
+        transform: translateX(0);
+        opacity: 1
+      }
+    }
+
+    .toast-success {
+      border-left: 3px solid var(--green)
+    }
+
+    .toast-error {
+      border-left: 3px solid var(--red)
+    }
+
+    .toast-warn {
+      border-left: 3px solid var(--amber)
+    }
+
+    .toast-info {
+      border-left: 3px solid var(--blue)
+    }
+
+    .alert-banner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      margin-bottom: 8px
+    }
+
+    .alert-r {
+      background: var(--redl);
+      color: var(--redd);
+      border: 1px solid var(--red)
+    }
+
+    .alert-a {
+      background: var(--amberl);
+      color: var(--amberd);
+      border: 1px solid var(--amber)
+    }
+
+    .alert-g {
+      background: var(--greenl);
+      color: var(--greend);
+      border: 1px solid var(--green)
+    }
+
+    .sg {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 14px
+    }
+
+    .g2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+
+    .g3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr))
+    }
+
+    .g4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr))
+    }
+
+    .chart-container {
+      position: relative;
+      width: 100%
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 10px
+    }
+
+    .pill {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid var(--bdr2);
+      background: var(--bg2);
+      color: var(--text2);
+      transition: all .12s
+    }
+
+    .pill:hover {
+      background: var(--bg3)
+    }
+
+    .pill.active {
+      background: linear-gradient(90deg, var(--nx1), var(--nx2));
+      color: #fff;
+      border-color: var(--nx1)
+    }
+
+    .kardex-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--bdr);
+      font-size: 12px
+    }
+
+    .kardex-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0
+    }
+
+    .ki-in {
+      background: var(--greenl);
+      color: var(--greend)
+    }
+
+    .ki-out {
+      background: var(--redl);
+      color: var(--redd)
+    }
+
+    .pos-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      background: var(--bg3);
+      border-radius: var(--radius-sm);
+      margin-bottom: 6px
+    }
+
+    .pos-item-name {
+      flex: 1;
+      font-weight: 500;
+      font-size: 12px
+    }
+
+    .pos-qty {
+      display: flex;
+      align-items: center;
+      gap: 4px
+    }
+
+    .pos-qty button {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      border: 1px solid var(--bdr2);
+      background: var(--bg2);
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text)
+    }
+
+    .toggle {
+      position: relative;
+      width: 36px;
+      height: 20px;
+      cursor: pointer
+    }
+
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0
+    }
+
+    .toggle-slider {
+      position: absolute;
+      inset: 0;
+      background: var(--bdr2);
+      border-radius: 20px;
+      transition: .2s
+    }
+
+    .toggle-slider:before {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      left: 3px;
+      top: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: .2s
+    }
+
+    .toggle input:checked+.toggle-slider {
+      background: var(--nx1)
+    }
+
+    .toggle input:checked+.toggle-slider:before {
+      transform: translateX(16px)
+    }
+
+    .perm-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px
+    }
+
+    .perm-table th {
+      background: var(--bg3);
+      padding: 8px 12px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      color: var(--text2)
+    }
+
+    .perm-table td {
+      padding: 8px 12px;
+      border-top: 1px solid var(--bdr);
+      text-align: center
+    }
+
+    .login-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: var(--bg)
+    }
+
+    .login-card {
+      background: var(--bg2);
+      border: 1px solid var(--bdr);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      width: 340px
+    }
+
+    .login-logo {
+      text-align: center;
+      margin-bottom: 28px
+    }
+
+    .login-err {
+      background: var(--redl);
+      color: var(--redd);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      font-size: 12px;
+      margin-bottom: 12px;
+      display: none
+    }
+
+    .login-hint {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--bdr);
+      font-size: 11px;
+      color: var(--text2);
+      line-height: 2
+    }
+
+    .ia-msg {
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      font-size: 12px;
+      line-height: 1.6;
+      margin-bottom: 8px
+    }
+
+    .ia-msg.user {
+      background: linear-gradient(90deg, rgba(26, 141, 184, .15), rgba(26, 58, 110, .1));
+      color: var(--nx2);
+      margin-left: 20px;
+      text-align: right;
+      border: 1px solid rgba(26, 141, 184, .2)
+    }
+
+    .ia-msg.bot {
+      background: var(--bg3);
+      border: 1px solid var(--bdr);
+      color: var(--text)
+    }
+
+    .ia-typing {
+      display: flex;
+      gap: 4px;
+      padding: 10px 14px
+    }
+
+    .ia-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--text2);
+      border-radius: 50%;
+      animation: bounce .8s infinite
+    }
+
+    .ia-dot:nth-child(2) {
+      animation-delay: .15s
+    }
+
+    .ia-dot:nth-child(3) {
+      animation-delay: .3s
+    }
+
+    @keyframes bounce {
+
+      0%,
+      80%,
+      100% {
+        transform: translateY(0)
+      }
+
+      40% {
+        transform: translateY(-6px)
+      }
+    }
+
+    .ticket-paper {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      line-height: 1.9;
+      background: var(--bg3);
+      border: 1px dashed var(--bdr2);
+      border-radius: var(--radius);
+      padding: 16px
+    }
+
+    .ticket-paper .tr {
+      display: flex;
+      justify-content: space-between
+    }
+
+    .ticket-paper .sep {
+      border-top: 1px dashed var(--bdr2);
+      margin: 6px 0
+    }
+
+    .progress-bar {
+      height: 6px;
+      border-radius: 3px;
+      background: var(--bg4);
+      overflow: hidden;
+      margin-top: 4px
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width .4s ease
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text2);
+      font-size: 12px
+    }
+
+    .table-wrap {
+      overflow-x: auto
+    }
+
+    /* EXPORT PREVIEW MODAL */
+    .preview-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px
+    }
+
+    .preview-table th {
+      background: #1a8db8;
+      color: #fff;
+      padding: 6px 10px;
+      text-align: left;
+      font-size: 10px
+    }
+
+    .preview-table td {
+      padding: 5px 10px;
+      border-bottom: 1px solid #e0e0e0
+    }
+
+    .preview-table tr:nth-child(even) td {
+      background: #f5f5f5
+    }
+
+    .preview-badge {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: 500
+    }
+
+    @media(max-width:768px) {
+      :root {
+        --sidebar: 56px
+      }
+
+      .nexus-text-block,
+      .nav-section-title,
+      .uinfo {
+        display: none
+      }
+
+      .nav-item {
+        justify-content: center;
+        padding: 10px
+      }
+
+      .content {
+        padding: 10px
+      }
+
+      .g4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+      }
+
+      .modal {
+        width: 95vw
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+  <div class="toast-container" id="toasts"></div>
+  <div id="modal-c"></div>
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+  <!-- API Service -->
+  <script src="api.js"></script>
+
+  <script>
+    const USERS_KEY = 'nxs_u2', DB_KEY = 'nxs_db2', LOGS_KEY = 'nxs_l2';
+    let darkMode = false, session = null, pg = 'dashboard', sq = '', filterPer = 'todo', posCart = [];
+    let charts = {}, logs = [];
+
+    const DEFAULT_USERS = [
+      { id: 1, nombre: 'Carlos Méndez', usuario: 'admin1', pass: 'admin123', rol: 'administrador', activo: true, email: 'admin1@nexus.gt' },
+      { id: 2, nombre: 'Luisa Fuentes', usuario: 'admin2', pass: 'admin456', rol: 'administrador', activo: true, email: 'admin2@nexus.gt' },
+      { id: 3, nombre: 'Pedro Ríos', usuario: 'vendedor1', pass: 'vend123', rol: 'vendedor', activo: true, email: 'vendedor1@nexus.gt' }
+    ];
+    const PERMS = {
+      administrador: { dashboard: { r: 1, w: 1, d: 1 }, productos: { r: 1, w: 1, d: 1 }, inventario: { r: 1, w: 1, d: 1 }, ventas: { r: 1, w: 1, d: 1 }, compras: { r: 1, w: 1, d: 1 }, alertas: { r: 1, w: 0, d: 0 }, usuarios: { r: 1, w: 1, d: 1 }, reportes: { r: 1, w: 0, d: 0 }, facturacion: { r: 1, w: 1, d: 0 }, pos: { r: 1, w: 1, d: 0 }, kardex: { r: 1, w: 0, d: 0 }, ia: { r: 1, w: 1, d: 0 } },
+      vendedor: { dashboard: { r: 1, w: 0, d: 0 }, productos: { r: 1, w: 0, d: 0 }, inventario: { r: 1, w: 0, d: 0 }, ventas: { r: 1, w: 1, d: 0 }, compras: { r: 0, w: 0, d: 0 }, alertas: { r: 1, w: 0, d: 0 }, usuarios: { r: 0, w: 0, d: 0 }, reportes: { r: 0, w: 0, d: 0 }, facturacion: { r: 1, w: 1, d: 0 }, pos: { r: 1, w: 1, d: 0 }, kardex: { r: 0, w: 0, d: 0 }, ia: { r: 1, w: 1, d: 0 } }
+    };
+    let users = JSON.parse(JSON.stringify(DEFAULT_USERS)), db = { productos: [], ventas: [], compras: [] };
+
+    async function saveAll() { }
+    async function loadAll() { try { db.productos = await APIService.getProductos(); db.ventas = await APIService.getVentas(); db.compras = await APIService.getCompras(); db.kardex = await APIService.getKardex(); users = await APIService.getUsuarios(); } catch (e) { console.error('Error cargando datos:', e); } renderApp(); }
+    function addLog(a, d) { logs.push({ ts: new Date().toISOString(), user: session?.usuario || '—', action: a, detail: d }); }
+
+    function seedDB() {
+      const h = new Date(), fmt = d => d.toISOString().split('T')[0], add = n => { let d = new Date(h); d.setDate(d.getDate() + n); return fmt(d); };
+      db.productos = [
+        { id: 1, nombre: 'Paracetamol 500mg', categoria: 'Analgésico', precio: 25, costo: 12, stock: 150, stockMin: 30, lote: 'L-2024-001', ingreso: add(-60), caducidad: add(365), proveedor: 'DistribuFarma S.A.', codigo: '7501050351002' },
+        { id: 2, nombre: 'Amoxicilina 500mg', categoria: 'Antibiótico', precio: 85, costo: 45, stock: 60, stockMin: 20, lote: 'L-2024-012', ingreso: add(-45), caducidad: add(180), proveedor: 'MedGroup GT', codigo: '7501050351003' },
+        { id: 3, nombre: 'Metformina 850mg', categoria: 'Antidiabético', precio: 45, costo: 20, stock: 8, stockMin: 25, lote: 'L-2023-098', ingreso: add(-90), caducidad: add(28), proveedor: 'FarmaPlus', codigo: '7501050351004' },
+        { id: 4, nombre: 'Loratadina 10mg', categoria: 'Antihistamínico', precio: 35, costo: 15, stock: 90, stockMin: 20, lote: 'L-2024-034', ingreso: add(-5), caducidad: add(500), proveedor: 'DistribuFarma S.A.', codigo: '7501050351005' },
+        { id: 5, nombre: 'Omeprazol 20mg', categoria: 'Gastro', precio: 55, costo: 25, stock: 40, stockMin: 15, lote: 'L-2024-021', ingreso: add(-30), caducidad: add(14), proveedor: 'MedGroup GT', codigo: '7501050351006' },
+        { id: 6, nombre: 'Ibuprofeno 400mg', categoria: 'Analgésico', precio: 30, costo: 14, stock: 120, stockMin: 30, lote: 'L-2024-045', ingreso: add(-3), caducidad: add(730), proveedor: 'FarmaPlus', codigo: '7501050351007' },
+        { id: 7, nombre: 'Vitamina C 1000mg', categoria: 'Vitaminas', precio: 40, costo: 18, stock: 200, stockMin: 50, lote: 'L-2024-060', ingreso: add(-10), caducidad: add(400), proveedor: 'NutriMed GT', codigo: '7501050351008' },
+        { id: 8, nombre: 'Atorvastatina 20mg', categoria: 'Cardiovascular', precio: 95, costo: 55, stock: 35, stockMin: 15, lote: 'L-2024-071', ingreso: add(-20), caducidad: add(300), proveedor: 'FarmaPlus', codigo: '7501050351009' },
+      ];
+      db.ventas = [];
+      const names = ['María García', 'Juan López', 'Ana Martínez', 'Carlos Ruiz', 'Rosa Pérez'];
+      for (let i = 0; i < 30; i++) { const p = db.productos[i % 8], q = Math.ceil(Math.random() * 4) + 1, desc = i % 5 === 0 ? 10 : 0; const sub = q * p.precio, dto = sub * desc / 100, tot = sub - dto; db.ventas.push({ id: i + 1, fecha: add(-Math.floor(i * 1.5)), productoId: p.id, producto: p.nombre, cantidad: q, precio: p.precio, total: tot, cliente: names[i % 5], usuario: i % 3 === 0 ? 'admin1' : 'vendedor1', descuento: desc, nit: i % 4 === 0 ? '1234567-8' : 'CF', metodoPago: i % 3 === 0 ? 'efectivo' : i % 3 === 1 ? 'transferencia' : 'tarjeta' }); }
+      db.compras = [{ id: 1, fecha: add(-60), productoId: 1, producto: 'Paracetamol 500mg', cantidad: 300, costo: 12, total: 3600, proveedor: 'DistribuFarma S.A.', usuario: 'admin1' }, { id: 2, fecha: add(-45), productoId: 2, producto: 'Amoxicilina 500mg', cantidad: 100, costo: 45, total: 4500, proveedor: 'MedGroup GT', usuario: 'admin2' }, { id: 3, fecha: add(-30), productoId: 6, producto: 'Ibuprofeno 400mg', cantidad: 200, costo: 14, total: 2800, proveedor: 'FarmaPlus', usuario: 'admin1' }, { id: 4, fecha: add(-15), productoId: 4, producto: 'Loratadina 10mg', cantidad: 150, costo: 15, total: 2250, proveedor: 'DistribuFarma S.A.', usuario: 'admin2' }, { id: 5, fecha: add(-5), productoId: 7, producto: 'Vitamina C 1000mg', cantidad: 250, costo: 18, total: 4500, proveedor: 'NutriMed GT', usuario: 'admin1' },];
+      saveAll();
+    }
+
+    const can = (p, t = 'r') => session && PERMS[session.rol] && PERMS[session.rol][p] && PERMS[session.rol][p][t];
+    const dias = f => { const h = new Date(); h.setHours(0, 0, 0, 0); return Math.round((new Date(f + 'T00:00:00') - h) / 86400000); };
+    const estCad = f => { const d = dias(f); if (d < 0) return 'Caducado'; if (d <= 14) return `${d} días`; if (d <= 60) return `${d} días`; return 'Vigente'; };
+    const estCadBadge = f => { const d = dias(f); if (d < 0) return '<span class="badge br">Caducado</span>'; if (d <= 14) return `<span class="badge br">${d}d</span>`; if (d <= 60) return `<span class="badge ba">${d}d</span>`; return '<span class="badge bg">OK</span>'; };
+    const alertCount = () => db.productos.filter(p => p.stock <= p.stockMin || dias(p.caducidad) <= 30).length;
+    const hoy = () => new Date().toISOString().split('T')[0];
+    const fmt = n => n.toFixed(2);
+
+    function nexusLogo(w = 40, h = 25) { return `<svg width="${w}" height="${h}" viewBox="0 0 120 74" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M37 37C37 26.5 45 18 55 18C65 18 71 24 74 30C71 36 65 42 55 42C45 42 37 47.5 37 58C37 68.5 45 74 55 74C65 74 73 66 74 56" stroke="url(#ng1)" stroke-width="10" stroke-linecap="round" fill="none"/><path d="M83 37C83 26.5 91 18 101 18C111 18 119 26.5 119 37C119 47.5 111 56 101 56C91 56 83 47.5 83 37Z" stroke="url(#ng2)" stroke-width="10" fill="none"/><path d="M1 37C1 26.5 9 18 19 18C29 18 37 26.5 37 37" stroke="url(#ng3)" stroke-width="10" stroke-linecap="round" fill="none"/><defs><linearGradient id="ng1" x1="37" y1="18" x2="74" y2="74" gradientUnits="userSpaceOnUse"><stop stop-color="#1a8db8"/><stop offset="1" stop-color="#1a3a6e"/></linearGradient><linearGradient id="ng2" x1="83" y1="18" x2="119" y2="56" gradientUnits="userSpaceOnUse"><stop stop-color="#1a8db8"/><stop offset="1" stop-color="#1a3a6e"/></linearGradient><linearGradient id="ng3" x1="1" y1="18" x2="37" y2="56" gradientUnits="userSpaceOnUse"><stop stop-color="#1a8db8"/><stop offset="1" stop-color="#1a3a6e"/></linearGradient></defs></svg>`; }
+
+    function showToast(msg, type = 'success') { const c = document.getElementById('toasts'); const el = document.createElement('div'); el.className = `toast toast-${type}`; el.innerHTML = msg; c.appendChild(el); setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity .3s'; setTimeout(() => el.remove(), 300); }, 3500); }
+    function destCharts() { Object.values(charts).forEach(c => { try { c.destroy(); } catch (e) { } }); charts = {}; }
+    function nav(p) { if (!can(p)) return; pg = p; sq = ''; filterPer = 'todo'; posCart = []; renderApp(); }
+    function toggleDark() { darkMode = !darkMode; document.documentElement.classList.toggle('dark', darkMode); }
+
+    // ==================== EXPORT ENGINE ====================
+    function getTimestamp() { return new Date().toLocaleString('es-GT').replace(/[/:]/g, '-').replace(',', ''); }
+
+    // --- EXCEL export ---
+    function exportExcel(data, headers, sheetName, fileName) {
+      if (!window.XLSX) { showToast('Cargando librería Excel...', 'info'); return; }
+      const wsData = [headers, ...data];
+      const ws = XLSX.utils.aoa_to_sheet(wsData);
+      // Style header row width
+      ws['!cols'] = headers.map(() => ({ wch: 20 }));
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, sheetName);
+      XLSX.writeFile(wb, `NEXUS_${fileName}_${getTimestamp()}.xlsx`);
+      showToast(`✅ Excel exportado: ${fileName}.xlsx`, 'success');
+      addLog('EXPORT_EXCEL', fileName);
+    }
+
+    // --- CSV export ---
+    function exportCSV(data, headers, fileName) {
+      const rows = [headers, ...data];
+      const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+      const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = `NEXUS_${fileName}_${getTimestamp()}.csv`; a.click();
+      URL.revokeObjectURL(url);
+      showToast(`✅ CSV exportado: ${fileName}.csv`, 'success');
+      addLog('EXPORT_CSV', fileName);
+    }
+
+    // --- PDF export ---
+    function exportPDF(data, headers, title, fileName, subtitle = '') {
+      if (!window.jspdf) { showToast('Cargando librería PDF...', 'info'); return; }
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: data[0]?.length > 7 ? 'landscape' : 'portrait', unit: 'mm', format: 'a4' });
+      const pageW = doc.internal.pageSize.getWidth();
+
+      // Header brand
+      doc.setFillColor(26, 141, 184);
+      doc.rect(0, 0, pageW, 18, 'F');
+      doc.setFillColor(26, 58, 110);
+      doc.rect(0, 14, pageW, 4, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(14); doc.setFont('helvetica', 'bold');
+      doc.text('NEXUS FARMACIA', 14, 11);
+      doc.setFontSize(8); doc.setFont('helvetica', 'normal');
+      doc.text('Sistema de Gestión · Guatemala', 14, 22);
+      doc.text(`Generado: ${new Date().toLocaleString('es-GT')}`, pageW - 14, 22, { align: 'right' });
+
+      // Title
+      doc.setTextColor(26, 58, 110);
+      doc.setFontSize(13); doc.setFont('helvetica', 'bold');
+      doc.text(title, 14, 32);
+      if (subtitle) { doc.setFontSize(9); doc.setFont('helvetica', 'normal'); doc.setTextColor(100, 100, 100); doc.text(subtitle, 14, 38); }
+
+      // Table
+      doc.autoTable({
+        head: [headers],
+        body: data,
+        startY: subtitle ? 42 : 36,
+        styles: { fontSize: 8, cellPadding: 3, overflow: 'linebreak' },
+        headStyles: { fillColor: [26, 141, 184], textColor: 255, fontStyle: 'bold', fontSize: 8 },
+        alternateRowStyles: { fillColor: [245, 250, 255] },
+        columnStyles: {},
+        margin: { left: 14, right: 14 },
+        didDrawPage: (d) => {
+          // Footer
+          const pageCount = doc.internal.getNumberOfPages();
+          doc.setFontSize(7); doc.setTextColor(150);
+          doc.text(`Página ${d.pageNumber} de ${pageCount} · NEXUS Farmacia · Confidencial`, pageW / 2, doc.internal.pageSize.getHeight() - 5, { align: 'center' });
+        }
+      });
+
+      doc.save(`NEXUS_${fileName}_${getTimestamp()}.pdf`);
+      showToast(`✅ PDF exportado: ${fileName}.pdf`, 'success');
+      addLog('EXPORT_PDF', fileName);
+    }
+
+    // --- Specific exporters ---
+    function exportVentasPDF() {
+      const src = session.rol === 'vendedor' ? db.ventas.filter(v => (v.usuario || '') === session.usuario) : db.ventas;
+      const lista = [...filterByPer(src, 'fecha')].sort((a, b) => b.id - a.id);
+      const tv = lista.reduce((s, v) => s + v.total, 0);
+      const headers = ['#', 'Fecha', 'Producto', 'Cliente', 'NIT', 'Cant.', 'Precio', 'Dto%', 'Total', 'Pago', 'Usuario'];
+      const data = lista.map(v => { const prod = v.producto || v.productoNombre || ''; const usr = users.find(u => u.id === v.usuarioId)?.usuario || v.usuario || ''; return [`#${String(v.id).padStart(4, '0')}`, v.fecha, prod, v.cliente, v.nit || 'CF', v.cantidad, `Q${fmt(v.precio)}`, v.descuento || 0, `Q${fmt(v.total)}`, v.metodoPago || 'efectivo', usr]; });
+      exportPDF(data, headers, 'Reporte de Ventas', 'Ventas', `Total registros: ${lista.length} · Total vendido: Q${fmt(tv)}`);
+    }
+    function exportVentasExcel() {
+      const src = session.rol === 'vendedor' ? db.ventas.filter(v => (v.usuario || '') === session.usuario) : db.ventas;
+      const lista = [...filterByPer(src, 'fecha')].sort((a, b) => b.id - a.id);
+      const headers = ['No.', 'Fecha', 'Producto', 'Cliente', 'NIT', 'Cantidad', 'Precio Unit.', 'Descuento%', 'Total', 'Método Pago', 'Usuario'];
+      const data = lista.map(v => { const prod = v.producto || v.productoNombre || ''; const usr = users.find(u => u.id === v.usuarioId)?.usuario || v.usuario || ''; return [`#${String(v.id).padStart(4, '0')}`, v.fecha, prod, v.cliente, v.nit || 'CF', v.cantidad, v.precio, v.descuento || 0, v.total, v.metodoPago || 'efectivo', usr]; });
+      exportExcel(data, headers, 'Ventas', 'Ventas');
+    }
+    function exportVentasCSV() {
+      const src = session.rol === 'vendedor' ? db.ventas.filter(v => (v.usuario || '') === session.usuario) : db.ventas;
+      const lista = [...filterByPer(src, 'fecha')].sort((a, b) => b.id - a.id);
+      const headers = ['No.', 'Fecha', 'Producto', 'Cliente', 'NIT', 'Cantidad', 'Precio Unit.', 'Descuento%', 'Total', 'Método Pago', 'Usuario'];
+      const data = lista.map(v => { const prod = v.producto || v.productoNombre || ''; const usr = users.find(u => u.id === v.usuarioId)?.usuario || v.usuario || ''; return [`#${String(v.id).padStart(4, '0')}`, v.fecha, prod, v.cliente, v.nit || 'CF', v.cantidad, v.precio, v.descuento || 0, v.total, v.metodoPago || 'efectivo', usr]; });
+      exportCSV(data, headers, 'Ventas');
+    }
+
+    function exportInventarioPDF() {
+      const vc = db.productos.reduce((s, p) => s + p.stock * p.costo, 0);
+      const headers = ['Producto', 'Categoría', 'Stock', 'Mínimo', 'Precio', 'Costo', 'Valor Total', 'Lote', 'Proveedor', 'Ingreso', 'Caducidad', 'Estado'];
+      const data = db.productos.map(p => [p.nombre, p.categoria, p.stock, p.stockMin, `Q${fmt(p.precio)}`, `Q${fmt(p.costo)}`, `Q${fmt(p.stock * p.costo)}`, p.lote, p.proveedor || '—', p.ingreso, p.caducidad, estCad(p.caducidad)]);
+      exportPDF(data, headers, 'Reporte de Inventario', 'Inventario', `Total productos: ${db.productos.length} · Valor en inventario: Q${fmt(vc)}`);
+    }
+    function exportInventarioExcel() {
+      const headers = ['Producto', 'Categoría', 'Stock Actual', 'Stock Mínimo', 'Precio Venta', 'Costo', 'Valor Total', 'Lote', 'Proveedor', 'Fecha Ingreso', 'Fecha Caducidad', 'Estado Caducidad', 'Código Barras'];
+      const data = db.productos.map(p => [p.nombre, p.categoria, p.stock, p.stockMin, p.precio, p.costo, p.stock * p.costo, p.lote, p.proveedor || '', p.ingreso, p.caducidad, estCad(p.caducidad), p.codigo || '']);
+      exportExcel(data, headers, 'Inventario', 'Inventario');
+    }
+    function exportInventarioCSV() {
+      const headers = ['Producto', 'Categoría', 'Stock', 'Mínimo', 'Precio', 'Costo', 'Valor Total', 'Lote', 'Proveedor', 'Ingreso', 'Caducidad', 'Estado'];
+      const data = db.productos.map(p => [p.nombre, p.categoria, p.stock, p.stockMin, p.precio, p.costo, p.stock * p.costo, p.lote, p.proveedor || '', p.ingreso, p.caducidad, estCad(p.caducidad)]);
+      exportCSV(data, headers, 'Inventario');
+    }
+
+    function getKardexData() {
+      return (db.kardex || []).map(k => ({ fecha: k.fecha, tipo: k.tipo, producto: k.productoNombre, cantidad: k.cantidad, referencia: k.referencia, usuario: k.usuario })).sort((a, b) => b.fecha.localeCompare(a.fecha));
+    }
+    function exportKardexPDF() {
+      const movs = getKardexData();
+      const headers = ['Fecha', 'Tipo', 'Producto', 'Cantidad', 'Referencia', 'Usuario'];
+      const data = movs.map(m => [m.fecha, m.tipo, m.producto, m.tipo === 'ENTRADA' ? '+' + m.cantidad : '-' + m.cantidad, m.referencia, m.usuario]);
+      exportPDF(data, headers, 'Kardex — Historial de Movimientos', 'Kardex', `Total movimientos: ${movs.length}`);
+    }
+    function exportKardexExcel() {
+      const movs = getKardexData();
+      const headers = ['Fecha', 'Tipo Movimiento', 'Producto', 'Cantidad', 'Referencia', 'Usuario'];
+      const data = movs.map(m => [m.fecha, m.tipo, m.producto, m.tipo === 'ENTRADA' ? m.cantidad : -m.cantidad, m.referencia, m.usuario]);
+      exportExcel(data, headers, 'Kardex', 'Kardex');
+    }
+    function exportKardexCSV() {
+      const movs = getKardexData();
+      const headers = ['Fecha', 'Tipo', 'Producto', 'Cantidad', 'Referencia', 'Usuario'];
+      const data = movs.map(m => [m.fecha, m.tipo, m.producto, m.tipo === 'ENTRADA' ? m.cantidad : -m.cantidad, m.referencia, m.usuario]);
+      exportCSV(data, headers, 'Kardex');
+    }
+
+    function exportComprasPDF() {
+      const lista = [...db.compras].sort((a, b) => b.id - a.id);
+      const tc = lista.reduce((s, c) => s + c.total, 0);
+      const headers = ['Fecha', 'Producto', 'Proveedor', 'Cantidad', 'Costo Unit.', 'Total', 'Registrado por'];
+      const data = lista.map(c => [c.fecha, c.producto, c.proveedor, c.cantidad, `Q${fmt(c.costo)}`, `Q${fmt(c.total)}`, c.usuario]);
+      exportPDF(data, headers, 'Reporte de Compras', 'Compras', `Total órdenes: ${lista.length} · Total comprado: Q${fmt(tc)}`);
+    }
+    function exportComprasExcel() {
+      const lista = [...db.compras].sort((a, b) => b.id - a.id);
+      const headers = ['Fecha', 'Producto', 'Proveedor', 'Cantidad', 'Costo Unitario', 'Total', 'Registrado por'];
+      const data = lista.map(c => [c.fecha, c.producto, c.proveedor, c.cantidad, c.costo, c.total, c.usuario]);
+      exportExcel(data, headers, 'Compras', 'Compras');
+    }
+
+    // ==================== EXPORT BAR COMPONENT ====================
+    function exportBar(type) {
+      const configs = {
+        ventas: { pdf: 'exportVentasPDF()', excel: 'exportVentasExcel()', csv: 'exportVentasCSV()', label: 'Ventas' },
+        inventario: { pdf: 'exportInventarioPDF()', excel: 'exportInventarioExcel()', csv: 'exportInventarioCSV()', label: 'Inventario' },
+        kardex: { pdf: 'exportKardexPDF()', excel: 'exportKardexExcel()', csv: 'exportKardexCSV()', label: 'Kardex' },
+        compras: { pdf: 'exportComprasPDF()', excel: 'exportComprasExcel()', csv: '', label: 'Compras' },
+      };
+      const c = configs[type]; if (!c) return '';
+      return `<div class="export-bar">
     <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--nx1)" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
     <span class="export-bar-label">Exportar ${c.label}:</span>
     <div class="export-bar-sep"></div>
@@ -401,52 +1431,52 @@ function exportBar(type){
       <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
       Excel
     </button>
-    ${c.csv?`<button class="btn btn-csv btn-sm" onclick="${c.csv}">
+    ${c.csv ? `<button class="btn btn-csv btn-sm" onclick="${c.csv}">
       <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
       CSV
-    </button>`:''}
+    </button>`: ''}
     <span style="font-size:10px;color:var(--text3);margin-left:auto">Los archivos se descargan automáticamente</span>
   </div>`;
-}
+    }
 
-// ==================== APP RENDER ====================
-function renderApp(){
-  destCharts();
-  const root=document.getElementById('root');
-  if(!session){root.innerHTML=renderLogin();root.className='';return;}
-  const ac=alertCount();
-  root.className='app';
-  root.innerHTML=`
+    // ==================== APP RENDER ====================
+    function renderApp() {
+      destCharts();
+      const root = document.getElementById('root');
+      if (!session) { root.innerHTML = renderLogin(); root.className = ''; return; }
+      const ac = alertCount();
+      root.className = 'app';
+      root.innerHTML = `
   <nav class="sidebar">
-    <div class="logo-area"><div class="nexus-logo-wrap">${nexusLogo(42,26)}<div class="nexus-text-block"><span class="nexus-name">NEXUS<span class="ver-badge">PRO</span></span><span class="nexus-sub">Farmacia · Guatemala</span></div></div></div>
+    <div class="logo-area"><div class="nexus-logo-wrap">${nexusLogo(42, 26)}<div class="nexus-text-block"><span class="nexus-name">NEXUS<span class="ver-badge">PRO</span></span><span class="nexus-sub">Farmacia · Guatemala</span></div></div></div>
     <div class="user-section">
-      <div class="av ${session.rol==='administrador'?'av-admin':'av-vendor'}">${session.nombre.split(' ').map(w=>w[0]).slice(0,2).join('')}</div>
+      <div class="av ${session.rol === 'administrador' ? 'av-admin' : 'av-vendor'}">${session.nombre.split(' ').map(w => w[0]).slice(0, 2).join('')}</div>
       <div class="uinfo"><div class="uname">${session.nombre.split(' ')[0]}</div><div class="urole">${session.rol}</div></div>
       <button class="btn-logout" onclick="doLogout()" title="Salir"><svg width="14" height="14" fill="none" viewBox="0 0 16 16"><path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M11 5l3 3-3 3M14 8H6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
     <div class="nav-area">
       <div class="nav-section-title">Principal</div>
-      ${ni('dashboard','Dashboard','<rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" opacity=".8"/><rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" opacity=".5"/><rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" opacity=".5"/><rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor"/>')}
-      ${ni('ia','Asistente IA','<circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 8a2.5 2.5 0 005 0M8 5.5v1M8 10v1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>')}
+      ${ni('dashboard', 'Dashboard', '<rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" opacity=".8"/><rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" opacity=".5"/><rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" opacity=".5"/><rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor"/>')}
+      ${ni('ia', 'Asistente IA', '<circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 8a2.5 2.5 0 005 0M8 5.5v1M8 10v1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>')}
       <div class="nav-section-title">Farmacia</div>
-      ${ni('pos','POS / Caja','<path d="M2 4h12v9a1 1 0 01-1 1H3a1 1 0 01-1-1V4z" stroke="currentColor" stroke-width="1.3"/><path d="M1 2h14v2H1z" fill="currentColor" opacity=".5"/><path d="M6 9h4M8 7v4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>')}
-      ${ni('ventas','Ventas','<path d="M1 1h2l2.5 9h7l2-6H4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="13" r="1" fill="currentColor"/><circle cx="12" cy="13" r="1" fill="currentColor"/>')}
-      ${ni('compras','Compras','<path d="M2 2h12l-1.5 9H3.5L2 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M5 5v3M11 5v3M8 5v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>')}
-      ${ni('facturacion','Facturación FEL','<rect x="2" y="1" width="12" height="14" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M5 5h6M5 8h6M5 11h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>')}
+      ${ni('pos', 'POS / Caja', '<path d="M2 4h12v9a1 1 0 01-1 1H3a1 1 0 01-1-1V4z" stroke="currentColor" stroke-width="1.3"/><path d="M1 2h14v2H1z" fill="currentColor" opacity=".5"/><path d="M6 9h4M8 7v4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>')}
+      ${ni('ventas', 'Ventas', '<path d="M1 1h2l2.5 9h7l2-6H4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="13" r="1" fill="currentColor"/><circle cx="12" cy="13" r="1" fill="currentColor"/>')}
+      ${ni('compras', 'Compras', '<path d="M2 2h12l-1.5 9H3.5L2 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M5 5v3M11 5v3M8 5v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>')}
+      ${ni('facturacion', 'Facturación FEL', '<rect x="2" y="1" width="12" height="14" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M5 5h6M5 8h6M5 11h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>')}
       <div class="nav-section-title">Inventario</div>
-      ${ni('productos','Productos','<path d="M13 2H3a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1V3a1 1 0 00-1-1zM5 6h6M5 9h6M5 12h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>')}
-      ${ni('inventario','Inventario','<path d="M8 1L14 4v4c0 3.5-2.5 6-6 7C2.5 14 0 11.5 0 8V4L8 1z" stroke="currentColor" stroke-width="1.3"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>')}
-      ${ni('kardex','Kardex','<path d="M3 4h10M3 8h10M3 12h6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>')}
+      ${ni('productos', 'Productos', '<path d="M13 2H3a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1V3a1 1 0 00-1-1zM5 6h6M5 9h6M5 12h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>')}
+      ${ni('inventario', 'Inventario', '<path d="M8 1L14 4v4c0 3.5-2.5 6-6 7C2.5 14 0 11.5 0 8V4L8 1z" stroke="currentColor" stroke-width="1.3"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>')}
+      ${ni('kardex', 'Kardex', '<path d="M3 4h10M3 8h10M3 12h6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>')}
       <div class="nav-section-title">Análisis</div>
-      ${ni('reportes','Reportes','<path d="M3 12V8M7 12V5M11 12V3M15 12V7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>')}
-      ${ni('alertas','Alertas','<path d="M8 1a5 5 0 015 5c0 2.5.8 3.5 1.5 4.5H1.5C2.2 9.5 3 8.5 3 6a5 5 0 015-5zM6.5 13.5a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>',ac)}
+      ${ni('reportes', 'Reportes', '<path d="M3 12V8M7 12V5M11 12V3M15 12V7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>')}
+      ${ni('alertas', 'Alertas', '<path d="M8 1a5 5 0 015 5c0 2.5.8 3.5 1.5 4.5H1.5C2.2 9.5 3 8.5 3 6a5 5 0 015-5zM6.5 13.5a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>', ac)}
       <div class="nav-section-title">Sistema</div>
-      ${ni('usuarios','Usuarios','<circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>')}
+      ${ni('usuarios', 'Usuarios', '<circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>')}
     </div>
   </nav>
   <main class="main">
     <div class="topbar">
-      <h2>${{dashboard:'Dashboard',ia:'Asistente IA',pos:'POS — Caja',ventas:'Ventas',compras:'Compras',facturacion:'Facturación FEL',productos:'Productos',inventario:'Inventario',kardex:'Kardex',reportes:'Reportes',alertas:'Alertas',usuarios:'Usuarios'}[pg]}</h2>
+      <h2>${{ dashboard: 'Dashboard', ia: 'Asistente IA', pos: 'POS — Caja', ventas: 'Ventas', compras: 'Compras', facturacion: 'Facturación FEL', productos: 'Productos', inventario: 'Inventario', kardex: 'Kardex', reportes: 'Reportes', alertas: 'Alertas', usuarios: 'Usuarios' }[pg]}</h2>
       <div class="topbar-right">
         <button class="btn-icon" onclick="toggleDark()"><svg fill="none" viewBox="0 0 16 16"><path d="M8 3a5 5 0 100 10A5 5 0 008 3z" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v1M8 14v1M1 8h1M14 8h1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
         <div id="tb-actions"></div>
@@ -454,111 +1484,115 @@ function renderApp(){
     </div>
     <div class="content" id="content"></div>
   </main>`;
-  renderPage();
-}
+      renderPage();
+    }
 
-function ni(p,label,icon,badge=0){const act=pg===p?'active':'',dis=!can(p)?'disabled':'';return`<div class="nav-item ${act} ${dis}" onclick="nav('${p}')"><svg fill="none" viewBox="0 0 16 16">${icon}</svg><span>${label}</span>${badge>0?`<span class="nav-badge">${badge}</span>`:''}${!can(p)?`<svg class="lock-icon" fill="none" viewBox="0 0 16 16"><path d="M5 7V5a3 3 0 016 0v2M4 7h8a1 1 0 011 1v5a1 1 0 01-1 1H4a1 1 0 01-1-1V8a1 1 0 011-1z" stroke="currentColor" stroke-width="1.3"/></svg>`:''}</div>`;}
+    function ni(p, label, icon, badge = 0) { const act = pg === p ? 'active' : '', dis = !can(p) ? 'disabled' : ''; return `<div class="nav-item ${act} ${dis}" onclick="nav('${p}')"><svg fill="none" viewBox="0 0 16 16">${icon}</svg><span>${label}</span>${badge > 0 ? `<span class="nav-badge">${badge}</span>` : ''}${!can(p) ? `<svg class="lock-icon" fill="none" viewBox="0 0 16 16"><path d="M5 7V5a3 3 0 016 0v2M4 7h8a1 1 0 011 1v5a1 1 0 01-1 1H4a1 1 0 01-1-1V8a1 1 0 011-1z" stroke="currentColor" stroke-width="1.3"/></svg>` : ''}</div>`; }
 
-function renderPage(){
-  const ta=document.getElementById('tb-actions'),c=document.getElementById('content');if(!c)return;
-  const actions={productos:can('productos','w')?'<button class="btn btn-nx" onclick="showAddP()">+ Agregar</button>':'',ventas:'<button class="btn btn-nx" onclick="showAddV()">+ Nueva venta</button>',compras:can('compras','w')?'<button class="btn btn-nx" onclick="showAddC()">+ Nueva compra</button>':'',facturacion:'<button class="btn btn-nx" onclick="showNewFact()">+ Factura</button>'};
-  ta.innerHTML=actions[pg]||'';
-  const pages={dashboard:rDash,ia:rIA,pos:rPOS,ventas:rVentas,compras:rCompras,facturacion:rFact,productos:rProductos,inventario:rInv,kardex:rKardex,reportes:rReportes,alertas:rAlertas,usuarios:rUsuarios};
-  c.innerHTML=(pages[pg]||rDash)();
-  if(pg==='dashboard')setTimeout(buildDashCharts,60);
-  if(pg==='reportes')setTimeout(buildReportCharts,60);
-}
-function rc(){destCharts();const c=document.getElementById('content');if(!c)return;const pages={dashboard:rDash,ia:rIA,pos:rPOS,ventas:rVentas,compras:rCompras,facturacion:rFact,productos:rProductos,inventario:rInv,kardex:rKardex,reportes:rReportes,alertas:rAlertas,usuarios:rUsuarios};c.innerHTML=(pages[pg]||rDash)();if(pg==='dashboard')setTimeout(buildDashCharts,60);if(pg==='reportes')setTimeout(buildReportCharts,60);}
+    function renderPage() {
+      const ta = document.getElementById('tb-actions'), c = document.getElementById('content'); if (!c) return;
+      const actions = { productos: can('productos', 'w') ? '<button class="btn btn-nx" onclick="showAddP()">+ Agregar</button>' : '', ventas: '<button class="btn btn-nx" onclick="showAddV()">+ Nueva venta</button>', compras: can('compras', 'w') ? '<button class="btn btn-nx" onclick="showAddC()">+ Nueva compra</button>' : '', facturacion: '<button class="btn btn-nx" onclick="showNewFact()">+ Factura</button>' };
+      ta.innerHTML = actions[pg] || '';
+      const pages = { dashboard: rDash, ia: rIA, pos: rPOS, ventas: rVentas, compras: rCompras, facturacion: rFact, productos: rProductos, inventario: rInv, kardex: rKardex, reportes: rReportes, alertas: rAlertas, usuarios: rUsuarios };
+      c.innerHTML = (pages[pg] || rDash)();
+      if (pg === 'dashboard') setTimeout(buildDashCharts, 60);
+      if (pg === 'reportes') setTimeout(buildReportCharts, 60);
+    }
+    function rc() { loadAll(); setTimeout(() => { destCharts(); const c = document.getElementById('content'); if (!c) return; const pages = { dashboard: rDash, ia: rIA, pos: rPOS, ventas: rVentas, compras: rCompras, facturacion: rFact, productos: rProductos, inventario: rInv, kardex: rKardex, reportes: rReportes, alertas: rAlertas, usuarios: rUsuarios }; c.innerHTML = (pages[pg] || rDash)(); if (pg === 'dashboard') setTimeout(buildDashCharts, 60); if (pg === 'reportes') setTimeout(buildReportCharts, 60); }, 50); }
 
-function renderLogin(){return`<div class="login-screen"><div class="login-card"><div class="login-logo"><div style="display:flex;justify-content:center;margin-bottom:12px">${nexusLogo(90,56)}</div><div style="font-size:26px;font-weight:700;background:linear-gradient(90deg,#1a8db8,#1a3a6e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:2px">NEXUS</div><p style="font-size:12px;color:var(--text2);margin-top:4px">Sistema de gestión farmacéutica · GT</p></div><div id="lerr" class="login-err"></div><div class="fg"><label>Usuario</label><input id="lu" placeholder="Ingresa tu usuario" onkeydown="if(event.key==='Enter')doLogin()"></div><div class="fg"><label>Contraseña</label><input id="lp" type="password" placeholder="Contraseña" onkeydown="if(event.key==='Enter')doLogin()"></div><button class="btn btn-nx" style="width:100%;justify-content:center;padding:10px;font-size:13px" onclick="doLogin()">Iniciar sesión</button><div class="login-hint"><div style="font-weight:600;margin-bottom:4px">Cuentas de prueba:</div><span class="badge bp">admin</span> admin1 / admin123 &nbsp; <span class="badge bp">admin</span> admin2 / admin456<br><span class="badge bg">vendedor</span> vendedor1 / vend123</div></div></div>`;}
-function doLogin(){const u=document.getElementById('lu').value.trim(),p=document.getElementById('lp').value;const err=document.getElementById('lerr'),found=users.find(x=>x.usuario===u&&x.pass===p&&x.activo);if(!found){err.style.display='block';err.textContent='Usuario o contraseña incorrectos';return;}session=found;addLog('LOGIN','Sesión iniciada');saveAll();renderApp();showToast('Bienvenido, '+found.nombre.split(' ')[0]);}
-function doLogout(){addLog('LOGOUT','Sesión cerrada');saveAll();session=null;renderApp();}
+    function renderLogin() { return `<div class="login-screen"><div class="login-card"><div class="login-logo"><div style="display:flex;justify-content:center;margin-bottom:12px">${nexusLogo(90, 56)}</div><div style="font-size:26px;font-weight:700;background:linear-gradient(90deg,#1a8db8,#1a3a6e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:2px">NEXUS</div><p style="font-size:12px;color:var(--text2);margin-top:4px">Sistema de gestión farmacéutica · GT</p></div><div id="lerr" class="login-err"></div><div class="fg"><label>Usuario</label><input id="lu" placeholder="Ingresa tu usuario" onkeydown="if(event.key==='Enter')doLogin()"></div><div class="fg"><label>Contraseña</label><input id="lp" type="password" placeholder="Contraseña" onkeydown="if(event.key==='Enter')doLogin()"></div><button class="btn btn-nx" style="width:100%;justify-content:center;padding:10px;font-size:13px" onclick="doLogin()">Iniciar sesión</button><div class="login-hint"><div style="font-weight:600;margin-bottom:4px">Cuentas de prueba:</div><span class="badge bp">admin</span> admin1 / admin123 &nbsp; <span class="badge bp">admin</span> admin2 / admin456<br><span class="badge bg">vendedor</span> vendedor1 / vend123</div></div></div>`; }
+    async function doLogin() { const u = document.getElementById('lu').value.trim(), p = document.getElementById('lp').value; const err = document.getElementById('lerr'); try { const res = await APIService.login(u, p); if (res.success) { session = { id: res.id, nombre: res.nombre, usuario: res.usuario, email: res.email, rol: res.rol }; addLog('LOGIN', 'Sesión iniciada'); renderApp(); showToast('Bienvenido, ' + res.nombre.split(' ')[0]); } else { err.style.display = 'block'; err.textContent = 'Usuario o contraseña incorrectos'; } } catch (e) { err.style.display = 'block'; err.textContent = 'Error al conectar con servidor'; } }
+    async function doLogout() { try { await APIService.logout(); session = null; renderApp(); showToast('Sesión cerrada'); } catch (e) { } }
 
-function filterByPer(arr,f){if(filterPer==='todo')return arr;const h=new Date();h.setHours(0,0,0,0);return arr.filter(x=>{const d=new Date(x[f]+'T00:00:00');if(filterPer==='dia')return d>=h;if(filterPer==='semana'){const s=new Date(h);s.setDate(s.getDate()-7);return d>=s;}if(filterPer==='mes'){const m=new Date(h);m.setDate(1);return d>=m;}return true;});}
+    function filterByPer(arr, f) { if (filterPer === 'todo') return arr; const h = new Date(); h.setHours(0, 0, 0, 0); return arr.filter(x => { const d = new Date(x[f] + 'T00:00:00'); if (filterPer === 'dia') return d >= h; if (filterPer === 'semana') { const s = new Date(h); s.setDate(s.getDate() - 7); return d >= s; } if (filterPer === 'mes') { const m = new Date(h); m.setDate(1); return d >= m; } return true; }); }
 
-function rDash(){const tv=db.ventas.reduce((s,v)=>s+v.total,0),tc=db.compras.reduce((s,c)=>s+c.total,0);const gan=db.ventas.reduce((s,v)=>{const p=db.productos.find(x=>x.id===v.productoId);return s+(p?(v.precio-p.costo)*v.cantidad:0);},0);const h=hoy(),vhoy=db.ventas.filter(v=>v.fecha===h);const wd=new Date();wd.setDate(wd.getDate()-7);const vsem=db.ventas.filter(v=>new Date(v.fecha+'T00:00:00')>=wd);const md=new Date();md.setDate(1);const vmes=db.ventas.filter(v=>new Date(v.fecha+'T00:00:00')>=md);const sb=db.productos.filter(p=>p.stock<=p.stockMin),pc=db.productos.filter(p=>dias(p.caducidad)<=30&&dias(p.caducidad)>0);const margen=tv>0?Math.round(gan/tv*100):0;
-return`${sb.length>0||pc.length>0?`<div style="margin-bottom:12px">${sb.length>0?`<div class="alert-banner alert-a"><strong>${sb.length}</strong> productos con stock bajo</div>`:''}${pc.length>0?`<div class="alert-banner alert-r" style="margin-top:6px"><strong>${pc.length}</strong> productos por vencer en 30 días</div>`:''}</div>`:''}
+    function rDash() {
+      const tv = db.ventas.reduce((s, v) => s + v.total, 0), tc = db.compras.reduce((s, c) => s + c.total, 0); const gan = db.ventas.reduce((s, v) => { const p = db.productos.find(x => x.id === v.productoId); return s + (p ? (v.precio - p.costo) * v.cantidad : 0); }, 0); const h = hoy(), vhoy = db.ventas.filter(v => v.fecha === h); const wd = new Date(); wd.setDate(wd.getDate() - 7); const vsem = db.ventas.filter(v => new Date(v.fecha + 'T00:00:00') >= wd); const md = new Date(); md.setDate(1); const vmes = db.ventas.filter(v => new Date(v.fecha + 'T00:00:00') >= md); const sb = db.productos.filter(p => p.stock <= p.stockMin), pc = db.productos.filter(p => dias(p.caducidad) <= 30 && dias(p.caducidad) > 0); const margen = tv > 0 ? Math.round(gan / tv * 100) : 0;
+      return `${sb.length > 0 || pc.length > 0 ? `<div style="margin-bottom:12px">${sb.length > 0 ? `<div class="alert-banner alert-a"><strong>${sb.length}</strong> productos con stock bajo</div>` : ''}${pc.length > 0 ? `<div class="alert-banner alert-r" style="margin-top:6px"><strong>${pc.length}</strong> productos por vencer en 30 días</div>` : ''}</div>` : ''}
 <div class="sg g4"><div class="stat-card"><div class="stat-icon" style="background:var(--greenl)"><svg fill="none" viewBox="0 0 24 24" stroke="var(--greend)" stroke-width="2"><path d="M12 8c-1.7 0-3 .7-3 2s1.3 2 3 2 3 .7 3 2-1.3 2-3 2m0-8c1.7 0 3 .7 3 2m-3-2v-1m0 9v1"/></svg></div><div class="stat-label">Ventas totales</div><div class="stat-value" style="color:var(--green)">Q${fmt(tv)}</div><div class="stat-sub">${db.ventas.length} transacciones</div></div>
 <div class="stat-card"><div class="stat-icon" style="background:var(--bluel)"><svg fill="none" viewBox="0 0 24 24" stroke="var(--blued)" stroke-width="2"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg></div><div class="stat-label">Ganancia neta</div><div class="stat-value" style="color:var(--nx1)">Q${fmt(gan)}</div><div class="stat-sub">Margen ${margen}%<div class="progress-bar"><div class="progress-fill" style="width:${margen}%;background:var(--nx1)"></div></div></div></div>
 <div class="stat-card"><div class="stat-icon" style="background:var(--amberl)"><svg fill="none" viewBox="0 0 24 24" stroke="var(--amberd)" stroke-width="2"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2zM1 10h22"/></svg></div><div class="stat-label">Compras</div><div class="stat-value" style="color:var(--amber)">Q${fmt(tc)}</div><div class="stat-sub">${db.compras.length} órdenes</div></div>
-<div class="stat-card"><div class="stat-icon" style="background:var(--redl)"><svg fill="none" viewBox="0 0 24 24" stroke="var(--redd)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div><div class="stat-label">Alertas</div><div class="stat-value" style="color:var(--red)">${sb.length+pc.length}</div><div class="stat-sub">${sb.length} stock · ${pc.length} vencen</div></div></div>
-<div class="sg g3"><div class="stat-card"><div class="stat-label">Hoy</div><div class="stat-value">Q${fmt(vhoy.reduce((s,v)=>s+v.total,0))}</div><div class="stat-sub">${vhoy.length} ventas</div></div><div class="stat-card"><div class="stat-label">Esta semana</div><div class="stat-value">Q${fmt(vsem.reduce((s,v)=>s+v.total,0))}</div><div class="stat-sub">${vsem.length} ventas</div></div><div class="stat-card"><div class="stat-label">Este mes</div><div class="stat-value">Q${fmt(vmes.reduce((s,v)=>s+v.total,0))}</div><div class="stat-sub">${vmes.length} ventas</div></div></div>
+<div class="stat-card"><div class="stat-icon" style="background:var(--redl)"><svg fill="none" viewBox="0 0 24 24" stroke="var(--redd)" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div><div class="stat-label">Alertas</div><div class="stat-value" style="color:var(--red)">${sb.length + pc.length}</div><div class="stat-sub">${sb.length} stock · ${pc.length} vencen</div></div></div>
+<div class="sg g3"><div class="stat-card"><div class="stat-label">Hoy</div><div class="stat-value">Q${fmt(vhoy.reduce((s, v) => s + v.total, 0))}</div><div class="stat-sub">${vhoy.length} ventas</div></div><div class="stat-card"><div class="stat-label">Esta semana</div><div class="stat-value">Q${fmt(vsem.reduce((s, v) => s + v.total, 0))}</div><div class="stat-sub">${vsem.length} ventas</div></div><div class="stat-card"><div class="stat-label">Este mes</div><div class="stat-value">Q${fmt(vmes.reduce((s, v) => s + v.total, 0))}</div><div class="stat-sub">${vmes.length} ventas</div></div></div>
 <div class="sg g2"><div class="card"><div class="card-header"><span class="card-title">Ventas 14 días</span></div><div class="chart-container" style="height:160px"><canvas id="dc1" role="img" aria-label="Ventas">Gráfica</canvas></div></div><div class="card"><div class="card-header"><span class="card-title">Top productos</span></div><div class="chart-container" style="height:160px"><canvas id="dc2" role="img" aria-label="Productos">Gráfica</canvas></div></div></div>
-<div class="sg g2"><div class="card"><div class="card-header"><span class="card-title">Métodos de pago</span></div><div class="chart-container" style="height:140px"><canvas id="dc3" role="img" aria-label="Pagos">Gráfica</canvas></div></div><div class="card"><div class="card-header"><span class="card-title">Últimas ventas</span></div><table><thead><tr><th>Producto</th><th>Cliente</th><th>Total</th></tr></thead><tbody>${[...db.ventas].sort((a,b)=>b.id-a.id).slice(0,5).map(v=>`<tr><td>${v.producto.split(' ')[0]}</td><td>${v.cliente.split(' ')[0]}</td><td style="color:var(--green);font-weight:500">Q${fmt(v.total)}</td></tr>`).join('')}</tbody></table></div></div>`;}
+<div class="sg g2"><div class="card"><div class="card-header"><span class="card-title">Métodos de pago</span></div><div class="chart-container" style="height:140px"><canvas id="dc3" role="img" aria-label="Pagos">Gráfica</canvas></div></div><div class="card"><div class="card-header"><span class="card-title">Últimas ventas</span></div><table><thead><tr><th>Producto</th><th>Cliente</th><th>Total</th></tr></thead><tbody>${[...db.ventas].sort((a, b) => b.id - a.id).slice(0, 5).map(v => `<tr><td>${v.producto.split(' ')[0]}</td><td>${v.cliente.split(' ')[0]}</td><td style="color:var(--green);font-weight:500">Q${fmt(v.total)}</td></tr>`).join('')}</tbody></table></div></div>`;
+    }
 
-function buildDashCharts(){const tc=darkMode?'#9ca3af':'#6c757d',gc=darkMode?'rgba(255,255,255,.04)':'rgba(0,0,0,.04)';const l14=[],d14=[];for(let i=13;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const ds=d.toISOString().split('T')[0];l14.push(ds.slice(5));d14.push(db.ventas.filter(v=>v.fecha===ds).reduce((s,v)=>s+v.total,0));}const c1=document.getElementById('dc1');if(c1)charts.dc1=new Chart(c1,{type:'bar',data:{labels:l14,datasets:[{data:d14,backgroundColor:'#1a8db8',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:9},color:tc,maxRotation:45,autoSkip:false},grid:{display:false}},y:{ticks:{font:{size:9},color:tc,callback:v=>'Q'+v},grid:{color:gc}}}}});const topP={};db.ventas.forEach(v=>{topP[v.producto]=(topP[v.producto]||0)+v.cantidad;});const top5=Object.entries(topP).sort((a,b)=>b[1]-a[1]).slice(0,5);const c2=document.getElementById('dc2');if(c2)charts.dc2=new Chart(c2,{type:'bar',data:{labels:top5.map(x=>x[0].split(' ')[0]),datasets:[{data:top5.map(x=>x[1]),backgroundColor:['#1a8db8','#1a3a6e','#1D9E75','#534AB7','#E24B4A'],borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:9},color:tc},grid:{display:false}},y:{ticks:{font:{size:9},color:tc},grid:{color:gc}}}}});const metodos={efectivo:0,transferencia:0,tarjeta:0};db.ventas.forEach(v=>{if(metodos[v.metodoPago]!==undefined)metodos[v.metodoPago]++;});const c3=document.getElementById('dc3');if(c3)charts.dc3=new Chart(c3,{type:'doughnut',data:{labels:['Efectivo','Transferencia','Tarjeta'],datasets:[{data:Object.values(metodos),backgroundColor:['#1a8db8','#1a3a6e','#1D9E75'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:10},color:tc,padding:8,boxWidth:10}}}}});}
+    function buildDashCharts() { const tc = darkMode ? '#9ca3af' : '#6c757d', gc = darkMode ? 'rgba(255,255,255,.04)' : 'rgba(0,0,0,.04)'; const l14 = [], d14 = []; for (let i = 13; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); const ds = d.toISOString().split('T')[0]; l14.push(ds.slice(5)); d14.push(db.ventas.filter(v => v.fecha === ds).reduce((s, v) => s + v.total, 0)); } const c1 = document.getElementById('dc1'); if (c1) charts.dc1 = new Chart(c1, { type: 'bar', data: { labels: l14, datasets: [{ data: d14, backgroundColor: '#1a8db8', borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { font: { size: 9 }, color: tc, maxRotation: 45, autoSkip: false }, grid: { display: false } }, y: { ticks: { font: { size: 9 }, color: tc, callback: v => 'Q' + v }, grid: { color: gc } } } } }); const topP = {}; db.ventas.forEach(v => { topP[v.producto] = (topP[v.producto] || 0) + v.cantidad; }); const top5 = Object.entries(topP).sort((a, b) => b[1] - a[1]).slice(0, 5); const c2 = document.getElementById('dc2'); if (c2) charts.dc2 = new Chart(c2, { type: 'bar', data: { labels: top5.map(x => x[0].split(' ')[0]), datasets: [{ data: top5.map(x => x[1]), backgroundColor: ['#1a8db8', '#1a3a6e', '#1D9E75', '#534AB7', '#E24B4A'], borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { font: { size: 9 }, color: tc }, grid: { display: false } }, y: { ticks: { font: { size: 9 }, color: tc }, grid: { color: gc } } } } }); const metodos = { efectivo: 0, transferencia: 0, tarjeta: 0 }; db.ventas.forEach(v => { if (metodos[v.metodoPago] !== undefined) metodos[v.metodoPago]++; }); const c3 = document.getElementById('dc3'); if (c3) charts.dc3 = new Chart(c3, { type: 'doughnut', data: { labels: ['Efectivo', 'Transferencia', 'Tarjeta'], datasets: [{ data: Object.values(metodos), backgroundColor: ['#1a8db8', '#1a3a6e', '#1D9E75'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { font: { size: 10 }, color: tc, padding: 8, boxWidth: 10 } } } } }); }
 
-function rIA(){return`<div style="display:flex;flex-direction:column;height:calc(100vh - 120px)"><div class="card" style="flex:1;overflow-y:auto;margin-bottom:0;border-bottom-left-radius:0;border-bottom-right-radius:0" id="ia-chat"><div id="ia-msgs"><div class="ia-msg bot">Hola, soy el <strong>Asistente IA de NEXUS</strong>. Analizo inventario en tiempo real. ¿En qué te ayudo?</div></div></div><div style="background:var(--bg2);border:1px solid var(--bdr);border-top:none;border-bottom-left-radius:var(--radius);border-bottom-right-radius:var(--radius);padding:10px"><div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap">${['¿Qué se vende más?','¿Qué debo reordenar?','Predicción de ventas','Análisis de ganancias','Productos por vencer'].map(q=>`<button class="btn btn-sm" onclick="iaQuick('${q}')">${q}</button>`).join('')}</div><div style="display:flex;gap:8px"><input id="ia-input" style="flex:1;padding:8px 10px;border:1px solid var(--bdr2);border-radius:var(--radius-sm);font-size:12px;background:var(--bg);color:var(--text);font-family:var(--font);outline:none" placeholder="Pregunta sobre ventas, inventario o alertas..." onkeydown="if(event.key==='Enter')iaSend()"><button class="btn btn-nx" onclick="iaSend()">Enviar</button></div></div></div>`;}
-function iaQuick(q){document.getElementById('ia-input').value=q;iaSend();}
-function iaSend(){const inp=document.getElementById('ia-input');if(!inp)return;const q=inp.value.trim();if(!q)return;inp.value='';const msgs=document.getElementById('ia-msgs');msgs.innerHTML+=`<div class="ia-msg user">${q}</div>`;msgs.innerHTML+=`<div id="ia-typing" class="ia-typing"><div class="ia-dot"></div><div class="ia-dot"></div><div class="ia-dot"></div></div>`;document.getElementById('ia-chat').scrollTop=99999;setTimeout(()=>{const t=document.getElementById('ia-typing');if(t)t.remove();msgs.innerHTML+=`<div class="ia-msg bot">${iaAnalyze(q)}</div>`;document.getElementById('ia-chat').scrollTop=99999;},1000+Math.random()*600);}
-function iaAnalyze(q){const ql=q.toLowerCase();const tv=db.ventas.reduce((s,v)=>s+v.total,0);const gan=db.ventas.reduce((s,v)=>{const p=db.productos.find(x=>x.id===v.productoId);return s+(p?(v.precio-p.costo)*v.cantidad:0);},0);const sb=db.productos.filter(p=>p.stock<=p.stockMin);const cad30=db.productos.filter(p=>dias(p.caducidad)<=30&&dias(p.caducidad)>0);const topP={};db.ventas.forEach(v=>{topP[v.producto]=(topP[v.producto]||0)+v.cantidad;});const top3=Object.entries(topP).sort((a,b)=>b[1]-a[1]).slice(0,3);
-if(ql.includes('vend')&&ql.includes('más')||ql.includes('top'))return`<strong>Más vendidos:</strong><br>${top3.map((x,i)=>`${i+1}. ${x[0]} — ${x[1]} uds`).join('<br>')}`;if(ql.includes('reorden')||ql.includes('reabast')){if(sb.length===0)return'Todo el stock está bien.';return`<strong>Reordenar:</strong><br>${sb.map(p=>`• ${p.nombre} — Stock: ${p.stock} (mín: ${p.stockMin})`).join('<br>')}`.slice(0,400);}if(ql.includes('predicci')){const avg=tv/30;return`<strong>Predicción 30 días:</strong><br>• Ventas: Q${(avg*30).toFixed(2)}<br>• Trans: ~${Math.round(db.ventas.length/4*1.05)}`;}if(ql.includes('ganancia')||ql.includes('margen')){const m=tv>0?Math.round(gan/tv*100):0;return`<strong>Ganancias:</strong><br>• Ventas: Q${fmt(tv)}<br>• Ganancia: Q${fmt(gan)}<br>• Margen: ${m}%`;}if(ql.includes('vencer')||ql.includes('caducar')){if(cad30.length===0)return'Sin productos por vencer pronto.';return`<strong>Por vencer:</strong><br>${cad30.map(p=>`• ${p.nombre} — ${dias(p.caducidad)} días`).join('<br>')}`.slice(0,400);}return`NEXUS tiene <strong>${db.productos.length} productos</strong>, <strong>${db.ventas.length} ventas</strong>, total <strong>Q${fmt(tv)}</strong>. Consulta ventas, reabastecimiento, predicciones o caducidades.`;}
+    function rIA() { return `<div style="display:flex;flex-direction:column;height:calc(100vh - 120px)"><div class="card" style="flex:1;overflow-y:auto;margin-bottom:0;border-bottom-left-radius:0;border-bottom-right-radius:0" id="ia-chat"><div id="ia-msgs"><div class="ia-msg bot">Hola, soy el <strong>Asistente IA de NEXUS</strong>. Analizo inventario en tiempo real. ¿En qué te ayudo?</div></div></div><div style="background:var(--bg2);border:1px solid var(--bdr);border-top:none;border-bottom-left-radius:var(--radius);border-bottom-right-radius:var(--radius);padding:10px"><div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap">${['¿Qué se vende más?', '¿Qué debo reordenar?', 'Predicción de ventas', 'Análisis de ganancias', 'Productos por vencer'].map(q => `<button class="btn btn-sm" onclick="iaQuick('${q}')">${q}</button>`).join('')}</div><div style="display:flex;gap:8px"><input id="ia-input" style="flex:1;padding:8px 10px;border:1px solid var(--bdr2);border-radius:var(--radius-sm);font-size:12px;background:var(--bg);color:var(--text);font-family:var(--font);outline:none" placeholder="Pregunta sobre ventas, inventario o alertas..." onkeydown="if(event.key==='Enter')iaSend()"><button class="btn btn-nx" onclick="iaSend()">Enviar</button></div></div></div>`; }
+    function iaQuick(q) { document.getElementById('ia-input').value = q; iaSend(); }
+    function iaSend() { const inp = document.getElementById('ia-input'); if (!inp) return; const q = inp.value.trim(); if (!q) return; inp.value = ''; const msgs = document.getElementById('ia-msgs'); msgs.innerHTML += `<div class="ia-msg user">${q}</div>`; msgs.innerHTML += `<div id="ia-typing" class="ia-typing"><div class="ia-dot"></div><div class="ia-dot"></div><div class="ia-dot"></div></div>`; document.getElementById('ia-chat').scrollTop = 99999; setTimeout(() => { const t = document.getElementById('ia-typing'); if (t) t.remove(); msgs.innerHTML += `<div class="ia-msg bot">${iaAnalyze(q)}</div>`; document.getElementById('ia-chat').scrollTop = 99999; }, 1000 + Math.random() * 600); }
+    function iaAnalyze(q) {
+      const ql = q.toLowerCase(); const tv = db.ventas.reduce((s, v) => s + v.total, 0); const gan = db.ventas.reduce((s, v) => { const p = db.productos.find(x => x.id === v.productoId); return s + (p ? (v.precio - p.costo) * v.cantidad : 0); }, 0); const sb = db.productos.filter(p => p.stock <= p.stockMin); const cad30 = db.productos.filter(p => dias(p.caducidad) <= 30 && dias(p.caducidad) > 0); const topP = {}; db.ventas.forEach(v => { topP[v.producto] = (topP[v.producto] || 0) + v.cantidad; }); const top3 = Object.entries(topP).sort((a, b) => b[1] - a[1]).slice(0, 3);
+      if (ql.includes('vend') && ql.includes('más') || ql.includes('top')) return `<strong>Más vendidos:</strong><br>${top3.map((x, i) => `${i + 1}. ${x[0]} — ${x[1]} uds`).join('<br>')}`; if (ql.includes('reorden') || ql.includes('reabast')) { if (sb.length === 0) return 'Todo el stock está bien.'; return `<strong>Reordenar:</strong><br>${sb.map(p => `• ${p.nombre} — Stock: ${p.stock} (mín: ${p.stockMin})`).join('<br>')}`.slice(0, 400); } if (ql.includes('predicci')) { const avg = tv / 30; return `<strong>Predicción 30 días:</strong><br>• Ventas: Q${(avg * 30).toFixed(2)}<br>• Trans: ~${Math.round(db.ventas.length / 4 * 1.05)}`; } if (ql.includes('ganancia') || ql.includes('margen')) { const m = tv > 0 ? Math.round(gan / tv * 100) : 0; return `<strong>Ganancias:</strong><br>• Ventas: Q${fmt(tv)}<br>• Ganancia: Q${fmt(gan)}<br>• Margen: ${m}%`; } if (ql.includes('vencer') || ql.includes('caducar')) { if (cad30.length === 0) return 'Sin productos por vencer pronto.'; return `<strong>Por vencer:</strong><br>${cad30.map(p => `• ${p.nombre} — ${dias(p.caducidad)} días`).join('<br>')}`.slice(0, 400); } return `NEXUS tiene <strong>${db.productos.length} productos</strong>, <strong>${db.ventas.length} ventas</strong>, total <strong>Q${fmt(tv)}</strong>. Consulta ventas, reabastecimiento, predicciones o caducidades.`;
+    }
 
-function rPOS(){const total=posCart.reduce((s,i)=>s+i.precio*i.qty*(1-i.desc/100),0);return`<div class="sg g2" style="height:calc(100vh - 120px)"><div class="card" style="height:100%;overflow-y:auto"><div class="card-header"><span class="card-title">Productos disponibles</span></div><div class="search-box" style="max-width:100%;margin-bottom:10px"><svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><input id="pos-search" placeholder="Buscar o código de barras..." oninput="posFilter(this.value)"></div><div id="pos-products">${renderPOSProducts('')}</div></div><div class="card" style="display:flex;flex-direction:column;height:100%"><div class="card-header"><span class="card-title">Carrito</span><span class="badge bb">${posCart.length} items</span></div><div style="flex:1;overflow-y:auto">${posCart.length===0?'<div class="empty-state">Agrega productos</div>':posCart.map((it,i)=>`<div class="pos-item"><div class="pos-item-name">${it.nombre}<br><span style="font-size:10px;color:var(--text2)">Q${fmt(it.precio)} · Dto:<input type="number" min="0" max="100" value="${it.desc}" style="width:36px;font-size:11px;padding:1px 4px;border:1px solid var(--bdr2);border-radius:3px;background:var(--bg);color:var(--text);margin-left:3px" onchange="posSetDesc(${i},this.value)">%</span></div><div class="pos-qty"><button onclick="posQty(${i},-1)">−</button><span style="font-size:12px;font-weight:500;min-width:20px;text-align:center">${it.qty}</span><button onclick="posQty(${i},1)">+</button></div><span style="font-weight:600;color:var(--nx1);min-width:60px;text-align:right">Q${fmt(it.precio*it.qty*(1-it.desc/100))}</span><button class="btn-icon" onclick="posRemove(${i})"><svg width="12" height="12" fill="none" viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button></div>`).join('')}</div>${posCart.length>0?`<div style="border-top:1px solid var(--bdr);padding-top:12px;margin-top:8px"><div class="fg"><label>NIT / Cliente</label><input id="pos-nit" value="CF"></div><div class="fg"><label>Método de pago</label><select id="pos-pago"><option value="efectivo">Efectivo</option><option value="transferencia">Transferencia</option><option value="tarjeta">Tarjeta</option></select></div><div class="fg"><label>Efectivo recibido</label><input id="pos-cash" type="number" step="0.01" value="${total.toFixed(2)}" oninput="posCalcCambio()"></div><div style="display:flex;justify-content:space-between;margin:8px 0"><span style="color:var(--text2)">Total</span><span style="font-weight:700;color:var(--nx1);font-size:16px">Q${fmt(total)}</span></div><div style="display:flex;justify-content:space-between;margin-bottom:10px"><span style="color:var(--text2);font-size:12px">Cambio</span><span id="pos-cambio" style="font-weight:600;color:var(--blue);font-size:12px">Q0.00</span></div><button class="btn btn-nx" style="width:100%;justify-content:center;padding:10px" onclick="posFinalizar()">Finalizar venta</button></div>`:''}</div></div>`;}
-function renderPOSProducts(q){const ql=q.toLowerCase();return db.productos.filter(p=>p.stock>0&&(!ql||p.nombre.toLowerCase().includes(ql)||p.codigo?.includes(ql)||p.categoria.toLowerCase().includes(ql))).map(p=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--bdr);cursor:pointer" onclick="posAdd(${p.id})"><div><div style="font-size:12px;font-weight:500">${p.nombre}</div><div style="font-size:10px;color:var(--text2)">${p.categoria} · Stock: ${p.stock}</div></div><div style="font-weight:600;color:var(--nx1)">Q${fmt(p.precio)}</div></div>`).join('');}
-function posFilter(q){const el=document.getElementById('pos-products');if(el)el.innerHTML=renderPOSProducts(q);}
-function posAdd(id){const p=db.productos.find(x=>x.id===id);if(!p||p.stock<=0)return;const ex=posCart.find(x=>x.id===id);if(ex){if(ex.qty<p.stock)ex.qty++;}else posCart.push({id,nombre:p.nombre,precio:p.precio,qty:1,desc:0});rc();}
-function posQty(i,d){const it=posCart[i];if(!it)return;const p=db.productos.find(x=>x.id===it.id);it.qty=Math.max(1,Math.min(p?.stock||99,it.qty+d));rc();}
-function posRemove(i){posCart.splice(i,1);rc();}
-function posSetDesc(i,v){posCart[i].desc=Math.min(100,Math.max(0,parseFloat(v)||0));rc();}
-function posCalcCambio(){const tot=posCart.reduce((s,i)=>s+i.precio*i.qty*(1-i.desc/100),0);const cash=parseFloat(document.getElementById('pos-cash')?.value)||0;const el=document.getElementById('pos-cambio');if(el)el.textContent='Q'+fmt(Math.max(0,cash-tot));}
-function posFinalizar(){if(posCart.length===0)return;const nit=document.getElementById('pos-nit')?.value||'CF',pago=document.getElementById('pos-pago')?.value||'efectivo';let id=db.ventas.length?Math.max(...db.ventas.map(v=>v.id))+1:1;posCart.forEach(it=>{const p=db.productos.find(x=>x.id===it.id);if(!p)return;const tot=it.precio*it.qty*(1-it.desc/100);p.stock-=it.qty;db.ventas.push({id:id++,fecha:hoy(),productoId:it.id,producto:it.nombre,cantidad:it.qty,precio:it.precio,total:tot,cliente:nit,usuario:session.usuario,descuento:it.desc,nit,metodoPago:pago});});addLog('VENTA_POS',posCart.length+' items');posCart=[];saveAll();rc();showToast('Venta registrada');}
+    function rPOS() { const total = posCart.reduce((s, i) => s + i.precio * i.qty * (1 - i.desc / 100), 0); return `<div class="sg g2" style="height:calc(100vh - 120px)"><div class="card" style="height:100%;overflow-y:auto"><div class="card-header"><span class="card-title">Productos disponibles</span></div><div class="search-box" style="max-width:100%;margin-bottom:10px"><svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><input id="pos-search" placeholder="Buscar o código de barras..." oninput="posFilter(this.value)"></div><div id="pos-products">${renderPOSProducts('')}</div></div><div class="card" style="display:flex;flex-direction:column;height:100%"><div class="card-header"><span class="card-title">Carrito</span><span class="badge bb">${posCart.length} items</span></div><div style="flex:1;overflow-y:auto">${posCart.length === 0 ? '<div class="empty-state">Agrega productos</div>' : posCart.map((it, i) => `<div class="pos-item"><div class="pos-item-name">${it.nombre}<br><span style="font-size:10px;color:var(--text2)">Q${fmt(it.precio)} · Dto:<input type="number" min="0" max="100" value="${it.desc}" style="width:36px;font-size:11px;padding:1px 4px;border:1px solid var(--bdr2);border-radius:3px;background:var(--bg);color:var(--text);margin-left:3px" onchange="posSetDesc(${i},this.value)">%</span></div><div class="pos-qty"><button onclick="posQty(${i},-1)">−</button><span style="font-size:12px;font-weight:500;min-width:20px;text-align:center">${it.qty}</span><button onclick="posQty(${i},1)">+</button></div><span style="font-weight:600;color:var(--nx1);min-width:60px;text-align:right">Q${fmt(it.precio * it.qty * (1 - it.desc / 100))}</span><button class="btn-icon" onclick="posRemove(${i})"><svg width="12" height="12" fill="none" viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button></div>`).join('')}</div>${posCart.length > 0 ? `<div style="border-top:1px solid var(--bdr);padding-top:12px;margin-top:8px"><div class="fg"><label>NIT / Cliente</label><input id="pos-nit" value="CF"></div><div class="fg"><label>Método de pago</label><select id="pos-pago"><option value="efectivo">Efectivo</option><option value="transferencia">Transferencia</option><option value="tarjeta">Tarjeta</option></select></div><div class="fg"><label>Efectivo recibido</label><input id="pos-cash" type="number" step="0.01" value="${total.toFixed(2)}" oninput="posCalcCambio()"></div><div style="display:flex;justify-content:space-between;margin:8px 0"><span style="color:var(--text2)">Total</span><span style="font-weight:700;color:var(--nx1);font-size:16px">Q${fmt(total)}</span></div><div style="display:flex;justify-content:space-between;margin-bottom:10px"><span style="color:var(--text2);font-size:12px">Cambio</span><span id="pos-cambio" style="font-weight:600;color:var(--blue);font-size:12px">Q0.00</span></div><button class="btn btn-nx" style="width:100%;justify-content:center;padding:10px" onclick="posFinalizar()">Finalizar venta</button></div>` : ''}</div></div>`; }
+    function renderPOSProducts(q) { const ql = q.toLowerCase(); return db.productos.filter(p => p.stock > 0 && (!ql || p.nombre.toLowerCase().includes(ql) || p.codigo?.includes(ql) || p.categoria.toLowerCase().includes(ql))).map(p => `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--bdr);cursor:pointer" onclick="posAdd(${p.id})"><div><div style="font-size:12px;font-weight:500">${p.nombre}</div><div style="font-size:10px;color:var(--text2)">${p.categoria} · Stock: ${p.stock}</div></div><div style="font-weight:600;color:var(--nx1)">Q${fmt(p.precio)}</div></div>`).join(''); }
+    function posFilter(q) { const el = document.getElementById('pos-products'); if (el) el.innerHTML = renderPOSProducts(q); }
+    function posAdd(id) { const p = db.productos.find(x => x.id === id); if (!p || p.stock <= 0) return; const ex = posCart.find(x => x.id === id); if (ex) { if (ex.qty < p.stock) ex.qty++; } else posCart.push({ id, nombre: p.nombre, precio: p.precio, qty: 1, desc: 0 }); rc(); }
+    function posQty(i, d) { const it = posCart[i]; if (!it) return; const p = db.productos.find(x => x.id === it.id); it.qty = Math.max(1, Math.min(p?.stock || 99, it.qty + d)); rc(); }
+    function posRemove(i) { posCart.splice(i, 1); rc(); }
+    function posSetDesc(i, v) { posCart[i].desc = Math.min(100, Math.max(0, parseFloat(v) || 0)); rc(); }
+    function posCalcCambio() { const tot = posCart.reduce((s, i) => s + i.precio * i.qty * (1 - i.desc / 100), 0); const cash = parseFloat(document.getElementById('pos-cash')?.value) || 0; const el = document.getElementById('pos-cambio'); if (el) el.textContent = 'Q' + fmt(Math.max(0, cash - tot)); }
+    async function posFinalizar() { if (posCart.length === 0) return; const nit = document.getElementById('pos-nit')?.value || 'CF', pago = document.getElementById('pos-pago')?.value || 'efectivo'; try{ for(const it of posCart){ const p = db.productos.find(x => x.id === it.id); if (!p) return; const tot = it.precio * it.qty * (1 - it.desc / 100); const venta = { fecha: hoy(), productoId: it.id, productoNombre: it.nombre, cantidad: it.qty, precio: it.precio, total: tot, cliente: nit, nit, descuento: it.desc, metodoPago: pago, usuarioId: session.id }; await APIService.createVenta(venta); } posCart = []; await loadAll(); rc(); showToast('Ventas registradas'); } catch(e){ showToast('Error al registrar ventas','error'); } }
 
-function rVentas(){
-  const src=session.rol==='vendedor'?db.ventas.filter(v=>v.usuario===session.usuario):db.ventas;
-  const pv=filterByPer(src,'fecha');const q=sq.toLowerCase();
-  const lista=[...pv].sort((a,b)=>b.id-a.id).filter(v=>!q||v.producto.toLowerCase().includes(q)||v.cliente.toLowerCase().includes(q));
-  const tv=lista.reduce((s,v)=>s+v.total,0),tg=lista.reduce((s,v)=>{const p=db.productos.find(x=>x.id===v.productoId);return s+(p?(v.precio-p.costo)*v.cantidad:0);},0);
-  return`
+    function rVentas() {
+      const src = session.rol === 'vendedor' ? db.ventas.filter(v => (v.usuario || '') === session.usuario) : db.ventas;
+      const pv = filterByPer(src, 'fecha'); const q = sq.toLowerCase();
+      const lista = [...pv].sort((a, b) => b.id - a.id).filter(v => !q || (v.producto || v.productoNombre || '').toLowerCase().includes(q) || (v.cliente || '').toLowerCase().includes(q));
+      const tv = lista.reduce((s, v) => s + v.total, 0), tg = lista.reduce((s, v) => { const p = db.productos.find(x => x.id === v.productoId); return s + (p ? (v.precio - p.costo) * v.cantidad : 0); }, 0);
+      return `
   ${exportBar('ventas')}
-  <div class="sg g4"><div class="stat-card"><div class="stat-label">Total</div><div class="stat-value" style="color:var(--nx1)">Q${fmt(tv)}</div></div><div class="stat-card"><div class="stat-label">Ganancia</div><div class="stat-value" style="color:var(--blue)">Q${fmt(tg)}</div></div><div class="stat-card"><div class="stat-label">Transacciones</div><div class="stat-value">${lista.length}</div></div><div class="stat-card"><div class="stat-label">Promedio</div><div class="stat-value">${lista.length?'Q'+fmt(tv/lista.length):'Q0.00'}</div></div></div>
+  <div class="sg g4"><div class="stat-card"><div class="stat-label">Total</div><div class="stat-value" style="color:var(--nx1)">Q${fmt(tv)}</div></div><div class="stat-card"><div class="stat-label">Ganancia</div><div class="stat-value" style="color:var(--blue)">Q${fmt(tg)}</div></div><div class="stat-card"><div class="stat-label">Transacciones</div><div class="stat-value">${lista.length}</div></div><div class="stat-card"><div class="stat-label">Promedio</div><div class="stat-value">${lista.length ? 'Q' + fmt(tv / lista.length) : 'Q0.00'}</div></div></div>
   <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap">
-    <div class="filter-pills" style="margin:0">${[['todo','Todas'],['dia','Hoy'],['semana','Semana'],['mes','Mes']].map(([k,l])=>`<div class="pill ${filterPer===k?'active':''}" onclick="filterPer='${k}';rc()">${l}</div>`).join('')}</div>
+    <div class="filter-pills" style="margin:0">${[['todo', 'Todas'], ['dia', 'Hoy'], ['semana', 'Semana'], ['mes', 'Mes']].map(([k, l]) => `<div class="pill ${filterPer === k ? 'active' : ''}" onclick="filterPer='${k}';rc()">${l}</div>`).join('')}</div>
     <div class="search-box"><svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><input placeholder="Buscar..." value="${sq}" oninput="sq=this.value;rc()"></div>
   </div>
-  <div class="table-wrap"><table><thead><tr><th>#</th><th>Fecha</th><th>Producto</th><th>Cliente</th><th>Cant.</th><th>Total</th><th>Pago</th>${session.rol==='administrador'?'<th>Usuario</th>':''}<th></th></tr></thead><tbody>
-  ${lista.length===0?`<tr><td colspan="9"><div class="empty-state">Sin ventas</div></td></tr>`:lista.map(v=>`<tr><td style="font-size:10px;color:var(--text2)">#${String(v.id).padStart(4,'0')}</td><td>${v.fecha}</td><td>${v.producto.split(' ').slice(0,2).join(' ')}</td><td>${v.cliente}</td><td>${v.cantidad}</td><td style="font-weight:600;color:var(--nx1)">Q${fmt(v.total)}</td><td><span class="badge ${v.metodoPago==='efectivo'?'bg':v.metodoPago==='transferencia'?'bb':'bp'}">${v.metodoPago||'efect.'}</span></td>${session.rol==='administrador'?`<td><span class="badge bp">${v.usuario}</span></td>`:''}<td><button class="btn btn-sm btn-blue" onclick="showTicket(${v.id})">Ticket</button>${can('ventas','d')?` <button class="btn btn-sm btn-red" onclick="delV(${v.id})">X</button>`:''}</td></tr>`).join('')}
+  <div class="table-wrap"><table><thead><tr><th>#</th><th>Fecha</th><th>Producto</th><th>Cliente</th><th>Cant.</th><th>Total</th><th>Pago</th>${session.rol === 'administrador' ? '<th>Usuario</th>' : ''}<th></th></tr></thead><tbody>
+  ${lista.length === 0 ? `<tr><td colspan="9"><div class="empty-state">Sin ventas</div></td></tr>` : lista.map(v => { const prod = v.producto || v.productoNombre || ''; const usr = users.find(u => u.id === v.usuarioId)?.usuario || v.usuario || ''; return `<tr><td style="font-size:10px;color:var(--text2)">#${String(v.id).padStart(4, '0')}</td><td>${v.fecha}</td><td>${prod.split(' ').slice(0, 2).join(' ')}</td><td>${v.cliente}</td><td>${v.cantidad}</td><td style="font-weight:600;color:var(--nx1)">Q${fmt(v.total)}</td><td><span class="badge ${v.metodoPago === 'efectivo' ? 'bg' : v.metodoPago === 'transferencia' ? 'bb' : 'bp'}">${v.metodoPago || 'efect.'}</span></td>${session.rol === 'administrador' ? `<td><span class="badge bp">${usr}</span></td>` : ''}<td><button class="btn btn-sm btn-blue" onclick="showTicket(${v.id})">Ticket</button>${can('ventas', 'd') ? ` <button class="btn btn-sm btn-red" onclick="delV(${v.id})">X</button>` : ''}</td></tr>`; }).join('')}
   </tbody></table></div>`;
-}
+    }
 
-function rCompras(){
-  const lista=[...filterByPer(db.compras,'fecha')].sort((a,b)=>b.id-a.id);const q=sq.toLowerCase(),fil=lista.filter(c=>!q||c.producto.toLowerCase().includes(q)||c.proveedor.toLowerCase().includes(q));
-  return`
+    function rCompras() {
+      const lista = [...filterByPer(db.compras, 'fecha')].sort((a, b) => b.id - a.id); const q = sq.toLowerCase(), fil = lista.filter(c => !q || (c.producto || c.productoNombre || '').toLowerCase().includes(q) || (c.proveedor || '').toLowerCase().includes(q));
+      return `
   ${exportBar('compras')}
-  <div class="sg g3"><div class="stat-card"><div class="stat-label">Total</div><div class="stat-value" style="color:var(--amber)">Q${fmt(fil.reduce((s,c)=>s+c.total,0))}</div></div><div class="stat-card"><div class="stat-label">Órdenes</div><div class="stat-value">${fil.length}</div></div><div class="stat-card"><div class="stat-label">Promedio</div><div class="stat-value">${fil.length?'Q'+fmt(fil.reduce((s,c)=>s+c.total,0)/fil.length):'Q0.00'}</div></div></div>
-  <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap"><div class="filter-pills" style="margin:0">${[['todo','Todas'],['semana','Semana'],['mes','Mes']].map(([k,l])=>`<div class="pill ${filterPer===k?'active':''}" onclick="filterPer='${k}';rc()">${l}</div>`).join('')}</div><div class="search-box"><svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><input placeholder="Buscar..." value="${sq}" oninput="sq=this.value;rc()"></div></div>
+  <div class="sg g3"><div class="stat-card"><div class="stat-label">Total</div><div class="stat-value" style="color:var(--amber)">Q${fmt(fil.reduce((s, c) => s + c.total, 0))}</div></div><div class="stat-card"><div class="stat-label">Órdenes</div><div class="stat-value">${fil.length}</div></div><div class="stat-card"><div class="stat-label">Promedio</div><div class="stat-value">${fil.length ? 'Q' + fmt(fil.reduce((s, c) => s + c.total, 0) / fil.length) : 'Q0.00'}</div></div></div>
+  <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap"><div class="filter-pills" style="margin:0">${[['todo', 'Todas'], ['semana', 'Semana'], ['mes', 'Mes']].map(([k, l]) => `<div class="pill ${filterPer === k ? 'active' : ''}" onclick="filterPer='${k}';rc()">${l}</div>`).join('')}</div><div class="search-box"><svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><input placeholder="Buscar..." value="${sq}" oninput="sq=this.value;rc()"></div></div>
   <div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Producto</th><th>Proveedor</th><th>Cant.</th><th>Costo</th><th>Total</th><th>Por</th><th></th></tr></thead><tbody>
-  ${fil.map(c=>`<tr><td>${c.fecha}</td><td>${c.producto.split(' ').slice(0,2).join(' ')}</td><td>${c.proveedor}</td><td>${c.cantidad}</td><td>Q${fmt(c.costo)}</td><td style="font-weight:600">Q${fmt(c.total)}</td><td><span class="badge bp">${c.usuario||'—'}</span></td><td>${can('compras','d')?`<button class="btn btn-sm btn-red" onclick="delC(${c.id})">X</button>`:''}</td></tr>`).join('')}
+  ${fil.map(c => { const prod = c.producto || c.productoNombre || ''; const usr = users.find(u => u.id === c.usuarioId)?.usuario || c.usuario || '—'; return `<tr><td>${c.fecha}</td><td>${prod.split(' ').slice(0, 2).join(' ')}</td><td>${c.proveedor}</td><td>${c.cantidad}</td><td>Q${fmt(c.costo)}</td><td style="font-weight:600">Q${fmt(c.total)}</td><td><span class="badge bp">${usr}</span></td><td>${can('compras', 'd') ? `<button class="btn btn-sm btn-red" onclick="delC(${c.id})">X</button>` : ''}</td></tr>`; }).join('')}
   </tbody></table></div>`;
-}
+    }
 
-function rFact(){return`<div class="sg g3"><div class="stat-card"><div class="stat-label">Facturas</div><div class="stat-value" style="color:var(--nx1)">${db.ventas.length}</div></div><div class="stat-card"><div class="stat-label">Total facturado</div><div class="stat-value" style="color:var(--green)">Q${fmt(db.ventas.reduce((s,v)=>s+v.total,0))}</div></div><div class="stat-card"><div class="stat-label">CF</div><div class="stat-value">${db.ventas.filter(v=>!v.nit||v.nit==='CF').length}</div></div></div><div class="card" style="background:var(--amberl);border-color:var(--amber);margin-bottom:12px"><div style="font-size:12px;color:var(--amberd)"><strong>FEL Guatemala:</strong> Conectar con certificador SAT-GT (INFILE, G4S, MEGAPRINT) en producción.</div></div><div class="table-wrap"><table><thead><tr><th>No. FEL</th><th>Fecha</th><th>Producto</th><th>Cliente/NIT</th><th>Total</th><th>Estado</th><th></th></tr></thead><tbody>${[...db.ventas].sort((a,b)=>b.id-a.id).slice(0,15).map(v=>`<tr><td style="font-family:monospace;font-size:10px">FEL-${String(v.id).padStart(6,'0')}</td><td>${v.fecha}</td><td>${v.producto.split(' ').slice(0,2).join(' ')}</td><td>${v.cliente}<br><span style="font-size:10px;color:var(--text2)">${v.nit||'CF'}</span></td><td style="font-weight:600;color:var(--green)">Q${fmt(v.total)}</td><td><span class="badge bg">Autorizada</span></td><td><button class="btn btn-sm btn-blue" onclick="showTicket(${v.id})">Ver</button></td></tr>`).join('')}</tbody></table></div>`;}
-function showNewFact(){showAddV();}
+    function rFact() { return `<div class="sg g3"><div class="stat-card"><div class="stat-label">Facturas</div><div class="stat-value" style="color:var(--nx1)">${db.ventas.length}</div></div><div class="stat-card"><div class="stat-label">Total facturado</div><div class="stat-value" style="color:var(--green)">Q${fmt(db.ventas.reduce((s, v) => s + v.total, 0))}</div></div><div class="stat-card"><div class="stat-label">CF</div><div class="stat-value">${db.ventas.filter(v => !v.nit || v.nit === 'CF').length}</div></div></div><div class="card" style="background:var(--amberl);border-color:var(--amber);margin-bottom:12px"><div style="font-size:12px;color:var(--amberd)"><strong>FEL Guatemala:</strong> Conectar con certificador SAT-GT (INFILE, G4S, MEGAPRINT) en producción.</div></div><div class="table-wrap"><table><thead><tr><th>No. FEL</th><th>Fecha</th><th>Producto</th><th>Cliente/NIT</th><th>Total</th><th>Estado</th><th></th></tr></thead><tbody>${[...db.ventas].sort((a, b) => b.id - a.id).slice(0, 15).map(v => { const prod = v.producto || v.productoNombre || ''; return `<tr><td style="font-family:monospace;font-size:10px">FEL-${String(v.id).padStart(6, '0')}</td><td>${v.fecha}</td><td>${prod.split(' ').slice(0, 2).join(' ')}</td><td>${v.cliente}<br><span style="font-size:10px;color:var(--text2)">${v.nit || 'CF'}</span></td><td style="font-weight:600;color:var(--green)">Q${fmt(v.total)}</td><td><span class="badge bg">Autorizada</span></td><td><button class="btn btn-sm btn-blue" onclick="showTicket(${v.id})">Ver</button></td></tr>`; }).join('')}</tbody></table></div>`; }
+    function showNewFact() { showAddV(); }
 
-function rProductos(){const q=sq.toLowerCase();const lista=db.productos.filter(p=>!q||p.nombre.toLowerCase().includes(q)||p.categoria.toLowerCase().includes(q)||p.proveedor?.toLowerCase().includes(q));return`<div class="search-box" style="max-width:100%;margin-bottom:12px"><svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><input placeholder="Buscar por nombre, categoría o proveedor..." value="${sq}" oninput="sq=this.value;rc()"></div><div class="table-wrap"><table><thead><tr><th>Producto</th><th>Categoría</th><th>Precio</th><th>Costo</th><th>Stock</th><th>Lote</th><th>Proveedor</th><th>Caduc.</th><th>Estado</th><th></th></tr></thead><tbody>${lista.map(p=>`<tr><td style="font-weight:500">${p.nombre}</td><td>${p.categoria}</td><td>Q${fmt(p.precio)}</td><td>Q${fmt(p.costo)}</td><td><span class="badge ${p.stock<=p.stockMin?'br':p.stock<=p.stockMin*1.5?'ba':'bg'}">${p.stock}</span><div class="progress-bar" style="width:60px"><div class="progress-fill" style="width:${Math.min(100,Math.round(p.stock/Math.max(p.stockMin*2,1)*100))}%;background:${p.stock<=p.stockMin?'var(--red)':'var(--nx1)'}"></div></div></td><td style="font-size:10px;font-family:monospace">${p.lote}</td><td style="font-size:11px">${p.proveedor||'—'}</td><td>${p.caducidad}</td><td>${estCadBadge(p.caducidad)}</td><td style="white-space:nowrap">${can('productos','w')?`<button class="btn btn-sm" onclick="showEditP(${p.id})">Editar</button> `:''}${can('productos','d')?`<button class="btn btn-sm btn-red" onclick="delP(${p.id})">X</button>`:''}</td></tr>`).join('')}</tbody></table></div>`;}
+    function rProductos() { const q = sq.toLowerCase(); const lista = db.productos.filter(p => !q || p.nombre.toLowerCase().includes(q) || p.categoria.toLowerCase().includes(q) || p.proveedor?.toLowerCase().includes(q)); return `<div class="search-box" style="max-width:100%;margin-bottom:12px"><svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><input placeholder="Buscar por nombre, categoría o proveedor..." value="${sq}" oninput="sq=this.value;rc()"></div><div class="table-wrap"><table><thead><tr><th>Producto</th><th>Categoría</th><th>Precio</th><th>Costo</th><th>Stock</th><th>Lote</th><th>Proveedor</th><th>Caduc.</th><th>Estado</th><th></th></tr></thead><tbody>${lista.map(p => `<tr><td style="font-weight:500">${p.nombre}</td><td>${p.categoria}</td><td>Q${fmt(p.precio)}</td><td>Q${fmt(p.costo)}</td><td><span class="badge ${p.stock <= p.stockMin ? 'br' : p.stock <= p.stockMin * 1.5 ? 'ba' : 'bg'}">${p.stock}</span><div class="progress-bar" style="width:60px"><div class="progress-fill" style="width:${Math.min(100, Math.round(p.stock / Math.max(p.stockMin * 2, 1) * 100))}%;background:${p.stock <= p.stockMin ? 'var(--red)' : 'var(--nx1)'}"></div></div></td><td style="font-size:10px;font-family:monospace">${p.lote}</td><td style="font-size:11px">${p.proveedor || '—'}</td><td>${p.caducidad}</td><td>${estCadBadge(p.caducidad)}</td><td style="white-space:nowrap">${can('productos', 'w') ? `<button class="btn btn-sm" onclick="showEditP(${p.id})">Editar</button> ` : ''}${can('productos', 'd') ? `<button class="btn btn-sm btn-red" onclick="delP(${p.id})">X</button>` : ''}</td></tr>`).join('')}</tbody></table></div>`; }
 
-function rInv(){
-  const vc=db.productos.reduce((s,p)=>s+p.stock*p.costo,0),vv=db.productos.reduce((s,p)=>s+p.stock*p.precio,0);
-  return`
+    function rInv() {
+      const vc = db.productos.reduce((s, p) => s + p.stock * p.costo, 0), vv = db.productos.reduce((s, p) => s + p.stock * p.precio, 0);
+      return `
   ${exportBar('inventario')}
-  <div class="sg g4"><div class="stat-card"><div class="stat-label">Valor costo</div><div class="stat-value" style="color:var(--amber)">Q${fmt(vc)}</div></div><div class="stat-card"><div class="stat-label">Valor venta</div><div class="stat-value" style="color:var(--green)">Q${fmt(vv)}</div></div><div class="stat-card"><div class="stat-label">Margen potencial</div><div class="stat-value" style="color:var(--nx1)">Q${fmt(vv-vc)}</div></div><div class="stat-card"><div class="stat-label">Productos</div><div class="stat-value">${db.productos.length}</div></div></div>
+  <div class="sg g4"><div class="stat-card"><div class="stat-label">Valor costo</div><div class="stat-value" style="color:var(--amber)">Q${fmt(vc)}</div></div><div class="stat-card"><div class="stat-label">Valor venta</div><div class="stat-value" style="color:var(--green)">Q${fmt(vv)}</div></div><div class="stat-card"><div class="stat-label">Margen potencial</div><div class="stat-value" style="color:var(--nx1)">Q${fmt(vv - vc)}</div></div><div class="stat-card"><div class="stat-label">Productos</div><div class="stat-value">${db.productos.length}</div></div></div>
   <div class="table-wrap"><table><thead><tr><th>Producto</th><th>Stock</th><th>Mínimo</th><th>Ocupación</th><th>Valor</th><th>Ingreso</th><th>Caduc.</th><th>Estado</th></tr></thead><tbody>
-  ${db.productos.map(p=>{const pct=Math.min(100,Math.round(p.stock/Math.max(p.stockMin*2,1)*100));return`<tr><td style="font-weight:500">${p.nombre}</td><td><span class="badge ${p.stock<=p.stockMin?'br':'bg'}">${p.stock} uds</span></td><td>${p.stockMin}</td><td><div style="font-size:10px;color:var(--text2)">${pct}%</div><div class="progress-bar" style="width:80px"><div class="progress-fill" style="width:${pct}%;background:${p.stock<=p.stockMin?'var(--red)':p.stock<=p.stockMin*1.5?'var(--amber)':'var(--nx1)'}"></div></div></td><td>Q${fmt(p.stock*p.costo)}</td><td>${p.ingreso}</td><td>${p.caducidad}</td><td>${estCadBadge(p.caducidad)}</td></tr>`;}).join('')}
+  ${db.productos.map(p => { const pct = Math.min(100, Math.round(p.stock / Math.max(p.stockMin * 2, 1) * 100)); return `<tr><td style="font-weight:500">${p.nombre}</td><td><span class="badge ${p.stock <= p.stockMin ? 'br' : 'bg'}">${p.stock} uds</span></td><td>${p.stockMin}</td><td><div style="font-size:10px;color:var(--text2)">${pct}%</div><div class="progress-bar" style="width:80px"><div class="progress-fill" style="width:${pct}%;background:${p.stock <= p.stockMin ? 'var(--red)' : p.stock <= p.stockMin * 1.5 ? 'var(--amber)' : 'var(--nx1)'}"></div></div></td><td>Q${fmt(p.stock * p.costo)}</td><td>${p.ingreso}</td><td>${p.caducidad}</td><td>${estCadBadge(p.caducidad)}</td></tr>`; }).join('')}
   </tbody></table></div>`;
-}
+    }
 
-function rKardex(){
-  const movs=getKardexData();const q=sq.toLowerCase(),fil=movs.filter(m=>!q||m.producto.toLowerCase().includes(m));
-  return`
+    function rKardex() {
+      const movs = getKardexData(); const q = sq.toLowerCase(), fil = movs.filter(m => !q || m.producto.toLowerCase().includes(m));
+      return `
   ${exportBar('kardex')}
   <div class="search-box" style="max-width:100%;margin-bottom:12px"><svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><input placeholder="Buscar en historial..." value="${sq}" oninput="sq=this.value;rc()"></div>
-  <div class="card">${movs.slice(0,60).map(m=>`<div class="kardex-item"><div class="kardex-icon ${m.tipo==='ENTRADA'?'ki-in':'ki-out'}"><svg width="14" height="14" fill="none" viewBox="0 0 16 16"><path d="${m.tipo==='ENTRADA'?'M8 3v10M3 8l5 5 5-5':'M8 13V3M3 8l5-5 5 5'}" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="flex:1"><div style="font-weight:500;font-size:12px">${m.producto.split(' ').slice(0,2).join(' ')}</div><div style="font-size:10px;color:var(--text2)">${m.referencia} · ${m.usuario}</div></div><div style="text-align:right"><div style="font-weight:600;font-size:12px;color:${m.tipo==='ENTRADA'?'var(--nx1)':'var(--red)'}">${m.tipo==='ENTRADA'?'+':'-'}${m.cantidad} uds</div><div style="font-size:10px;color:var(--text2)">${m.fecha}</div></div></div>`).join('')}</div>`;
-}
+  <div class="card">${movs.slice(0, 60).map(m => `<div class="kardex-item"><div class="kardex-icon ${m.tipo === 'ENTRADA' ? 'ki-in' : 'ki-out'}"><svg width="14" height="14" fill="none" viewBox="0 0 16 16"><path d="${m.tipo === 'ENTRADA' ? 'M8 3v10M3 8l5 5 5-5' : 'M8 13V3M3 8l5-5 5 5'}" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="flex:1"><div style="font-weight:500;font-size:12px">${m.producto.split(' ').slice(0, 2).join(' ')}</div><div style="font-size:10px;color:var(--text2)">${m.referencia} · ${m.usuario}</div></div><div style="text-align:right"><div style="font-weight:600;font-size:12px;color:${m.tipo === 'ENTRADA' ? 'var(--nx1)' : 'var(--red)'}">${m.tipo === 'ENTRADA' ? '+' : '-'}${m.cantidad} uds</div><div style="font-size:10px;color:var(--text2)">${m.fecha}</div></div></div>`).join('')}</div>`;
+    }
 
-function rReportes(){
-  const tv=db.ventas.reduce((s,v)=>s+v.total,0),tc=db.compras.reduce((s,c)=>s+c.total,0);
-  const gan=db.ventas.reduce((s,v)=>{const p=db.productos.find(x=>x.id===v.productoId);return s+(p?(v.precio-p.costo)*v.cantidad:0);},0);
-  return`
+    function rReportes() {
+      const tv = db.ventas.reduce((s, v) => s + v.total, 0), tc = db.compras.reduce((s, c) => s + c.total, 0);
+      const gan = db.ventas.reduce((s, v) => { const p = db.productos.find(x => x.id === v.productoId); return s + (p ? (v.precio - p.costo) * v.cantidad : 0); }, 0);
+      return `
   <div class="export-bar" style="margin-bottom:14px">
     <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--nx1)" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
     <span class="export-bar-label">Exportar reportes completos:</span>
@@ -572,49 +1606,50 @@ function rReportes(){
     <button class="btn btn-pdf btn-sm" onclick="exportComprasPDF()">PDF Compras</button>
     <button class="btn btn-excel btn-sm" onclick="exportComprasExcel()">Excel Compras</button>
   </div>
-  <div class="sg g4"><div class="stat-card"><div class="stat-label">Ingresos</div><div class="stat-value" style="color:var(--green)">Q${fmt(tv)}</div></div><div class="stat-card"><div class="stat-label">Egresos</div><div class="stat-value" style="color:var(--red)">Q${fmt(tc)}</div></div><div class="stat-card"><div class="stat-label">Ganancia</div><div class="stat-value" style="color:var(--nx1)">Q${fmt(gan)}</div></div><div class="stat-card"><div class="stat-label">Margen</div><div class="stat-value">${tv>0?Math.round(gan/tv*100):0}%</div></div></div>
+  <div class="sg g4"><div class="stat-card"><div class="stat-label">Ingresos</div><div class="stat-value" style="color:var(--green)">Q${fmt(tv)}</div></div><div class="stat-card"><div class="stat-label">Egresos</div><div class="stat-value" style="color:var(--red)">Q${fmt(tc)}</div></div><div class="stat-card"><div class="stat-label">Ganancia</div><div class="stat-value" style="color:var(--nx1)">Q${fmt(gan)}</div></div><div class="stat-card"><div class="stat-label">Margen</div><div class="stat-value">${tv > 0 ? Math.round(gan / tv * 100) : 0}%</div></div></div>
   <div class="card"><div class="card-header"><span class="card-title">Ventas 30 días</span></div><div class="chart-container" style="height:200px"><canvas id="rc1" role="img" aria-label="Ventas">Gráfica</canvas></div></div>
-  <div class="card"><div class="card-header"><span class="card-title">Ventas por usuario</span></div><table><thead><tr><th>Usuario</th><th>Ventas</th><th>Total</th><th>%</th></tr></thead><tbody>${users.map(u=>{const uv=db.ventas.filter(v=>v.usuario===u.usuario);const ut=uv.reduce((s,v)=>s+v.total,0);return`<tr><td><span class="badge ${u.rol==='administrador'?'bp':'bg'}">${u.usuario}</span></td><td>${uv.length}</td><td>Q${fmt(ut)}</td><td>${tv>0?Math.round(ut/tv*100):0}%</td></tr>`;}).join('')}</tbody></table></div>`;
-}
-function buildReportCharts(){const l=[],d=[];for(let i=29;i>=0;i--){const dt=new Date();dt.setDate(dt.getDate()-i);const ds=dt.toISOString().split('T')[0];l.push(i%5===0?ds.slice(5):'');d.push(db.ventas.filter(v=>v.fecha===ds).reduce((s,v)=>s+v.total,0));}const c=document.getElementById('rc1');if(c)charts.rc1=new Chart(c,{type:'line',data:{labels:l,datasets:[{data:d,borderColor:'#1a8db8',backgroundColor:'rgba(26,141,184,.08)',tension:.4,fill:true,pointRadius:2,pointBackgroundColor:'#1a8db8'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:9},color:'#6c757d'},grid:{display:false}},y:{ticks:{font:{size:9},color:'#6c757d',callback:v=>'Q'+v},grid:{color:'rgba(0,0,0,0.04)'}}}}});}
+  <div class="card"><div class="card-header"><span class="card-title">Ventas por usuario</span></div><table><thead><tr><th>Usuario</th><th>Ventas</th><th>Total</th><th>%</th></tr></thead><tbody>${users.map(u => { const uv = db.ventas.filter(v => v.usuario === u.usuario); const ut = uv.reduce((s, v) => s + v.total, 0); return `<tr><td><span class="badge ${u.rol === 'administrador' ? 'bp' : 'bg'}">${u.usuario}</span></td><td>${uv.length}</td><td>Q${fmt(ut)}</td><td>${tv > 0 ? Math.round(ut / tv * 100) : 0}%</td></tr>`; }).join('')}</tbody></table></div>`;
+    }
+    function buildReportCharts() { const l = [], d = []; for (let i = 29; i >= 0; i--) { const dt = new Date(); dt.setDate(dt.getDate() - i); const ds = dt.toISOString().split('T')[0]; l.push(i % 5 === 0 ? ds.slice(5) : ''); d.push(db.ventas.filter(v => v.fecha === ds).reduce((s, v) => s + v.total, 0)); } const c = document.getElementById('rc1'); if (c) charts.rc1 = new Chart(c, { type: 'line', data: { labels: l, datasets: [{ data: d, borderColor: '#1a8db8', backgroundColor: 'rgba(26,141,184,.08)', tension: .4, fill: true, pointRadius: 2, pointBackgroundColor: '#1a8db8' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { font: { size: 9 }, color: '#6c757d' }, grid: { display: false } }, y: { ticks: { font: { size: 9 }, color: '#6c757d', callback: v => 'Q' + v }, grid: { color: 'rgba(0,0,0,0.04)' } } } } }); }
 
-function rAlertas(){const cad=db.productos.filter(p=>dias(p.caducidad)<=0);const p14=db.productos.filter(p=>{const d=dias(p.caducidad);return d>0&&d<=14;});const p30=db.productos.filter(p=>{const d=dias(p.caducidad);return d>14&&d<=30;});const sb=db.productos.filter(p=>p.stock<=p.stockMin);return`${cad.length>0?`<div class="alert-banner alert-r"><strong>URGENTE:</strong> ${cad.length} producto(s) caducado(s)</div>`:''}${p14.length>0?`<div class="alert-banner alert-r">${p14.length} producto(s) vencen en menos de 14 días</div>`:''}${sb.length>0?`<div class="alert-banner alert-a">${sb.length} producto(s) con stock bajo</div>`:''}${cad.length===0&&p14.length===0&&sb.length===0?`<div class="alert-banner alert-g">Todo en orden. Sin alertas activas.</div>`:''}<div class="sg g4"><div class="stat-card"><div class="stat-label">Caducados</div><div class="stat-value" style="color:var(--red)">${cad.length}</div></div><div class="stat-card"><div class="stat-label">Vencen &lt;14d</div><div class="stat-value" style="color:var(--red)">${p14.length}</div></div><div class="stat-card"><div class="stat-label">Vencen 30d</div><div class="stat-value" style="color:var(--amber)">${p30.length}</div></div><div class="stat-card"><div class="stat-label">Stock bajo</div><div class="stat-value" style="color:var(--amber)">${sb.length}</div></div></div><div class="sg g2"><div class="card"><div class="card-header"><span class="card-title" style="color:var(--redd)">Vencen pronto</span></div>${[...cad,...p14,...p30].length===0?'<div class="empty-state">Sin alertas</div>':`<table><thead><tr><th>Producto</th><th>Stock</th><th>Caducidad</th><th>Estado</th></tr></thead><tbody>${[...cad,...p14,...p30].map(p=>`<tr><td style="font-weight:500">${p.nombre}</td><td>${p.stock}</td><td>${p.caducidad}</td><td>${estCadBadge(p.caducidad)}</td></tr>`).join('')}</tbody></table>`}</div><div class="card"><div class="card-header"><span class="card-title" style="color:var(--amberd)">Stock bajo</span></div>${sb.length===0?'<div class="empty-state">Todo OK</div>':`<table><thead><tr><th>Producto</th><th>Actual</th><th>Mínimo</th><th>Proveedor</th></tr></thead><tbody>${sb.map(p=>`<tr><td style="font-weight:500">${p.nombre}</td><td><span class="badge br">${p.stock}</span></td><td>${p.stockMin}</td><td style="font-size:11px">${p.proveedor||'—'}</td></tr>`).join('')}</tbody></table>`}</div></div>`;}
+    function rAlertas() { const cad = db.productos.filter(p => dias(p.caducidad) <= 0); const p14 = db.productos.filter(p => { const d = dias(p.caducidad); return d > 0 && d <= 14; }); const p30 = db.productos.filter(p => { const d = dias(p.caducidad); return d > 14 && d <= 30; }); const sb = db.productos.filter(p => p.stock <= p.stockMin); return `${cad.length > 0 ? `<div class="alert-banner alert-r"><strong>URGENTE:</strong> ${cad.length} producto(s) caducado(s)</div>` : ''}${p14.length > 0 ? `<div class="alert-banner alert-r">${p14.length} producto(s) vencen en menos de 14 días</div>` : ''}${sb.length > 0 ? `<div class="alert-banner alert-a">${sb.length} producto(s) con stock bajo</div>` : ''}${cad.length === 0 && p14.length === 0 && sb.length === 0 ? `<div class="alert-banner alert-g">Todo en orden. Sin alertas activas.</div>` : ''}<div class="sg g4"><div class="stat-card"><div class="stat-label">Caducados</div><div class="stat-value" style="color:var(--red)">${cad.length}</div></div><div class="stat-card"><div class="stat-label">Vencen &lt;14d</div><div class="stat-value" style="color:var(--red)">${p14.length}</div></div><div class="stat-card"><div class="stat-label">Vencen 30d</div><div class="stat-value" style="color:var(--amber)">${p30.length}</div></div><div class="stat-card"><div class="stat-label">Stock bajo</div><div class="stat-value" style="color:var(--amber)">${sb.length}</div></div></div><div class="sg g2"><div class="card"><div class="card-header"><span class="card-title" style="color:var(--redd)">Vencen pronto</span></div>${[...cad, ...p14, ...p30].length === 0 ? '<div class="empty-state">Sin alertas</div>' : `<table><thead><tr><th>Producto</th><th>Stock</th><th>Caducidad</th><th>Estado</th></tr></thead><tbody>${[...cad, ...p14, ...p30].map(p => `<tr><td style="font-weight:500">${p.nombre}</td><td>${p.stock}</td><td>${p.caducidad}</td><td>${estCadBadge(p.caducidad)}</td></tr>`).join('')}</tbody></table>`}</div><div class="card"><div class="card-header"><span class="card-title" style="color:var(--amberd)">Stock bajo</span></div>${sb.length === 0 ? '<div class="empty-state">Todo OK</div>' : `<table><thead><tr><th>Producto</th><th>Actual</th><th>Mínimo</th><th>Proveedor</th></tr></thead><tbody>${sb.map(p => `<tr><td style="font-weight:500">${p.nombre}</td><td><span class="badge br">${p.stock}</span></td><td>${p.stockMin}</td><td style="font-size:11px">${p.proveedor || '—'}</td></tr>`).join('')}</tbody></table>`}</div></div>`; }
 
-function rUsuarios(){const q=sq.toLowerCase(),fil=users.filter(u=>!q||u.nombre.toLowerCase().includes(q)||u.rol.includes(q)||u.usuario.includes(q));return`<div style="display:flex;gap:10px;margin-bottom:12px;align-items:center"><div class="search-box"><svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><input placeholder="Buscar..." value="${sq}" oninput="sq=this.value;rc()"></div><button class="btn btn-nx" onclick="showAddUser()">+ Agregar usuario</button></div><div class="table-wrap"><table><thead><tr><th>Usuario</th><th>Nombre</th><th>Rol</th><th>Estado</th><th>Permisos</th><th>Acciones</th></tr></thead><tbody>${fil.map(u=>`<tr><td style="font-family:monospace;font-size:11px;font-weight:500">${u.usuario}</td><td><div style="display:flex;align-items:center;gap:8px"><div class="av ${u.rol==='administrador'?'av-admin':'av-vendor'}" style="width:26px;height:26px;font-size:10px">${u.nombre.split(' ').map(w=>w[0]).slice(0,2).join('')}</div>${u.nombre}</div></td><td><span class="badge ${u.rol==='administrador'?'bp':'bg'}">${u.rol}</span></td><td><label class="toggle"><input type="checkbox" ${u.activo?'checked':''} onchange="toggleUser(${u.id},this.checked)"><span class="toggle-slider"></span></label></td><td><button class="btn btn-sm btn-purple" onclick="showPerms('${u.usuario}')">Permisos</button></td><td style="white-space:nowrap"><button class="btn btn-sm" onclick="showEditUser(${u.id})">Editar</button> <button class="btn btn-sm btn-amber" onclick="showChangePass(${u.id})">Clave</button>${u.id!==session.id?` <button class="btn btn-sm btn-red" onclick="delUser(${u.id})">X</button>`:''}</td></tr>`).join('')}</tbody></table></div><div class="card" style="margin-top:12px"><div class="card-header"><span class="card-title">Logs del sistema</span></div><div style="max-height:160px;overflow-y:auto">${logs.length===0?'<div class="empty-state">Sin actividad</div>':[...logs].reverse().slice(0,20).map(l=>`<div style="display:flex;gap:8px;padding:5px 0;border-bottom:1px solid var(--bdr);font-size:11px"><span style="color:var(--text3);min-width:130px">${l.ts.replace('T',' ').slice(0,16)}</span><span class="badge bb" style="font-size:9px">${l.user}</span><span style="color:var(--text2)">${l.action}</span><span style="color:var(--text3);font-size:10px;margin-left:4px">${l.detail||''}</span></div>`).join('')}</div></div>`;}
+    function rUsuarios() { const q = sq.toLowerCase(), fil = users.filter(u => !q || u.nombre.toLowerCase().includes(q) || u.rol.includes(q) || u.usuario.includes(q)); return `<div style="display:flex;gap:10px;margin-bottom:12px;align-items:center"><div class="search-box"><svg viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><input placeholder="Buscar..." value="${sq}" oninput="sq=this.value;rc()"></div><button class="btn btn-nx" onclick="showAddUser()">+ Agregar usuario</button></div><div class="table-wrap"><table><thead><tr><th>Usuario</th><th>Nombre</th><th>Rol</th><th>Estado</th><th>Permisos</th><th>Acciones</th></tr></thead><tbody>${fil.map(u => `<tr><td style="font-family:monospace;font-size:11px;font-weight:500">${u.usuario}</td><td><div style="display:flex;align-items:center;gap:8px"><div class="av ${u.rol === 'administrador' ? 'av-admin' : 'av-vendor'}" style="width:26px;height:26px;font-size:10px">${u.nombre.split(' ').map(w => w[0]).slice(0, 2).join('')}</div>${u.nombre}</div></td><td><span class="badge ${u.rol === 'administrador' ? 'bp' : 'bg'}">${u.rol}</span></td><td><label class="toggle"><input type="checkbox" ${u.activo ? 'checked' : ''} onchange="toggleUser(${u.id},this.checked)"><span class="toggle-slider"></span></label></td><td><button class="btn btn-sm btn-purple" onclick="showPerms('${u.usuario}')">Permisos</button></td><td style="white-space:nowrap"><button class="btn btn-sm" onclick="showEditUser(${u.id})">Editar</button> <button class="btn btn-sm btn-amber" onclick="showChangePass(${u.id})">Clave</button>${u.id !== session.id ? ` <button class="btn btn-sm btn-red" onclick="delUser(${u.id})">X</button>` : ''}</td></tr>`).join('')}</tbody></table></div><div class="card" style="margin-top:12px"><div class="card-header"><span class="card-title">Logs del sistema</span></div><div style="max-height:160px;overflow-y:auto">${logs.length === 0 ? '<div class="empty-state">Sin actividad</div>' : [...logs].reverse().slice(0, 20).map(l => `<div style="display:flex;gap:8px;padding:5px 0;border-bottom:1px solid var(--bdr);font-size:11px"><span style="color:var(--text3);min-width:130px">${l.ts.replace('T', ' ').slice(0, 16)}</span><span class="badge bb" style="font-size:9px">${l.user}</span><span style="color:var(--text2)">${l.action}</span><span style="color:var(--text3);font-size:10px;margin-left:4px">${l.detail || ''}</span></div>`).join('')}</div></div>`; }
 
-function showModal(h){document.getElementById('modal-c').innerHTML=`<div class="modal-ov" onclick="if(event.target===this)closeModal()">${h}</div>`;}
-function closeModal(){document.getElementById('modal-c').innerHTML='';}
+    function showModal(h) { document.getElementById('modal-c').innerHTML = `<div class="modal-ov" onclick="if(event.target===this)closeModal()">${h}</div>`; }
+    function closeModal() { document.getElementById('modal-c').innerHTML = ''; }
 
-function showTicket(vid){const v=db.ventas.find(x=>x.id===vid);if(!v)return;const sub=v.cantidad*v.precio,dto=sub*(v.descuento||0)/100;showModal(`<div class="modal"><h3>Factura FEL — NEXUS</h3><div class="ticket-paper"><div style="text-align:center;margin-bottom:8px"><div>${nexusLogo(60,36)}</div><div style="font-size:13px;font-weight:700;letter-spacing:2px;margin-top:4px">NEXUS FARMACIA</div><div style="font-size:10px">Guatemala, C.A. · NIT: 1234567-8</div></div><div class="sep"></div><div class="tr"><span>FEL-${String(v.id).padStart(6,'0')}</span><span>${v.fecha}</span></div><div class="tr"><span>NIT:</span><span>${v.nit||'CF'}</span></div><div class="tr"><span>Cliente:</span><span>${v.cliente}</span></div><div class="sep"></div><div class="tr"><span>${v.producto}</span><span></span></div><div class="tr"><span>  ${v.cantidad} x Q${fmt(v.precio)}</span><span>Q${fmt(sub)}</span></div>${dto>0?`<div class="tr"><span>  Dto ${v.descuento}%</span><span>-Q${fmt(dto)}</span></div>`:''}<div class="sep"></div><div class="tr"><span>IVA 12%</span><span>Q${fmt(v.total*0.12)}</span></div><div class="tr" style="font-size:13px;font-weight:700"><span>TOTAL</span><span>Q${fmt(v.total)}</span></div><div class="sep"></div><div class="tr"><span>Pago:</span><span>${v.metodoPago||'efectivo'}</span></div><div style="text-align:center;font-size:9px;margin-top:8px">Gracias por su compra · NEXUS Farmacia</div></div><div class="modal-actions"><button class="btn" onclick="closeModal()">Cerrar</button><button class="btn btn-pdf" onclick="exportTicketPDF(${v.id});closeModal()">Descargar PDF</button></div></div>`);}
+    function showTicket(vid) { const v = db.ventas.find(x => x.id === vid); if (!v) return; const sub = v.cantidad * v.precio, dto = sub * (v.descuento || 0) / 100; showModal(`<div class="modal"><h3>Factura FEL — NEXUS</h3><div class="ticket-paper"><div style="text-align:center;margin-bottom:8px"><div>${nexusLogo(60, 36)}</div><div style="font-size:13px;font-weight:700;letter-spacing:2px;margin-top:4px">NEXUS FARMACIA</div><div style="font-size:10px">Guatemala, C.A. · NIT: 1234567-8</div></div><div class="sep"></div><div class="tr"><span>FEL-${String(v.id).padStart(6, '0')}</span><span>${v.fecha}</span></div><div class="tr"><span>NIT:</span><span>${v.nit || 'CF'}</span></div><div class="tr"><span>Cliente:</span><span>${v.cliente}</span></div><div class="sep"></div><div class="tr"><span>${v.producto}</span><span></span></div><div class="tr"><span>  ${v.cantidad} x Q${fmt(v.precio)}</span><span>Q${fmt(sub)}</span></div>${dto > 0 ? `<div class="tr"><span>  Dto ${v.descuento}%</span><span>-Q${fmt(dto)}</span></div>` : ''}<div class="sep"></div><div class="tr"><span>IVA 12%</span><span>Q${fmt(v.total * 0.12)}</span></div><div class="tr" style="font-size:13px;font-weight:700"><span>TOTAL</span><span>Q${fmt(v.total)}</span></div><div class="sep"></div><div class="tr"><span>Pago:</span><span>${v.metodoPago || 'efectivo'}</span></div><div style="text-align:center;font-size:9px;margin-top:8px">Gracias por su compra · NEXUS Farmacia</div></div><div class="modal-actions"><button class="btn" onclick="closeModal()">Cerrar</button><button class="btn btn-pdf" onclick="exportTicketPDF(${v.id});closeModal()">Descargar PDF</button></div></div>`); }
 
-function exportTicketPDF(vid){const v=db.ventas.find(x=>x.id===vid);if(!v||!window.jspdf)return;const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:[80,120]});doc.setFillColor(26,141,184);doc.rect(0,0,80,16,'F');doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont('helvetica','bold');doc.text('NEXUS FARMACIA',40,8,{align:'center'});doc.setFontSize(7);doc.setFont('helvetica','normal');doc.text('Factura Electrónica FEL · GT',40,13,{align:'center'});doc.setTextColor(0,0,0);doc.setFontSize(7);let y=22;const line=(l,r)=>{doc.text(l,4,y);if(r)doc.text(r,76,y,{align:'right'});y+=5;};line(`FEL-${String(v.id).padStart(6,'0')}`,v.fecha);line(`NIT: ${v.nit||'CF'}`,`Cliente: ${v.cliente}`);doc.setDrawColor(200);doc.line(4,y-2,76,y-2);y+=2;line(v.producto);line(`${v.cantidad} x Q${fmt(v.precio)}`,`Q${fmt(v.cantidad*v.precio)}`);if(v.descuento)line(`Dto ${v.descuento}%`,`-Q${fmt(v.cantidad*v.precio*v.descuento/100)}`);doc.line(4,y-2,76,y-2);y+=2;doc.setFont('helvetica','bold');doc.setFontSize(9);line('TOTAL',`Q${fmt(v.total)}`);doc.setFont('helvetica','normal');doc.setFontSize(7);line(`Pago: ${v.metodoPago||'efectivo'}`,`Cajero: ${v.usuario}`);doc.line(4,y-2,76,y-2);y+=3;doc.setFontSize(6);doc.setTextColor(120);doc.text('Gracias por su compra · www.nexusfarmacia.gt',40,y,{align:'center'});doc.save(`NEXUS_Ticket_${String(v.id).padStart(4,'0')}.pdf`);showToast('Ticket PDF descargado');}
+    function exportTicketPDF(vid) { const v = db.ventas.find(x => x.id === vid); if (!v || !window.jspdf) return; const { jsPDF } = window.jspdf; const doc = new jsPDF({ unit: 'mm', format: [80, 120] }); doc.setFillColor(26, 141, 184); doc.rect(0, 0, 80, 16, 'F'); doc.setTextColor(255, 255, 255); doc.setFontSize(9); doc.setFont('helvetica', 'bold'); doc.text('NEXUS FARMACIA', 40, 8, { align: 'center' }); doc.setFontSize(7); doc.setFont('helvetica', 'normal'); doc.text('Factura Electrónica FEL · GT', 40, 13, { align: 'center' }); doc.setTextColor(0, 0, 0); doc.setFontSize(7); let y = 22; const line = (l, r) => { doc.text(l, 4, y); if (r) doc.text(r, 76, y, { align: 'right' }); y += 5; }; line(`FEL-${String(v.id).padStart(6, '0')}`, v.fecha); line(`NIT: ${v.nit || 'CF'}`, `Cliente: ${v.cliente}`); doc.setDrawColor(200); doc.line(4, y - 2, 76, y - 2); y += 2; line(v.producto); line(`${v.cantidad} x Q${fmt(v.precio)}`, `Q${fmt(v.cantidad * v.precio)}`); if (v.descuento) line(`Dto ${v.descuento}%`, `-Q${fmt(v.cantidad * v.precio * v.descuento / 100)}`); doc.line(4, y - 2, 76, y - 2); y += 2; doc.setFont('helvetica', 'bold'); doc.setFontSize(9); line('TOTAL', `Q${fmt(v.total)}`); doc.setFont('helvetica', 'normal'); doc.setFontSize(7); line(`Pago: ${v.metodoPago || 'efectivo'}`, `Cajero: ${v.usuario}`); doc.line(4, y - 2, 76, y - 2); y += 3; doc.setFontSize(6); doc.setTextColor(120); doc.text('Gracias por su compra · www.nexusfarmacia.gt', 40, y, { align: 'center' }); doc.save(`NEXUS_Ticket_${String(v.id).padStart(4, '0')}.pdf`); showToast('Ticket PDF descargado'); }
 
-function showAddP(){const h=hoy();showModal(`<div class="modal"><h3>Agregar producto</h3><div class="fg"><label>Nombre</label><input id="fn" placeholder="Ej: Paracetamol 500mg"></div><div class="fr"><div class="fg"><label>Categoría</label><input id="fc"></div><div class="fg"><label>Lote</label><input id="fl"></div></div><div class="fr"><div class="fg"><label>Precio (Q)</label><input id="fp" type="number" step="0.01"></div><div class="fg"><label>Costo (Q)</label><input id="fco" type="number" step="0.01"></div></div><div class="fr"><div class="fg"><label>Stock inicial</label><input id="fs" type="number" value="0"></div><div class="fg"><label>Stock mínimo</label><input id="fsm" type="number" value="10"></div></div><div class="fr"><div class="fg"><label>Proveedor</label><input id="fprov"></div><div class="fg"><label>Código barras</label><input id="fcod"></div></div><div class="fr"><div class="fg"><label>Ingreso</label><input id="fi" type="date" value="${h}"></div><div class="fg"><label>Caducidad</label><input id="fca" type="date"></div></div><div class="modal-actions"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn btn-nx" onclick="saveP()">Guardar</button></div></div>`);}
-function saveP(eid){const n=document.getElementById('fn').value.trim(),cat=document.getElementById('fc').value.trim(),lot=document.getElementById('fl').value.trim();const pr=parseFloat(document.getElementById('fp').value)||0,co=parseFloat(document.getElementById('fco').value)||0;const st=parseInt(document.getElementById('fs').value)||0,sm=parseInt(document.getElementById('fsm').value)||0;const prov=document.getElementById('fprov').value.trim(),cod=document.getElementById('fcod').value.trim();const ing=document.getElementById('fi').value,cad=document.getElementById('fca').value;if(!n||!cat||!cad){showToast('Completa los campos requeridos','error');return;}if(eid){const p=db.productos.find(p=>p.id===eid);if(p)Object.assign(p,{nombre:n,categoria:cat,lote:lot,precio:pr,costo:co,stock:st,stockMin:sm,proveedor:prov,codigo:cod,ingreso:ing,caducidad:cad});}else{const id=db.productos.length?Math.max(...db.productos.map(p=>p.id))+1:1;db.productos.push({id,nombre:n,categoria:cat,lote:lot,precio:pr,costo:co,stock:st,stockMin:sm,proveedor:prov,codigo:cod,ingreso:ing,caducidad:cad});}addLog(eid?'EDITAR_PRODUCTO':'CREAR_PRODUCTO',n);saveAll();closeModal();rc();showToast(eid?'Producto actualizado':'Producto creado');}
-function showEditP(id){const p=db.productos.find(p=>p.id===id);if(!p)return;showModal(`<div class="modal"><h3>Editar — ${p.nombre}</h3><div class="fg"><label>Nombre</label><input id="fn" value="${p.nombre}"></div><div class="fr"><div class="fg"><label>Categoría</label><input id="fc" value="${p.categoria}"></div><div class="fg"><label>Lote</label><input id="fl" value="${p.lote}"></div></div><div class="fr"><div class="fg"><label>Precio (Q)</label><input id="fp" type="number" step="0.01" value="${p.precio}"></div><div class="fg"><label>Costo (Q)</label><input id="fco" type="number" step="0.01" value="${p.costo}"></div></div><div class="fr"><div class="fg"><label>Stock</label><input id="fs" type="number" value="${p.stock}"></div><div class="fg"><label>Mínimo</label><input id="fsm" type="number" value="${p.stockMin}"></div></div><div class="fr"><div class="fg"><label>Proveedor</label><input id="fprov" value="${p.proveedor||''}"></div><div class="fg"><label>Código barras</label><input id="fcod" value="${p.codigo||''}"></div></div><div class="fr"><div class="fg"><label>Ingreso</label><input id="fi" type="date" value="${p.ingreso}"></div><div class="fg"><label>Caducidad</label><input id="fca" type="date" value="${p.caducidad}"></div></div><div class="modal-actions"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn btn-nx" onclick="saveP(${id})">Actualizar</button></div></div>`);}
-function delP(id){if(!confirm('¿Eliminar producto?'))return;db.productos=db.productos.filter(p=>p.id!==id);addLog('ELIMINAR_PRODUCTO',id);saveAll();rc();showToast('Producto eliminado','warn');}
+    function showAddP() { const h = hoy(); showModal(`<div class="modal"><h3>Agregar producto</h3><div class="fg"><label>Nombre</label><input id="fn" placeholder="Ej: Paracetamol 500mg"></div><div class="fr"><div class="fg"><label>Categoría</label><input id="fc"></div><div class="fg"><label>Lote</label><input id="fl"></div></div><div class="fr"><div class="fg"><label>Precio (Q)</label><input id="fp" type="number" step="0.01"></div><div class="fg"><label>Costo (Q)</label><input id="fco" type="number" step="0.01"></div></div><div class="fr"><div class="fg"><label>Stock inicial</label><input id="fs" type="number" value="0"></div><div class="fg"><label>Stock mínimo</label><input id="fsm" type="number" value="10"></div></div><div class="fr"><div class="fg"><label>Proveedor</label><input id="fprov"></div><div class="fg"><label>Código barras</label><input id="fcod"></div></div><div class="fr"><div class="fg"><label>Ingreso</label><input id="fi" type="date" value="${h}"></div><div class="fg"><label>Caducidad</label><input id="fca" type="date"></div></div><div class="modal-actions"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn btn-nx" onclick="saveP()">Guardar</button></div></div>`); }
+    async function saveP(eid) { const n = document.getElementById('fn').value.trim(), cat = document.getElementById('fc').value.trim(), lot = document.getElementById('fl').value.trim(); const pr = parseFloat(document.getElementById('fp').value) || 0, co = parseFloat(document.getElementById('fco').value) || 0; const st = parseInt(document.getElementById('fs').value) || 0, sm = parseInt(document.getElementById('fsm').value) || 0; const prov = document.getElementById('fprov').value.trim(), cod = document.getElementById('fcod').value.trim(); const ing = document.getElementById('fi').value, cad = document.getElementById('fca').value; if (!n || !cat || !cad) { showToast('Completa los campos requeridos', 'error'); return; } const producto = { nombre: n, categoria: cat, lote: lot, precio: pr, costo: co, stock: st, stockMin: sm, proveedor: prov, codigoBarras: cod, fechaIngreso: ing, fechaCaducidad: cad }; try { if (eid) { await APIService.updateProducto(eid, producto); showToast('Producto actualizado'); } else { await APIService.createProducto(producto); showToast('Producto creado'); } await loadAll(); closeModal(); rc(); } catch (e) { showToast('Error al guardar producto', 'error'); } }
+    function showEditP(id) { const p = db.productos.find(p => p.id === id); if (!p) return; showModal(`<div class="modal"><h3>Editar — ${p.nombre}</h3><div class="fg"><label>Nombre</label><input id="fn" value="${p.nombre}"></div><div class="fr"><div class="fg"><label>Categoría</label><input id="fc" value="${p.categoria}"></div><div class="fg"><label>Lote</label><input id="fl" value="${p.lote}"></div></div><div class="fr"><div class="fg"><label>Precio (Q)</label><input id="fp" type="number" step="0.01" value="${p.precio}"></div><div class="fg"><label>Costo (Q)</label><input id="fco" type="number" step="0.01" value="${p.costo}"></div></div><div class="fr"><div class="fg"><label>Stock</label><input id="fs" type="number" value="${p.stock}"></div><div class="fg"><label>Mínimo</label><input id="fsm" type="number" value="${p.stockMin}"></div></div><div class="fr"><div class="fg"><label>Proveedor</label><input id="fprov" value="${p.proveedor || ''}"></div><div class="fg"><label>Código barras</label><input id="fcod" value="${p.codigo || ''}"></div></div><div class="fr"><div class="fg"><label>Ingreso</label><input id="fi" type="date" value="${p.ingreso}"></div><div class="fg"><label>Caducidad</label><input id="fca" type="date" value="${p.caducidad}"></div></div><div class="modal-actions"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn btn-nx" onclick="saveP(${id})">Actualizar</button></div></div>`); }
+    async function delP(id) { if (!confirm('¿Eliminar producto?')) return; try { await APIService.deleteProducto(id); await loadAll(); rc(); showToast('Producto eliminado', 'warn'); } catch (e) { showToast('Error al eliminar producto', 'error'); } }
 
-function showAddV(){const opts=db.productos.map(p=>`<option value="${p.id}" data-pr="${p.precio}">${p.nombre} (stock: ${p.stock})</option>`).join('');showModal(`<div class="modal"><h3>Registrar venta</h3><div class="fg"><label>Producto</label><select id="fvp" onchange="updV()">${opts}</select></div><div class="fr3"><div class="fg"><label>Cantidad</label><input id="fvq" type="number" min="1" value="1" oninput="updV()"></div><div class="fg"><label>Precio (Q)</label><input id="fvpr" type="number" step="0.01" oninput="updV()"></div><div class="fg"><label>Dto. %</label><input id="fvd" type="number" min="0" max="100" value="0" oninput="updV()"></div></div><div class="fr"><div class="fg"><label>NIT / Cliente</label><input id="fvcl" placeholder="CF o NIT-K"></div><div class="fg"><label>Método de pago</label><select id="fvpago"><option value="efectivo">Efectivo</option><option value="transferencia">Transferencia</option><option value="tarjeta">Tarjeta</option></select></div></div><div class="fr"><div class="fg"><label>Fecha</label><input id="fvf" type="date" value="${hoy()}"></div><div class="fg"><label>Total</label><input id="fvt" readonly style="background:var(--bg3);font-weight:600"></div></div><div class="modal-actions"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn btn-nx" onclick="saveV()">Registrar</button></div></div>`);updV();}
-function updV(){const s=document.getElementById('fvp');if(!s)return;const pr=parseFloat(s.options[s.selectedIndex]?.getAttribute('data-pr'))||0;document.getElementById('fvpr').value=pr.toFixed(2);const q=parseInt(document.getElementById('fvq').value)||0,d=parseFloat(document.getElementById('fvd').value)||0;document.getElementById('fvt').value='Q'+fmt(q*pr*(1-d/100));}
-function saveV(){const pid=parseInt(document.getElementById('fvp').value),q=parseInt(document.getElementById('fvq').value)||0,pr=parseFloat(document.getElementById('fvpr').value)||0,d=parseFloat(document.getElementById('fvd').value)||0;const cl=document.getElementById('fvcl').value.trim()||'CF',pago=document.getElementById('fvpago').value,f=document.getElementById('fvf').value;if(q<=0){showToast('Cantidad inválida','error');return;}const p=db.productos.find(x=>x.id===pid);if(!p)return;if(p.stock<q){showToast('Stock insuficiente (disponible: '+p.stock+')','error');return;}p.stock-=q;const tot=q*pr*(1-d/100);const id=db.ventas.length?Math.max(...db.ventas.map(v=>v.id))+1:1;db.ventas.push({id,fecha:f,productoId:pid,producto:p.nombre,cantidad:q,precio:pr,total:tot,cliente:cl,usuario:session.usuario,descuento:d,nit:cl,metodoPago:pago});addLog('VENTA',`${p.nombre} x${q}`);saveAll();closeModal();rc();showToast('Venta registrada');}
-function delV(id){if(!confirm('¿Eliminar venta?'))return;db.ventas=db.ventas.filter(v=>v.id!==id);addLog('ELIMINAR_VENTA',id);saveAll();rc();showToast('Venta eliminada','warn');}
+    function showAddV() { const opts = db.productos.map(p => `<option value="${p.id}" data-pr="${p.precio}">${p.nombre} (stock: ${p.stock})</option>`).join(''); showModal(`<div class="modal"><h3>Registrar venta</h3><div class="fg"><label>Producto</label><select id="fvp" onchange="updV()">${opts}</select></div><div class="fr3"><div class="fg"><label>Cantidad</label><input id="fvq" type="number" min="1" value="1" oninput="updV()"></div><div class="fg"><label>Precio (Q)</label><input id="fvpr" type="number" step="0.01" oninput="updV()"></div><div class="fg"><label>Dto. %</label><input id="fvd" type="number" min="0" max="100" value="0" oninput="updV()"></div></div><div class="fr"><div class="fg"><label>NIT / Cliente</label><input id="fvcl" placeholder="CF o NIT-K"></div><div class="fg"><label>Método de pago</label><select id="fvpago"><option value="efectivo">Efectivo</option><option value="transferencia">Transferencia</option><option value="tarjeta">Tarjeta</option></select></div></div><div class="fr"><div class="fg"><label>Fecha</label><input id="fvf" type="date" value="${hoy()}"></div><div class="fg"><label>Total</label><input id="fvt" readonly style="background:var(--bg3);font-weight:600"></div></div><div class="modal-actions"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn btn-nx" onclick="saveV()">Registrar</button></div></div>`); updV(); }
+    function updV() { const s = document.getElementById('fvp'); if (!s) return; const pr = parseFloat(s.options[s.selectedIndex]?.getAttribute('data-pr')) || 0; document.getElementById('fvpr').value = pr.toFixed(2); const q = parseInt(document.getElementById('fvq').value) || 0, d = parseFloat(document.getElementById('fvd').value) || 0; document.getElementById('fvt').value = 'Q' + fmt(q * pr * (1 - d / 100)); }
+    async function saveV() { const pid = parseInt(document.getElementById('fvp').value), q = parseInt(document.getElementById('fvq').value) || 0, pr = parseFloat(document.getElementById('fvpr').value) || 0, d = parseFloat(document.getElementById('fvd').value) || 0; const cl = document.getElementById('fvcl').value.trim() || 'CF', pago = document.getElementById('fvpago').value, f = document.getElementById('fvf').value; if (q <= 0) { showToast('Cantidad inválida', 'error'); return; } const p = db.productos.find(x => x.id === pid); if (!p) return; const tot = q * pr * (1 - d / 100); const venta = { fecha: f, productoId: pid, productoNombre: p.nombre, cantidad: q, precio: pr, total: tot, cliente: cl, nit: cl, descuento: d, metodoPago: pago, usuarioId: session.id }; try { await APIService.createVenta(venta); await loadAll(); closeModal(); rc(); showToast('Venta registrada'); } catch (e) { showToast('Error al registrar venta', 'error'); } }
+    async function delV(id) { if (!confirm('¿Eliminar venta?')) return; try { await APIService.deleteVenta(id); await loadAll(); rc(); showToast('Venta eliminada', 'warn'); } catch (e) { showToast('Error al eliminar venta', 'error'); } }
 
-function showAddC(){const opts=db.productos.map(p=>`<option value="${p.id}" data-co="${p.costo}">${p.nombre}</option>`).join('');showModal(`<div class="modal"><h3>Registrar compra</h3><div class="fg"><label>Producto</label><select id="fcp" onchange="updC()">${opts}</select></div><div class="fr"><div class="fg"><label>Cantidad</label><input id="fcq" type="number" min="1" value="1" oninput="updC()"></div><div class="fg"><label>Costo unit. (Q)</label><input id="fcco" type="number" step="0.01" oninput="updC()"></div></div><div class="fg"><label>Proveedor</label><input id="fcpr" placeholder="Nombre del proveedor"></div><div class="fr"><div class="fg"><label>Fecha</label><input id="fcf" type="date" value="${hoy()}"></div><div class="fg"><label>Total</label><input id="fct" readonly style="background:var(--bg3);font-weight:600"></div></div><div class="modal-actions"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn btn-nx" onclick="saveC()">Registrar</button></div></div>`);updC();}
-function updC(){const s=document.getElementById('fcp');if(!s)return;const co=parseFloat(s.options[s.selectedIndex]?.getAttribute('data-co'))||0;document.getElementById('fcco').value=co.toFixed(2);const q=parseInt(document.getElementById('fcq').value)||0;document.getElementById('fct').value='Q'+fmt(q*(parseFloat(document.getElementById('fcco').value)||0));}
-function saveC(){const pid=parseInt(document.getElementById('fcp').value),q=parseInt(document.getElementById('fcq').value)||0,co=parseFloat(document.getElementById('fcco').value)||0,prov=document.getElementById('fcpr').value.trim()||'Proveedor general',f=document.getElementById('fcf').value;if(q<=0){showToast('Cantidad inválida','error');return;}const p=db.productos.find(x=>x.id===pid);if(!p)return;p.stock+=q;const id=db.compras.length?Math.max(...db.compras.map(c=>c.id))+1:1;db.compras.push({id,fecha:f,productoId:pid,producto:p.nombre,cantidad:q,costo:co,total:q*co,proveedor:prov,usuario:session.usuario});addLog('COMPRA',`${p.nombre} x${q}`);saveAll();closeModal();rc();showToast('Compra registrada — stock +'+q);}
-function delC(id){if(!confirm('¿Eliminar compra?'))return;db.compras=db.compras.filter(c=>c.id!==id);addLog('ELIMINAR_COMPRA',id);saveAll();rc();showToast('Compra eliminada','warn');}
+    function showAddC() { const opts = db.productos.map(p => `<option value="${p.id}" data-co="${p.costo}">${p.nombre}</option>`).join(''); showModal(`<div class="modal"><h3>Registrar compra</h3><div class="fg"><label>Producto</label><select id="fcp" onchange="updC()">${opts}</select></div><div class="fr"><div class="fg"><label>Cantidad</label><input id="fcq" type="number" min="1" value="1" oninput="updC()"></div><div class="fg"><label>Costo unit. (Q)</label><input id="fcco" type="number" step="0.01" oninput="updC()"></div></div><div class="fg"><label>Proveedor</label><input id="fcpr" placeholder="Nombre del proveedor"></div><div class="fr"><div class="fg"><label>Fecha</label><input id="fcf" type="date" value="${hoy()}"></div><div class="fg"><label>Total</label><input id="fct" readonly style="background:var(--bg3);font-weight:600"></div></div><div class="modal-actions"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn btn-nx" onclick="saveC()">Registrar</button></div></div>`); updC(); }
+    function updC() { const s = document.getElementById('fcp'); if (!s) return; const co = parseFloat(s.options[s.selectedIndex]?.getAttribute('data-co')) || 0; document.getElementById('fcco').value = co.toFixed(2); const q = parseInt(document.getElementById('fcq').value) || 0; document.getElementById('fct').value = 'Q' + fmt(q * (parseFloat(document.getElementById('fcco').value) || 0)); }
+    async function saveC() { const pid = parseInt(document.getElementById('fcp').value), q = parseInt(document.getElementById('fcq').value) || 0, co = parseFloat(document.getElementById('fcco').value) || 0, prov = document.getElementById('fcpr').value.trim() || 'Proveedor general', f = document.getElementById('fcf').value; if (q <= 0) { showToast('Cantidad inválida', 'error'); return; } const p = db.productos.find(x => x.id === pid); if (!p) return; const compra = { fecha: f, productoId: pid, productoNombre: p.nombre, cantidad: q, costo: co, total: q * co, proveedor: prov, usuarioId: session.id }; try { await APIService.createCompra(compra); await loadAll(); closeModal(); rc(); showToast('Compra registrada — stock +' + q); } catch (e) { showToast('Error al registrar compra', 'error'); } }
+    async function delC(id) { if (!confirm('¿Eliminar compra?')) return; try { await APIService.deleteCompra(id); await loadAll(); rc(); showToast('Compra eliminada', 'warn'); } catch (e) { showToast('Error al eliminar compra', 'error'); } }
 
-function showAddUser(){showModal(`<div class="modal"><h3>Nuevo usuario</h3><div class="fr"><div class="fg"><label>Nombre completo</label><input id="un"></div><div class="fg"><label>Email</label><input id="ue" type="email"></div></div><div class="fr"><div class="fg"><label>Usuario</label><input id="uu"></div><div class="fg"><label>Contraseña</label><input id="up" type="password"></div></div><div class="fg"><label>Rol</label><select id="ur"><option value="vendedor">Vendedor</option><option value="administrador">Administrador</option></select></div><div class="modal-actions"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn btn-nx" onclick="saveUser()">Crear</button></div></div>`);}
-function saveUser(){const n=document.getElementById('un').value.trim(),e=document.getElementById('ue').value.trim(),u=document.getElementById('uu').value.trim(),p=document.getElementById('up').value,r=document.getElementById('ur').value;if(!n||!u||!p){showToast('Completa todos los campos','error');return;}if(users.find(x=>x.usuario===u)){showToast('Usuario ya existe','error');return;}const id=users.length?Math.max(...users.map(u=>u.id))+1:1;users.push({id,nombre:n,usuario:u,pass:p,rol:r,activo:true,email:e});addLog('CREAR_USUARIO',u);saveAll();closeModal();rc();showToast('Usuario creado');}
-function showEditUser(id){const u=users.find(x=>x.id===id);if(!u)return;showModal(`<div class="modal"><h3>Editar usuario</h3><div class="fr"><div class="fg"><label>Nombre</label><input id="un" value="${u.nombre}"></div><div class="fg"><label>Email</label><input id="ue" value="${u.email||''}" type="email"></div></div><div class="fr"><div class="fg"><label>Usuario</label><input id="uu" value="${u.usuario}"></div><div class="fg"><label>Nueva contraseña (opcional)</label><input id="up" type="password" placeholder="Dejar vacío para no cambiar"></div></div><div class="fg"><label>Rol</label><select id="ur"><option value="vendedor" ${u.rol==='vendedor'?'selected':''}>Vendedor</option><option value="administrador" ${u.rol==='administrador'?'selected':''}>Administrador</option></select></div><div class="modal-actions"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn btn-nx" onclick="updateUser(${id})">Guardar</button></div></div>`);}
-function updateUser(id){const u=users.find(x=>x.id===id);if(!u)return;const n=document.getElementById('un').value.trim(),e=document.getElementById('ue').value.trim(),usr=document.getElementById('uu').value.trim(),p=document.getElementById('up').value,r=document.getElementById('ur').value;if(!n||!usr){showToast('Completa los campos','error');return;}Object.assign(u,{nombre:n,email:e,usuario:usr,rol:r});if(p)u.pass=p;addLog('EDITAR_USUARIO',usr);saveAll();closeModal();rc();showToast('Usuario actualizado');}
-function showChangePass(id){showModal(`<div class="modal"><h3>Cambiar contraseña</h3><div class="fg"><label>Nueva contraseña</label><input id="np" type="password"></div><div class="fg"><label>Confirmar</label><input id="cp" type="password"></div><div class="modal-actions"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn btn-nx" onclick="changePass(${id})">Cambiar</button></div></div>`);}
-function changePass(id){const np=document.getElementById('np').value,cp=document.getElementById('cp').value;if(!np||np.length<4){showToast('Mínimo 4 caracteres','error');return;}if(np!==cp){showToast('Contraseñas no coinciden','error');return;}const u=users.find(x=>x.id===id);if(!u)return;u.pass=np;addLog('CAMBIO_CONTRASEÑA',u.usuario);saveAll();closeModal();showToast('Contraseña actualizada');}
-function toggleUser(id,v){const u=users.find(x=>x.id===id);if(!u)return;u.activo=v;addLog(v?'ACTIVAR':'DESACTIVAR',u.usuario);saveAll();showToast(v?'Usuario activado':'Usuario desactivado');}
-function delUser(id){if(!confirm('¿Eliminar usuario?'))return;const u=users.find(x=>x.id===id);users=users.filter(x=>x.id!==id);addLog('ELIMINAR_USUARIO',u?.usuario);saveAll();rc();showToast('Usuario eliminado','warn');}
-function showPerms(usr){const u=users.find(x=>x.usuario===usr);if(!u)return;const p=PERMS[u.rol];showModal(`<div class="modal"><h3>Permisos — ${u.nombre}</h3><div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:10px;background:var(--bg3);border-radius:var(--radius-sm)"><div class="av ${u.rol==='administrador'?'av-admin':'av-vendor'}">${u.nombre.split(' ').map(w=>w[0]).slice(0,2).join('')}</div><div><div style="font-weight:600;font-size:13px">${u.nombre}</div><div style="font-size:11px;color:var(--text2)">${u.usuario} · <span class="badge ${u.rol==='administrador'?'bp':'bg'}">${u.rol}</span></div></div></div><table class="perm-table"><thead><tr><th style="text-align:left">Módulo</th><th>Lectura</th><th>Escritura</th><th>Eliminar</th></tr></thead><tbody>${Object.entries(p).map(([k,v])=>`<tr><td style="font-size:12px;text-transform:capitalize;text-align:left">${k}</td><td>${v.r?'<span class="badge bg">✓</span>':'<span class="badge br">✗</span>'}</td><td>${v.w?'<span class="badge bg">✓</span>':'<span class="badge br">✗</span>'}</td><td>${v.d?'<span class="badge bg">✓</span>':'<span class="badge br">✗</span>'}</td></tr>`).join('')}</tbody></table><div class="modal-actions"><button class="btn" onclick="closeModal()">Cerrar</button></div></div>`);}
+    function showAddUser() { showModal(`<div class="modal"><h3>Nuevo usuario</h3><div class="fr"><div class="fg"><label>Nombre completo</label><input id="un"></div><div class="fg"><label>Email</label><input id="ue" type="email"></div></div><div class="fr"><div class="fg"><label>Usuario</label><input id="uu"></div><div class="fg"><label>Contraseña</label><input id="up" type="password"></div></div><div class="fg"><label>Rol</label><select id="ur"><option value="vendedor">Vendedor</option><option value="administrador">Administrador</option></select></div><div class="modal-actions"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn btn-nx" onclick="saveUser()">Crear</button></div></div>`); }
+    async function saveUser() { const n = document.getElementById('un').value.trim(), e = document.getElementById('ue').value.trim(), u = document.getElementById('uu').value.trim(), p = document.getElementById('up').value, r = document.getElementById('ur').value; if (!n || !u || !p) { showToast('Completa todos los campos', 'error'); return; } try { await APIService.createUsuario({ nombre: n, usuario: u, pass: p, email: e, rol: r }); await loadAll(); closeModal(); rc(); showToast('Usuario creado'); } catch (e) { showToast('Error al crear usuario', 'error'); } }
+    function showEditUser(id) { const u = users.find(x => x.id === id); if (!u) return; showModal(`<div class="modal"><h3>Editar usuario</h3><div class="fr"><div class="fg"><label>Nombre</label><input id="un" value="${u.nombre}"></div><div class="fg"><label>Email</label><input id="ue" value="${u.email || ''}" type="email"></div></div><div class="fr"><div class="fg"><label>Usuario</label><input id="uu" value="${u.usuario}"></div><div class="fg"><label>Nueva contraseña (opcional)</label><input id="up" type="password" placeholder="Dejar vacío para no cambiar"></div></div><div class="fg"><label>Rol</label><select id="ur"><option value="vendedor" ${u.rol === 'vendedor' ? 'selected' : ''}>Vendedor</option><option value="administrador" ${u.rol === 'administrador' ? 'selected' : ''}>Administrador</option></select></div><div class="modal-actions"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn btn-nx" onclick="updateUser(${id})">Guardar</button></div></div>`); }
+    async function updateUser(id) { const n = document.getElementById('un').value.trim(), e = document.getElementById('ue').value.trim(), usr = document.getElementById('uu').value.trim(), p = document.getElementById('up').value, r = document.getElementById('ur').value; if (!n || !usr) { showToast('Completa los campos', 'error'); return; } try { await APIService.updateUsuario(id, { nombre: n, email: e, usuario: usr, rol: r }); if (p) await APIService.changePassword(id, p); await loadAll(); closeModal(); rc(); showToast('Usuario actualizado'); } catch (e) { showToast('Error al actualizar usuario', 'error'); } }
+    function showChangePass(id) { showModal(`<div class="modal"><h3>Cambiar contraseña</h3><div class="fg"><label>Nueva contraseña</label><input id="np" type="password"></div><div class="fg"><label>Confirmar</label><input id="cp" type="password"></div><div class="modal-actions"><button class="btn" onclick="closeModal()">Cancelar</button><button class="btn btn-nx" onclick="changePass(${id})">Cambiar</button></div></div>`); }
+    async function changePass(id) { const np = document.getElementById('np').value, cp = document.getElementById('cp').value; if (!np || np.length < 4) { showToast('Mínimo 4 caracteres', 'error'); return; } if (np !== cp) { showToast('Contraseñas no coinciden', 'error'); return; } try { await APIService.changePassword(id, np); closeModal(); showToast('Contraseña actualizada'); } catch (e) { showToast('Error al cambiar contraseña', 'error'); } }
+    async function toggleUser(id, v) { try { await APIService.toggleUsuario(id); await loadAll(); showToast(v ? 'Usuario activado' : 'Usuario desactivado'); } catch (e) { showToast('Error al actualizar usuario', 'error'); } }
+    async function delUser(id) { if (!confirm('¿Eliminar usuario?')) return; try { await APIService.deleteUsuario(id); await loadAll(); rc(); showToast('Usuario eliminado', 'warn'); } catch (e) { showToast('Error al eliminar usuario', 'error'); } }
+    function showPerms(usr) { const u = users.find(x => x.usuario === usr); if (!u) return; const p = PERMS[u.rol]; showModal(`<div class="modal"><h3>Permisos — ${u.nombre}</h3><div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:10px;background:var(--bg3);border-radius:var(--radius-sm)"><div class="av ${u.rol === 'administrador' ? 'av-admin' : 'av-vendor'}">${u.nombre.split(' ').map(w => w[0]).slice(0, 2).join('')}</div><div><div style="font-weight:600;font-size:13px">${u.nombre}</div><div style="font-size:11px;color:var(--text2)">${u.usuario} · <span class="badge ${u.rol === 'administrador' ? 'bp' : 'bg'}">${u.rol}</span></div></div></div><table class="perm-table"><thead><tr><th style="text-align:left">Módulo</th><th>Lectura</th><th>Escritura</th><th>Eliminar</th></tr></thead><tbody>${Object.entries(p).map(([k, v]) => `<tr><td style="font-size:12px;text-transform:capitalize;text-align:left">${k}</td><td>${v.r ? '<span class="badge bg">✓</span>' : '<span class="badge br">✗</span>'}</td><td>${v.w ? '<span class="badge bg">✓</span>' : '<span class="badge br">✗</span>'}</td><td>${v.d ? '<span class="badge bg">✓</span>' : '<span class="badge br">✗</span>'}</td></tr>`).join('')}</tbody></table><div class="modal-actions"><button class="btn" onclick="closeModal()">Cerrar</button></div></div>`); }
 
-loadAll();
-</script>
+    loadAll();
+  </script>
 </body>
+
 </html>

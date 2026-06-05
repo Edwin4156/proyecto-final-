@@ -3,6 +3,7 @@ package com.example.Sistema.de.Farmacia.model;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ public class Compra {
     private Integer productoId;
 
     @Column(name = "producto_nombre", nullable = false, length = 200)
+    @JsonProperty("producto")
     private String productoNombre;
 
     @Column(nullable = false)
@@ -103,6 +105,11 @@ public class Compra {
 
     public Usuario getUsuario() { return usuario; }
     public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+
+    @JsonProperty("usuario")
+    public String getNombreUsuario() {
+        return usuario != null ? usuario.getUsuario() : "";
+    }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

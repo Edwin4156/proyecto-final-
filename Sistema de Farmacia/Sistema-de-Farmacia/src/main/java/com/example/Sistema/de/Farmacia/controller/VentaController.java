@@ -83,7 +83,7 @@ public class VentaController {
         dto.setId(v.getId());
         dto.setFecha(v.getFecha());
         dto.setProductoId(v.getProductoId());
-        dto.setProductoNombre(v.getProductoNombre());
+        dto.setProducto(v.getProductoNombre());
         dto.setCantidad(v.getCantidad());
         dto.setPrecio(v.getPrecio());
         dto.setTotal(v.getTotal());
@@ -91,7 +91,7 @@ public class VentaController {
         dto.setNit(v.getNit());
         dto.setDescuento(v.getDescuento());
         dto.setMetodoPago(v.getMetodoPago());
-        dto.setUsuarioId(v.getUsuarioId());
+        dto.setUsuario(v.getUsuario() != null ? v.getUsuario().getUsuario() : "");
         return dto;
     }
 
@@ -103,7 +103,7 @@ public class VentaController {
         Venta v = new Venta();
         v.setFecha(dto.getFecha());
         v.setProductoId(dto.getProductoId());
-        v.setProductoNombre(dto.getProductoNombre());
+        v.setProductoNombre(dto.getProducto());
         v.setCantidad(dto.getCantidad());
         v.setPrecio(dto.getPrecio());
         v.setTotal(dto.getTotal());
@@ -111,7 +111,9 @@ public class VentaController {
         v.setNit(dto.getNit());
         v.setDescuento(dto.getDescuento());
         v.setMetodoPago(dto.getMetodoPago());
-        v.setUsuarioId(dto.getUsuarioId());
+        if (dto.getUsuarioId() != null) {
+            v.setUsuarioId(dto.getUsuarioId());
+        }
         return v;
     }
 }

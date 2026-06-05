@@ -81,11 +81,12 @@ public class CompraController {
         dto.setId(c.getId());
         dto.setFecha(c.getFecha());
         dto.setProductoId(c.getProductoId());
-        dto.setProductoNombre(c.getProductoNombre());
+        dto.setProducto(c.getProductoNombre());
         dto.setCantidad(c.getCantidad());
         dto.setCosto(c.getCosto());
         dto.setTotal(c.getTotal());
         dto.setProveedor(c.getProveedor());
+        dto.setUsuario(c.getUsuario() != null ? c.getUsuario().getUsuario() : "");
         dto.setUsuarioId(c.getUsuarioId());
         return dto;
     }
@@ -98,7 +99,7 @@ public class CompraController {
         Compra c = new Compra();
         c.setFecha(dto.getFecha());
         c.setProductoId(dto.getProductoId());
-        c.setProductoNombre(dto.getProductoNombre());
+        c.setProductoNombre(dto.getProducto());
         c.setCantidad(dto.getCantidad());
         c.setCosto(dto.getCosto());
         c.setTotal(dto.getTotal());
