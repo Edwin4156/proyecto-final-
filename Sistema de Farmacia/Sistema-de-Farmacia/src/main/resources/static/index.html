@@ -1207,41 +1207,14 @@
     let darkMode = false, session = null, pg = 'dashboard', sq = '', filterPer = 'todo', posCart = [];
     let charts = {}, logs = [];
 
-    const DEFAULT_USERS = [
-      { id: 1, nombre: 'Carlos Méndez', usuario: 'admin1', pass: 'admin123', rol: 'administrador', activo: true, email: 'admin1@nexus.gt' },
-      { id: 2, nombre: 'Luisa Fuentes', usuario: 'admin2', pass: 'admin456', rol: 'administrador', activo: true, email: 'admin2@nexus.gt' },
-      { id: 3, nombre: 'Pedro Ríos', usuario: 'vendedor1', pass: 'vend123', rol: 'vendedor', activo: true, email: 'vendedor1@nexus.gt' }
-    ];
-    const PERMS = {
-      administrador: { dashboard: { r: 1, w: 1, d: 1 }, productos: { r: 1, w: 1, d: 1 }, inventario: { r: 1, w: 1, d: 1 }, ventas: { r: 1, w: 1, d: 1 }, compras: { r: 1, w: 1, d: 1 }, alertas: { r: 1, w: 0, d: 0 }, usuarios: { r: 1, w: 1, d: 1 }, reportes: { r: 1, w: 0, d: 0 }, facturacion: { r: 1, w: 1, d: 0 }, pos: { r: 1, w: 1, d: 0 }, kardex: { r: 1, w: 0, d: 0 }, ia: { r: 1, w: 1, d: 0 } },
-      vendedor: { dashboard: { r: 1, w: 0, d: 0 }, productos: { r: 1, w: 0, d: 0 }, inventario: { r: 1, w: 0, d: 0 }, ventas: { r: 1, w: 1, d: 0 }, compras: { r: 0, w: 0, d: 0 }, alertas: { r: 1, w: 0, d: 0 }, usuarios: { r: 0, w: 0, d: 0 }, reportes: { r: 0, w: 0, d: 0 }, facturacion: { r: 1, w: 1, d: 0 }, pos: { r: 1, w: 1, d: 0 }, kardex: { r: 0, w: 0, d: 0 }, ia: { r: 1, w: 1, d: 0 } }
-    };
-    let users = JSON.parse(JSON.stringify(DEFAULT_USERS)), db = { productos: [], ventas: [], compras: [] };
+    let users = [], db = { productos: [], ventas: [], compras: [] };
 
     async function saveAll() { }
     async function loadAll() { try { db.productos = await APIService.getProductos(); db.ventas = await APIService.getVentas(); db.compras = await APIService.getCompras(); db.kardex = await APIService.getKardex(); users = await APIService.getUsuarios(); } catch (e) { console.error('Error cargando datos:', e); } renderApp(); }
     function addLog(a, d) { logs.push({ ts: new Date().toISOString(), user: session?.usuario || '—', action: a, detail: d }); }
 
-    function seedDB() {
-      const h = new Date(), fmt = d => d.toISOString().split('T')[0], add = n => { let d = new Date(h); d.setDate(d.getDate() + n); return fmt(d); };
-      db.productos = [
-        { id: 1, nombre: 'Paracetamol 500mg', categoria: 'Analgésico', precio: 25, costo: 12, stock: 150, stockMin: 30, lote: 'L-2024-001', ingreso: add(-60), caducidad: add(365), proveedor: 'DistribuFarma S.A.', codigo: '7501050351002' },
-        { id: 2, nombre: 'Amoxicilina 500mg', categoria: 'Antibiótico', precio: 85, costo: 45, stock: 60, stockMin: 20, lote: 'L-2024-012', ingreso: add(-45), caducidad: add(180), proveedor: 'MedGroup GT', codigo: '7501050351003' },
-        { id: 3, nombre: 'Metformina 850mg', categoria: 'Antidiabético', precio: 45, costo: 20, stock: 8, stockMin: 25, lote: 'L-2023-098', ingreso: add(-90), caducidad: add(28), proveedor: 'FarmaPlus', codigo: '7501050351004' },
-        { id: 4, nombre: 'Loratadina 10mg', categoria: 'Antihistamínico', precio: 35, costo: 15, stock: 90, stockMin: 20, lote: 'L-2024-034', ingreso: add(-5), caducidad: add(500), proveedor: 'DistribuFarma S.A.', codigo: '7501050351005' },
-        { id: 5, nombre: 'Omeprazol 20mg', categoria: 'Gastro', precio: 55, costo: 25, stock: 40, stockMin: 15, lote: 'L-2024-021', ingreso: add(-30), caducidad: add(14), proveedor: 'MedGroup GT', codigo: '7501050351006' },
-        { id: 6, nombre: 'Ibuprofeno 400mg', categoria: 'Analgésico', precio: 30, costo: 14, stock: 120, stockMin: 30, lote: 'L-2024-045', ingreso: add(-3), caducidad: add(730), proveedor: 'FarmaPlus', codigo: '7501050351007' },
-        { id: 7, nombre: 'Vitamina C 1000mg', categoria: 'Vitaminas', precio: 40, costo: 18, stock: 200, stockMin: 50, lote: 'L-2024-060', ingreso: add(-10), caducidad: add(400), proveedor: 'NutriMed GT', codigo: '7501050351008' },
-        { id: 8, nombre: 'Atorvastatina 20mg', categoria: 'Cardiovascular', precio: 95, costo: 55, stock: 35, stockMin: 15, lote: 'L-2024-071', ingreso: add(-20), caducidad: add(300), proveedor: 'FarmaPlus', codigo: '7501050351009' },
-      ];
-      db.ventas = [];
-      const names = ['María García', 'Juan López', 'Ana Martínez', 'Carlos Ruiz', 'Rosa Pérez'];
-      for (let i = 0; i < 30; i++) { const p = db.productos[i % 8], q = Math.ceil(Math.random() * 4) + 1, desc = i % 5 === 0 ? 10 : 0; const sub = q * p.precio, dto = sub * desc / 100, tot = sub - dto; db.ventas.push({ id: i + 1, fecha: add(-Math.floor(i * 1.5)), productoId: p.id, producto: p.nombre, cantidad: q, precio: p.precio, total: tot, cliente: names[i % 5], usuario: i % 3 === 0 ? 'admin1' : 'vendedor1', descuento: desc, nit: i % 4 === 0 ? '1234567-8' : 'CF', metodoPago: i % 3 === 0 ? 'efectivo' : i % 3 === 1 ? 'transferencia' : 'tarjeta' }); }
-      db.compras = [{ id: 1, fecha: add(-60), productoId: 1, producto: 'Paracetamol 500mg', cantidad: 300, costo: 12, total: 3600, proveedor: 'DistribuFarma S.A.', usuario: 'admin1' }, { id: 2, fecha: add(-45), productoId: 2, producto: 'Amoxicilina 500mg', cantidad: 100, costo: 45, total: 4500, proveedor: 'MedGroup GT', usuario: 'admin2' }, { id: 3, fecha: add(-30), productoId: 6, producto: 'Ibuprofeno 400mg', cantidad: 200, costo: 14, total: 2800, proveedor: 'FarmaPlus', usuario: 'admin1' }, { id: 4, fecha: add(-15), productoId: 4, producto: 'Loratadina 10mg', cantidad: 150, costo: 15, total: 2250, proveedor: 'DistribuFarma S.A.', usuario: 'admin2' }, { id: 5, fecha: add(-5), productoId: 7, producto: 'Vitamina C 1000mg', cantidad: 250, costo: 18, total: 4500, proveedor: 'NutriMed GT', usuario: 'admin1' },];
-      saveAll();
-    }
 
-    const can = (p, t = 'r') => session && PERMS[session.rol] && PERMS[session.rol][p] && PERMS[session.rol][p][t];
+    const can = (p, t = 'r') => session ? true : false;
     const dias = f => { const h = new Date(); h.setHours(0, 0, 0, 0); return Math.round((new Date(f + 'T00:00:00') - h) / 86400000); };
     const estCad = f => { const d = dias(f); if (d < 0) return 'Caducado'; if (d <= 14) return `${d} días`; if (d <= 60) return `${d} días`; return 'Vigente'; };
     const estCadBadge = f => { const d = dias(f); if (d < 0) return '<span class="badge br">Caducado</span>'; if (d <= 14) return `<span class="badge br">${d}d</span>`; if (d <= 60) return `<span class="badge ba">${d}d</span>`; return '<span class="badge bg">OK</span>'; };
