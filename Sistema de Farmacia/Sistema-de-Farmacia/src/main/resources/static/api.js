@@ -1,5 +1,26 @@
 // API Service - Centraliza todas las llamadas a backend
-const API_URL = 'http://localhost:8085';
+const API_URL = 'https://edwing.habitak.vip';
+
+// Error validation interceptor
+function showValidationError(data) {
+  if (data.error === 'Validation failed' && data.fields) {
+    const fieldMessages = Object.entries(data.fields)
+      .map(([field, msg]) => `• ${msg}`)
+      .join('\n');
+    showNotification(`Validación:\n${fieldMessages}`, 'error');
+    return true;
+  }
+  return false;
+}
+
+// Wrapper para respuestas con validación
+async function handleResponse(res) {
+  const data = await res.json();
+  if (!res.ok && res.status === 400) {
+    showValidationError(data);
+  }
+  return data;
+}
 
 class APIService {
   // ==================== AUTH ====================
@@ -34,7 +55,7 @@ class APIService {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(usuario)
     });
-    return res.json();
+    return handleResponse(res);
   }
 
   static async updateUsuario(id, usuario) {
@@ -43,7 +64,7 @@ class APIService {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(usuario)
     });
-    return res.json();
+    return handleResponse(res);
   }
 
   static async changePassword(id, pass) {
@@ -76,7 +97,7 @@ class APIService {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(producto)
     });
-    return res.json();
+    return handleResponse(res);
   }
 
   static async updateProducto(id, producto) {
@@ -85,7 +106,7 @@ class APIService {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(producto)
     });
-    return res.json();
+    return handleResponse(res);
   }
 
   static async deleteProducto(id) {
@@ -123,7 +144,7 @@ class APIService {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(venta)
     });
-    return res.json();
+    return handleResponse(res);
   }
 
   static async deleteVenta(id) {
@@ -160,7 +181,7 @@ class APIService {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(compra)
     });
-    return res.json();
+    return handleResponse(res);
   }
 
   static async deleteCompra(id) {
