@@ -1457,7 +1457,7 @@
       ${ni('reportes', 'Reportes', '<path d="M3 12V8M7 12V5M11 12V3M15 12V7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>')}
       ${ni('alertas', 'Alertas', '<path d="M8 1a5 5 0 015 5c0 2.5.8 3.5 1.5 4.5H1.5C2.2 9.5 3 8.5 3 6a5 5 0 015-5zM6.5 13.5a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>', ac)}
       <div class="nav-section-title">Sistema</div>
-      ${ni('usuarios', 'Usuarios', '<circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>')}
+      ${session?.rol === 'administrador' ? ni('usuarios', 'Usuarios', '<circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>') : ''}
     </div>
   </nav>
   <main class="main">
